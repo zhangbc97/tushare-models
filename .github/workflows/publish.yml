@@ -22,13 +22,9 @@ jobs:
         run: |
           pip install uv
 
-      - name: Install build dependencies
-        run: |
-          uv pip install build twine
-
       - name: Build package
         run: |
-          uv pip build .
+          uv build .
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1

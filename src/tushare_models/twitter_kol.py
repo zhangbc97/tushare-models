@@ -31,11 +31,7 @@ class TwitterKol(Base):
         "start_date": {"type": "datetime", "required": True, "description": "开始时间"},
         "end_date": {"type": "datetime", "required": True, "description": "结束时间"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -57,101 +53,25 @@ class TwitterKol(Base):
         },
     )
 
-    id = Column(
-        "id",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="记录ID",
-    )
-    account_id = Column(
-        "account_id",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="账号ID",
-    )
-    account = Column(
-        "account",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="账号",
-    )
-    nickname = Column(
-        "nickname",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="大V昵称",
-    )
-    avatar = Column(
-        "avatar",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="头像",
-    )
-    content_id = Column(
-        "content_id",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="类容ID",
-    )
-    content = Column(
-        "content",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="内容",
-    )
+    id = Column("id", Integer, nullable=False, default=0, server_default=text("'0'"), comment="记录ID")
+    account_id = Column("account_id", Integer, nullable=False, default=0, server_default=text("'0'"), comment="账号ID")
+    account = Column("account", String(), nullable=False, default="", server_default=text("''"), comment="账号")
+    nickname = Column("nickname", String(), nullable=False, default="", server_default=text("''"), comment="大V昵称")
+    avatar = Column("avatar", String(), nullable=False, default="", server_default=text("''"), comment="头像")
+    content_id = Column("content_id", Integer, nullable=False, default=0, server_default=text("'0'"), comment="类容ID")
+    content = Column("content", String(), nullable=False, default="", server_default=text("''"), comment="内容")
     is_retweet = Column(
-        "is_retweet",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="是否转发",
+        "is_retweet", Integer, nullable=False, default=0, server_default=text("'0'"), comment="是否转发"
     )
     retweet_content = Column(
-        "retweet_content",
-        String(),
-        nullable=False,
-        default="{}",
-        server_default=text("'{}'"),
-        comment="转发内容",
+        "retweet_content", String(), nullable=False, default="{}", server_default=text("'{}'"), comment="转发内容"
     )
-    media = Column(
-        "media",
-        String(),
-        nullable=False,
-        default="{}",
-        server_default=text("'{}'"),
-        comment="附件",
-    )
+    media = Column("media", String(), nullable=False, default="{}", server_default=text("'{}'"), comment="附件")
     posted_at = Column(
-        "posted_at",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="发布时间戳",
+        "posted_at", Integer, nullable=False, default=0, server_default=text("'0'"), comment="发布时间戳"
     )
     content_translation = Column(
-        "content_translation",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="内容翻译",
+        "content_translation", String(), nullable=False, default="", server_default=text("''"), comment="内容翻译"
     )
     str_posted_at = Column(
         "str_posted_at",
@@ -161,11 +81,4 @@ class TwitterKol(Base):
         server_default=text("''"),
         comment="发布时间，根据posted_at转换而来",
     )
-    create_at = Column(
-        "create_at",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="采集时间",
-    )
+    create_at = Column("create_at", String(), nullable=False, default="", server_default=text("''"), comment="采集时间")

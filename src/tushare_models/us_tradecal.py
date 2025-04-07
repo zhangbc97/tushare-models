@@ -30,18 +30,10 @@ class UsTradecal(Base):
     __api_params__: ClassVar[Dict[str, Any]] = {
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
-        "is_open": {
-            "type": "str",
-            "required": False,
-            "description": "是否交易 '0'休市 '1'交易",
-        },
+        "is_open": {"type": "str", "required": False, "description": "是否交易 '0'休市 '1'交易"},
         "exchange": {"type": "str", "required": False, "description": ""},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -64,12 +56,7 @@ class UsTradecal(Base):
     )
 
     cal_date = Column(
-        "cal_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="日历日期",
+        "cal_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="日历日期"
     )
     is_open = Column(
         "is_open",

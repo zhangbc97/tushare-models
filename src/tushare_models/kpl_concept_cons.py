@@ -18,12 +18,7 @@ class KplConceptCons(Base):
     __api_name__: ClassVar[str] = "kpl_concept_cons"
     __api_title__: ClassVar[str] = "题材成分(开盘啦)"
     __api_info_title__: ClassVar[str] = "开盘啦题材成分"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "打板专题数据",
-        "题材成分（开盘啦）",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据", "题材成分（开盘啦）"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 346, 351]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -37,11 +32,7 @@ class KplConceptCons(Base):
         "trade_date": {"type": "str", "required": False, "description": "交易日期"},
         "con_code": {"type": "str", "required": False, "description": "成分代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -63,38 +54,10 @@ class KplConceptCons(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="题材ID",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="题材名称",
-    )
-    con_name = Column(
-        "con_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票名称",
-    )
-    con_code = Column(
-        "con_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="题材ID")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="题材名称")
+    con_name = Column("con_name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
+    con_code = Column("con_code", String(), nullable=False, default="", server_default=text("''"), comment="股票代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -103,19 +66,5 @@ class KplConceptCons(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    desc = Column(
-        "desc",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="描述",
-    )
-    hot_num = Column(
-        "hot_num",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="人气值",
-    )
+    desc = Column("desc", String(), nullable=False, default="", server_default=text("''"), comment="描述")
+    hot_num = Column("hot_num", String(), nullable=False, default="", server_default=text("''"), comment="人气值")

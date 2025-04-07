@@ -18,12 +18,7 @@ class StkAccountOld(Base):
     __api_name__: ClassVar[str] = "stk_account_old"
     __api_title__: ClassVar[str] = "股票开户数据(旧)"
     __api_info_title__: ClassVar[str] = "股票账户开户数据(旧)"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "参考数据",
-        "股票开户数据（旧）",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "参考数据", "股票开户数据（旧）"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 17, 165]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -36,11 +31,7 @@ class StkAccountOld(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -62,29 +53,12 @@ class StkAccountOld(Base):
         },
     )
 
-    date = Column(
-        "date",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="统计周期",
-    )
+    date = Column("date", String(), nullable=False, default="", server_default=text("''"), comment="统计周期")
     new_sh = Column(
-        "new_sh",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="本周新增(上海，户)",
+        "new_sh", Integer, nullable=False, default=0, server_default=text("'0'"), comment="本周新增(上海，户)"
     )
     new_sz = Column(
-        "new_sz",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="本周新增(深圳，户)",
+        "new_sz", Integer, nullable=False, default=0, server_default=text("'0'"), comment="本周新增(深圳，户)"
     )
     active_sh = Column(
         "active_sh",
@@ -103,20 +77,10 @@ class StkAccountOld(Base):
         comment="期末有效账户(深圳，万户)",
     )
     total_sh = Column(
-        "total_sh",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="期末账户数(上海，万户)",
+        "total_sh", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="期末账户数(上海，万户)"
     )
     total_sz = Column(
-        "total_sz",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="期末账户数(深圳，万户)",
+        "total_sz", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="期末账户数(深圳，万户)"
     )
     trade_sh = Column(
         "trade_sh",

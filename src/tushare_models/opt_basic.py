@@ -56,86 +56,22 @@ class OptBasic(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易市场",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="合约名称",
-    )
-    per_unit = Column(
-        "per_unit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="合约单位",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易市场")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="合约名称")
+    per_unit = Column("per_unit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="合约单位")
     opt_code = Column(
-        "opt_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="标准合约代码",
+        "opt_code", String(), nullable=False, default="", server_default=text("''"), comment="标准合约代码"
     )
-    opt_type = Column(
-        "opt_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="合约类型",
-    )
-    call_put = Column(
-        "call_put",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="期权类型",
-    )
+    opt_type = Column("opt_type", String(), nullable=False, default="", server_default=text("''"), comment="合约类型")
+    call_put = Column("call_put", String(), nullable=False, default="", server_default=text("''"), comment="期权类型")
     exercise_type = Column(
-        "exercise_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="行权方式",
+        "exercise_type", String(), nullable=False, default="", server_default=text("''"), comment="行权方式"
     )
     exercise_price = Column(
-        "exercise_price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="行权价格",
+        "exercise_price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="行权价格"
     )
-    s_month = Column(
-        "s_month",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="结算月",
-    )
+    s_month = Column("s_month", String(), nullable=False, default="", server_default=text("''"), comment="结算月")
     maturity_date = Column(
         "maturity_date",
         Date,
@@ -145,12 +81,7 @@ class OptBasic(Base):
         comment="到期日",
     )
     list_price = Column(
-        "list_price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="挂牌基准价",
+        "list_price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="挂牌基准价"
     )
     list_date = Column(
         "list_date",
@@ -169,34 +100,14 @@ class OptBasic(Base):
         comment="最后交易日期",
     )
     last_edate = Column(
-        "last_edate",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="最后行权日期",
+        "last_edate", String(), nullable=False, default="", server_default=text("''"), comment="最后行权日期"
     )
     last_ddate = Column(
-        "last_ddate",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="最后交割日期",
+        "last_ddate", String(), nullable=False, default="", server_default=text("''"), comment="最后交割日期"
     )
     quote_unit = Column(
-        "quote_unit",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="报价单位",
+        "quote_unit", String(), nullable=False, default="", server_default=text("''"), comment="报价单位"
     )
     min_price_chg = Column(
-        "min_price_chg",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="最小价格波幅",
+        "min_price_chg", String(), nullable=False, default="", server_default=text("''"), comment="最小价格波幅"
     )

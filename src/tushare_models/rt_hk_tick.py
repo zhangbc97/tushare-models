@@ -31,11 +31,7 @@ class RtHkTick(Base):
         "topic": {"type": "str", "required": False, "description": ""},
         "ts_code": {"type": "str", "required": True, "description": "逗号隔开多个code"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -57,267 +53,40 @@ class RtHkTick(Base):
         },
     )
 
-    code = Column(
-        "code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="ts-code",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="名称",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="ts-code")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="名称")
     trade_time = Column(
-        "trade_time",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易日期",
+        "trade_time", String(), nullable=False, default="", server_default=text("''"), comment="交易日期"
     )
-    pre_close = Column(
-        "pre_close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    price = Column(
-        "price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    high = Column(
-        "high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    open = Column(
-        "open",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    low = Column(
-        "low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
+    pre_close = Column("pre_close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    price = Column("price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
     open_interest = Column(
-        "open_interest",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
+        "open_interest", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment=""
     )
-    vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    num = Column(
-        "num",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    a1_p = Column(
-        "a1_p",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    a1_v = Column(
-        "a1_v",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    b1_p = Column(
-        "b1_p",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    b1_v = Column(
-        "b1_v",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    a2_v = Column(
-        "a2_v",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    a2_p = Column(
-        "a2_p",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    b2_v = Column(
-        "b2_v",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    b2_p = Column(
-        "b2_p",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    a3_v = Column(
-        "a3_v",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    a3_p = Column(
-        "a3_p",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    b3_v = Column(
-        "b3_v",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    b3_p = Column(
-        "b3_p",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    a4_v = Column(
-        "a4_v",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    a4_p = Column(
-        "a4_p",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    b4_v = Column(
-        "b4_v",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    b4_p = Column(
-        "b4_p",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    a5_v = Column(
-        "a5_v",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    a5_p = Column(
-        "a5_p",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    b5_v = Column(
-        "b5_v",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    b5_p = Column(
-        "b5_p",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
+    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    num = Column("num", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    a1_p = Column("a1_p", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    a1_v = Column("a1_v", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    b1_p = Column("b1_p", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    b1_v = Column("b1_v", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    a2_v = Column("a2_v", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    a2_p = Column("a2_p", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    b2_v = Column("b2_v", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    b2_p = Column("b2_p", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    a3_v = Column("a3_v", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    a3_p = Column("a3_p", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    b3_v = Column("b3_v", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    b3_p = Column("b3_p", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    a4_v = Column("a4_v", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    a4_p = Column("a4_p", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    b4_v = Column("b4_v", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    b4_p = Column("b4_p", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    a5_v = Column("a5_v", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    a5_p = Column("a5_p", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    b5_v = Column("b5_v", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    b5_p = Column("b5_p", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")

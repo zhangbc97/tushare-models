@@ -18,11 +18,7 @@ class MajorNews(Base):
     __api_name__: ClassVar[str] = "major_news"
     __api_title__: ClassVar[str] = "新闻通讯(长篇)"
     __api_info_title__: ClassVar[str] = "新闻通讯"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "大模型语料专题数据",
-        "新闻通讯（长篇）",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "大模型语料专题数据", "新闻通讯（长篇）"]
     __api_path_ids__: ClassVar[List[int]] = [2, 142, 195]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -33,22 +29,10 @@ class MajorNews(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "src": {"type": "str", "required": False, "description": "新闻来源"},
-        "start_date": {
-            "type": "datetime",
-            "required": False,
-            "description": "新闻发布开始时间",
-        },
-        "end_date": {
-            "type": "datetime",
-            "required": False,
-            "description": "新闻发布结束时间",
-        },
+        "start_date": {"type": "datetime", "required": False, "description": "新闻发布开始时间"},
+        "end_date": {"type": "datetime", "required": False, "description": "新闻发布结束时间"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -70,35 +54,7 @@ class MajorNews(Base):
         },
     )
 
-    title = Column(
-        "title",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="标题",
-    )
-    content = Column(
-        "content",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="内容",
-    )
-    pub_time = Column(
-        "pub_time",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="发布时间",
-    )
-    src = Column(
-        "src",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="来源网站",
-    )
+    title = Column("title", String(), nullable=False, default="", server_default=text("''"), comment="标题")
+    content = Column("content", String(), nullable=False, default="", server_default=text("''"), comment="内容")
+    pub_time = Column("pub_time", String(), nullable=False, default="", server_default=text("''"), comment="发布时间")
+    src = Column("src", String(), nullable=False, default="", server_default=text("''"), comment="来源网站")

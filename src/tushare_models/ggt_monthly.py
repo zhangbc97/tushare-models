@@ -18,12 +18,7 @@ class GgtMonthly(Base):
     __api_name__: ClassVar[str] = "ggt_monthly"
     __api_title__: ClassVar[str] = "港股通每月成交统计"
     __api_info_title__: ClassVar[str] = "港股通每月成交统计"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "行情数据",
-        "港股通每月成交统计",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "行情数据", "港股通每月成交统计"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 15, 197]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -37,11 +32,7 @@ class GgtMonthly(Base):
         "start_month": {"type": "str", "required": False, "description": "开始月度"},
         "end_month": {"type": "str", "required": False, "description": "结束月度"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -63,14 +54,7 @@ class GgtMonthly(Base):
         },
     )
 
-    month = Column(
-        "month",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易日期",
-    )
+    month = Column("month", String(), nullable=False, default="", server_default=text("''"), comment="交易日期")
     day_buy_amt = Column(
         "day_buy_amt",
         Float,

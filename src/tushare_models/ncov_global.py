@@ -29,32 +29,12 @@ class NcovGlobal(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "country": {"type": "str", "required": False, "description": "国家名称"},
-        "province": {
-            "type": "str",
-            "required": False,
-            "description": "省份简称（北京、上海）",
-        },
-        "publish_date": {
-            "type": "datetime",
-            "required": False,
-            "description": "公布日期",
-        },
-        "start_date": {
-            "type": "str",
-            "required": False,
-            "description": "开始日期（YYYYMMDD）",
-        },
-        "end_date": {
-            "type": "str",
-            "required": False,
-            "description": "结束日期（YYYYMMDD）",
-        },
+        "province": {"type": "str", "required": False, "description": "省份简称（北京、上海）"},
+        "publish_date": {"type": "datetime", "required": False, "description": "公布日期"},
+        "start_date": {"type": "str", "required": False, "description": "开始日期（YYYYMMDD）"},
+        "end_date": {"type": "str", "required": False, "description": "结束日期（YYYYMMDD）"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -76,14 +56,7 @@ class NcovGlobal(Base):
         },
     )
 
-    area_id = Column(
-        "area_id",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="地区代码",
-    )
+    area_id = Column("area_id", String(), nullable=False, default="", server_default=text("''"), comment="地区代码")
     publish_date = Column(
         "publish_date",
         Date,
@@ -92,91 +65,28 @@ class NcovGlobal(Base):
         server_default=text("'1970-01-01'"),
         comment="发布日期",
     )
-    country = Column(
-        "country",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="国家",
-    )
+    country = Column("country", String(), nullable=False, default="", server_default=text("''"), comment="国家")
     country_enname = Column(
-        "country_enname",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="国家英文名",
+        "country_enname", String(), nullable=False, default="", server_default=text("''"), comment="国家英文名"
     )
-    province = Column(
-        "province",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="省份",
-    )
+    province = Column("province", String(), nullable=False, default="", server_default=text("''"), comment="省份")
     province_short = Column(
-        "province_short",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="省份简称",
+        "province_short", String(), nullable=False, default="", server_default=text("''"), comment="省份简称"
     )
     province_enname = Column(
-        "province_enname",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="省份英文名",
+        "province_enname", String(), nullable=False, default="", server_default=text("''"), comment="省份英文名"
     )
     confirmed_num = Column(
-        "confirmed_num",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="累计确诊病例",
+        "confirmed_num", Integer, nullable=False, default=0, server_default=text("'0'"), comment="累计确诊病例"
     )
     confirmed_num_now = Column(
-        "confirmed_num_now",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="现有确诊病例",
+        "confirmed_num_now", Integer, nullable=False, default=0, server_default=text("'0'"), comment="现有确诊病例"
     )
     suspected_num = Column(
-        "suspected_num",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="疑似感染病例",
+        "suspected_num", Integer, nullable=False, default=0, server_default=text("'0'"), comment="疑似感染病例"
     )
-    cured_num = Column(
-        "cured_num",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="治愈人数",
-    )
-    dead_num = Column(
-        "dead_num",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="死亡人数",
-    )
+    cured_num = Column("cured_num", Integer, nullable=False, default=0, server_default=text("'0'"), comment="治愈人数")
+    dead_num = Column("dead_num", Integer, nullable=False, default=0, server_default=text("'0'"), comment="死亡人数")
     update_time = Column(
-        "update_time",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="更新时间",
+        "update_time", String(), nullable=False, default="", server_default=text("''"), comment="更新时间"
     )

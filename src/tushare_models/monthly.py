@@ -18,7 +18,7 @@ class Monthly(Base):
     __api_name__: ClassVar[str] = "monthly"
     __api_title__: ClassVar[str] = "月线行情"
     __api_info_title__: ClassVar[str] = "月线行情"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "沪深股票", "行情数据", "月线行情"]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "行情数据", "月线行情"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 15, 145]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -33,11 +33,7 @@ class Monthly(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -59,91 +55,16 @@ class Monthly(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="")
     trade_date = Column(
-        "trade_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="",
+        "trade_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment=""
     )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    open = Column(
-        "open",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    high = Column(
-        "high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    low = Column(
-        "low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    pre_close = Column(
-        "pre_close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    change = Column(
-        "change",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    pct_chg = Column(
-        "pct_chg",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    pre_close = Column("pre_close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    change = Column("change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    pct_chg = Column("pct_chg", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")

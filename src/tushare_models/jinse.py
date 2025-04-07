@@ -31,11 +31,7 @@ class Jinse(Base):
         "start_date": {"type": "str", "required": False, "description": "开始时间"},
         "end_date": {"type": "str", "required": False, "description": "结束时间"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -57,43 +53,8 @@ class Jinse(Base):
         },
     )
 
-    title = Column(
-        "title",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="标题",
-    )
-    content = Column(
-        "content",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="内容",
-    )
-    type = Column(
-        "type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="类型",
-    )
-    url = Column(
-        "url",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="URL",
-    )
-    datetime = Column(
-        "datetime",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="时间",
-    )
+    title = Column("title", String(), nullable=False, default="", server_default=text("''"), comment="标题")
+    content = Column("content", String(), nullable=False, default="", server_default=text("''"), comment="内容")
+    type = Column("type", String(), nullable=False, default="", server_default=text("''"), comment="类型")
+    url = Column("url", String(), nullable=False, default="", server_default=text("''"), comment="URL")
+    datetime = Column("datetime", String(), nullable=False, default="", server_default=text("''"), comment="时间")

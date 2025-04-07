@@ -18,12 +18,7 @@ class StkLimit(Base):
     __api_name__: ClassVar[str] = "stk_limit"
     __api_title__: ClassVar[str] = "每日涨跌停价格"
     __api_info_title__: ClassVar[str] = "每日涨跌停价格"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "行情数据",
-        "每日涨跌停价格",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "行情数据", "每日涨跌停价格"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 15, 183]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -68,35 +63,11 @@ class StkLimit(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS股票代码")
     pre_close = Column(
-        "pre_close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="昨日收盘价",
+        "pre_close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="昨日收盘价"
     )
-    up_limit = Column(
-        "up_limit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨停价",
-    )
+    up_limit = Column("up_limit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨停价")
     down_limit = Column(
-        "down_limit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="跌停价",
+        "down_limit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="跌停价"
     )

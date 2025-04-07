@@ -18,12 +18,7 @@ class TopList(Base):
     __api_name__: ClassVar[str] = "top_list"
     __api_title__: ClassVar[str] = "龙虎榜每日统计单"
     __api_info_title__: ClassVar[str] = "龙虎榜每日明细"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "打板专题数据",
-        "龙虎榜每日统计单",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据", "龙虎榜每日统计单"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 346, 106]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -36,11 +31,7 @@ class TopList(Base):
         "trade_date": {"type": "str", "required": True, "description": "交易日期"},
         "ts_code": {"type": "str", "required": False, "description": "股票代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -70,115 +61,31 @@ class TopList(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="名称",
-    )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘价",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="名称")
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘价")
     pct_change = Column(
-        "pct_change",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨跌幅",
+        "pct_change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌幅"
     )
     turnover_rate = Column(
-        "turnover_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="换手率",
+        "turnover_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="换手率"
     )
-    amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="总成交额",
-    )
-    l_sell = Column(
-        "l_sell",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="龙虎榜卖出额",
-    )
-    l_buy = Column(
-        "l_buy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="龙虎榜买入额",
-    )
+    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="总成交额")
+    l_sell = Column("l_sell", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="龙虎榜卖出额")
+    l_buy = Column("l_buy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="龙虎榜买入额")
     l_amount = Column(
-        "l_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="龙虎榜成交额",
+        "l_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="龙虎榜成交额"
     )
     net_amount = Column(
-        "net_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="龙虎榜净买入额",
+        "net_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="龙虎榜净买入额"
     )
     net_rate = Column(
-        "net_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="龙虎榜净买额占比",
+        "net_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="龙虎榜净买额占比"
     )
     amount_rate = Column(
-        "amount_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="龙虎榜成交额占比",
+        "amount_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="龙虎榜成交额占比"
     )
     float_values = Column(
-        "float_values",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="当日流通市值",
+        "float_values", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="当日流通市值"
     )
-    reason = Column(
-        "reason",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="上榜理由",
-    )
+    reason = Column("reason", String(), nullable=False, default="", server_default=text("''"), comment="上榜理由")

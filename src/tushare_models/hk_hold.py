@@ -18,12 +18,7 @@ class HkHold(Base):
     __api_name__: ClassVar[str] = "hk_hold"
     __api_title__: ClassVar[str] = "沪深股通持股明细"
     __api_info_title__: ClassVar[str] = "沪深股通持股明细"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "特色数据",
-        "沪深股通持股明细",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "特色数据", "沪深股通持股明细"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 291, 188]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -38,17 +33,9 @@ class HkHold(Base):
         "trade_date": {"type": "str", "required": False, "description": "交易日期"},
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
-        "exchange": {
-            "type": "str",
-            "required": False,
-            "description": "SH沪股通SZ深股通",
-        },
+        "exchange": {"type": "str", "required": False, "description": "SH沪股通SZ深股通"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -70,14 +57,7 @@ class HkHold(Base):
         },
     )
 
-    code = Column(
-        "code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="原始代码",
-    )
+    code = Column("code", String(), nullable=False, default="", server_default=text("''"), comment="原始代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -86,43 +66,10 @@ class HkHold(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票名称",
-    )
-    vol = Column(
-        "vol",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="持股数量",
-    )
-    ratio = Column(
-        "ratio",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="持股占比",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
+    vol = Column("vol", String(), nullable=False, default="", server_default=text("''"), comment="持股数量")
+    ratio = Column("ratio", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="持股占比")
     exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="类型：SH沪股通SZ深港通",
+        "exchange", String(), nullable=False, default="", server_default=text("''"), comment="类型：SH沪股通SZ深港通"
     )

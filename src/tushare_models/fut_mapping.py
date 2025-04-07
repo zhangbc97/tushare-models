@@ -33,11 +33,7 @@ class FutMapping(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -60,12 +56,7 @@ class FutMapping(Base):
     )
 
     ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="连续合约代码",
+        "ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="连续合约代码"
     )
     trade_date = Column(
         "trade_date",
@@ -76,10 +67,5 @@ class FutMapping(Base):
         comment="起始日期",
     )
     mapping_ts_code = Column(
-        "mapping_ts_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="期货合约代码",
+        "mapping_ts_code", String(), nullable=False, default="", server_default=text("''"), comment="期货合约代码"
     )

@@ -28,25 +28,13 @@ class TradeCal(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "exchange": {
-            "type": "str",
-            "required": False,
-            "description": "交易所 SSE上交所 SZSE深交所",
-        },
+        "exchange": {"type": "str", "required": False, "description": "交易所 SSE上交所 SZSE深交所"},
         "cal_date": {"type": "str", "required": False, "description": "日历日期"},
         "start_date": {"type": "str", "required": False, "description": ""},
         "end_date": {"type": "str", "required": False, "description": ""},
-        "is_open": {
-            "type": "str",
-            "required": False,
-            "description": "是否交易 0休市 1交易",
-        },
+        "is_open": {"type": "str", "required": False, "description": "是否交易 0休市 1交易"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -77,20 +65,10 @@ class TradeCal(Base):
         comment="交易所 SSE上交所 SZSE深交所",
     )
     cal_date = Column(
-        "cal_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="日历日期",
+        "cal_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="日历日期"
     )
     is_open = Column(
-        "is_open",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="是否交易 0休市 1交易",
+        "is_open", String(), nullable=False, default="", server_default=text("''"), comment="是否交易 0休市 1交易"
     )
     pretrade_date = Column(
         "pretrade_date",

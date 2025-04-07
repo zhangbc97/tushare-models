@@ -18,13 +18,7 @@ class UsTbr(Base):
     __api_name__: ClassVar[str] = "us_tbr"
     __api_title__: ClassVar[str] = "短期国债利率"
     __api_info_title__: ClassVar[str] = "短期国债利率"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "宏观经济",
-        "国际宏观",
-        "美国利率",
-        "短期国债利率",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国际宏观", "美国利率", "短期国债利率"]
     __api_path_ids__: ClassVar[List[int]] = [2, 147, 217, 218, 221]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -39,11 +33,7 @@ class UsTbr(Base):
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "fields": {"type": "str", "required": False, "description": "指定字段"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -65,91 +55,24 @@ class UsTbr(Base):
         },
     )
 
-    date = Column(
-        "date",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="日期",
-    )
+    date = Column("date", String(), nullable=False, default="", server_default=text("''"), comment="日期")
     w4_bd = Column(
-        "w4_bd",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="4周银行折现收益率",
+        "w4_bd", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="4周银行折现收益率"
     )
-    w4_ce = Column(
-        "w4_ce",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="4周票面利率",
-    )
+    w4_ce = Column("w4_ce", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="4周票面利率")
     w8_bd = Column(
-        "w8_bd",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="8周银行折现收益率",
+        "w8_bd", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="8周银行折现收益率"
     )
-    w8_ce = Column(
-        "w8_ce",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="8周票面利率",
-    )
+    w8_ce = Column("w8_ce", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="8周票面利率")
     w13_bd = Column(
-        "w13_bd",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="13周银行折现收益率",
+        "w13_bd", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="13周银行折现收益率"
     )
-    w13_ce = Column(
-        "w13_ce",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="13周票面利率",
-    )
+    w13_ce = Column("w13_ce", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="13周票面利率")
     w26_bd = Column(
-        "w26_bd",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="26周银行折现收益率",
+        "w26_bd", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="26周银行折现收益率"
     )
-    w26_ce = Column(
-        "w26_ce",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="26周票面利率",
-    )
+    w26_ce = Column("w26_ce", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="26周票面利率")
     w52_bd = Column(
-        "w52_bd",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="52周银行折现收益率",
+        "w52_bd", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="52周银行折现收益率"
     )
-    w52_ce = Column(
-        "w52_ce",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="52周票面利率",
-    )
+    w52_ce = Column("w52_ce", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="52周票面利率")

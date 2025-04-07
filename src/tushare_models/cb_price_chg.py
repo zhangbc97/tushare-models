@@ -28,17 +28,9 @@ class CbPriceChg(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {
-            "type": "str",
-            "required": True,
-            "description": "转债代码，支持多值输入",
-        },
+        "ts_code": {"type": "str", "required": True, "description": "转债代码，支持多值输入"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -60,21 +52,9 @@ class CbPriceChg(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="转债代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="转债代码")
     bond_short_name = Column(
-        "bond_short_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="转债简称",
+        "bond_short_name", String(), nullable=False, default="", server_default=text("''"), comment="转债简称"
     )
     publish_date = Column(
         "publish_date",
@@ -101,18 +81,8 @@ class CbPriceChg(Base):
         comment="初始转股价格",
     )
     convertprice_bef = Column(
-        "convertprice_bef",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="修正前转股价格",
+        "convertprice_bef", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="修正前转股价格"
     )
     convertprice_aft = Column(
-        "convertprice_aft",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="修正后转股价格",
+        "convertprice_aft", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="修正后转股价格"
     )

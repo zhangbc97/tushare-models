@@ -18,12 +18,7 @@ class Namechange(Base):
     __api_name__: ClassVar[str] = "namechange"
     __api_title__: ClassVar[str] = "股票曾用名"
     __api_info_title__: ClassVar[str] = "股票曾用名"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "基础数据",
-        "股票曾用名",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "基础数据", "股票曾用名"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 24, 100]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -37,11 +32,7 @@ class Namechange(Base):
         "start_date": {"type": "str", "required": False, "description": "公告开始日期"},
         "end_date": {"type": "str", "required": False, "description": "公告结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -63,22 +54,8 @@ class Namechange(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="证券名称",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="证券名称")
     start_date = Column(
         "start_date",
         Date,
@@ -88,26 +65,11 @@ class Namechange(Base):
         comment="开始日期",
     )
     end_date = Column(
-        "end_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="结束日期",
+        "end_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="结束日期"
     )
     ann_date = Column(
-        "ann_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="公告日期",
+        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
     )
     change_reason = Column(
-        "change_reason",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="变更原因",
+        "change_reason", String(), nullable=False, default="", server_default=text("''"), comment="变更原因"
     )

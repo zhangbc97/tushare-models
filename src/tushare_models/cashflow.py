@@ -18,12 +18,7 @@ class Cashflow(Base):
     __api_name__: ClassVar[str] = "cashflow"
     __api_title__: ClassVar[str] = "现金流量表"
     __api_info_title__: ClassVar[str] = "现金流量表"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "财务数据",
-        "现金流量表",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "财务数据", "现金流量表"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 16, 44]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -41,28 +36,16 @@ class Cashflow(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": True, "description": "股票代码"},
-        "ann_date": {
-            "type": "str",
-            "required": False,
-            "description": "公告日期（格式：YYYYMMDD，下同）",
-        },
+        "ann_date": {"type": "str", "required": False, "description": "公告日期（格式：YYYYMMDD，下同）"},
         "f_ann_date": {"type": "str", "required": False, "description": "实际公告日期"},
-        "start_date": {
-            "type": "str",
-            "required": False,
-            "description": "报告期开始日期",
-        },
+        "start_date": {"type": "str", "required": False, "description": "报告期开始日期"},
         "end_date": {"type": "str", "required": False, "description": "报告期结束日期"},
         "period": {"type": "str", "required": False, "description": "报告期"},
         "report_type": {"type": "str", "required": False, "description": "报告类型"},
         "comp_type": {"type": "str", "required": False, "description": "公司类型"},
         "is_calc": {"type": "int", "required": False, "description": "是否计算报表"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -84,21 +67,9 @@ class Cashflow(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS股票代码")
     ann_date = Column(
-        "ann_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="公告日期",
+        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
     )
     f_ann_date = Column(
         "f_ann_date",
@@ -109,12 +80,7 @@ class Cashflow(Base):
         comment="实际公告日期",
     )
     end_date = Column(
-        "end_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="报告期",
+        "end_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="报告期"
     )
     comp_type = Column(
         "comp_type",
@@ -125,36 +91,14 @@ class Cashflow(Base):
         comment="公司类型(1一般工商业2银行3保险4证券)",
     )
     report_type = Column(
-        "report_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="报表类型",
+        "report_type", String(), nullable=False, default="", server_default=text("''"), comment="报表类型"
     )
-    end_type = Column(
-        "end_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="报告期类型",
-    )
+    end_type = Column("end_type", String(), nullable=False, default="", server_default=text("''"), comment="报告期类型")
     net_profit = Column(
-        "net_profit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="净利润",
+        "net_profit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="净利润"
     )
     finan_exp = Column(
-        "finan_exp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="财务费用",
+        "finan_exp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="财务费用"
     )
     c_fr_sale_sg = Column(
         "c_fr_sale_sg",
@@ -165,12 +109,7 @@ class Cashflow(Base):
         comment="销售商品、提供劳务收到的现金",
     )
     recp_tax_rends = Column(
-        "recp_tax_rends",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收到的税费返还",
+        "recp_tax_rends", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收到的税费返还"
     )
     n_depos_incr_fi = Column(
         "n_depos_incr_fi",
@@ -293,12 +232,7 @@ class Cashflow(Base):
         comment="支付给职工以及为职工支付的现金",
     )
     c_paid_for_taxes = Column(
-        "c_paid_for_taxes",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="支付的各项税费",
+        "c_paid_for_taxes", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="支付的各项税费"
     )
     n_incr_clt_loan_adv = Column(
         "n_incr_clt_loan_adv",
@@ -421,12 +355,7 @@ class Cashflow(Base):
         comment="购建固定资产、无形资产和其他长期资产支付的现金",
     )
     c_paid_invest = Column(
-        "c_paid_invest",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="投资支付的现金",
+        "c_paid_invest", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="投资支付的现金"
     )
     n_disp_subs_oth_biz = Column(
         "n_disp_subs_oth_biz",
@@ -469,12 +398,7 @@ class Cashflow(Base):
         comment="投资活动产生的现金流量净额",
     )
     c_recp_borrow = Column(
-        "c_recp_borrow",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="取得借款收到的现金",
+        "c_recp_borrow", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="取得借款收到的现金"
     )
     proc_issue_bonds = Column(
         "proc_issue_bonds",
@@ -501,12 +425,7 @@ class Cashflow(Base):
         comment="筹资活动现金流入小计",
     )
     free_cashflow = Column(
-        "free_cashflow",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="企业自由现金流量",
+        "free_cashflow", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="企业自由现金流量"
     )
     c_prepay_amt_borr = Column(
         "c_prepay_amt_borr",
@@ -605,20 +524,10 @@ class Cashflow(Base):
         comment="其中:子公司吸收少数股东投资收到的现金",
     )
     uncon_invest_loss = Column(
-        "uncon_invest_loss",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="未确认投资损失",
+        "uncon_invest_loss", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="未确认投资损失"
     )
     prov_depr_assets = Column(
-        "prov_depr_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="加:资产减值准备",
+        "prov_depr_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="加:资产减值准备"
     )
     depr_fa_coga_dpba = Column(
         "depr_fa_coga_dpba",
@@ -629,12 +538,7 @@ class Cashflow(Base):
         comment="固定资产折旧、油气资产折耗、生产性生物资产折旧",
     )
     amort_intang_assets = Column(
-        "amort_intang_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="无形资产摊销",
+        "amort_intang_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="无形资产摊销"
     )
     lt_amort_deferred_exp = Column(
         "lt_amort_deferred_exp",
@@ -645,20 +549,10 @@ class Cashflow(Base):
         comment="长期待摊费用摊销",
     )
     decr_deferred_exp = Column(
-        "decr_deferred_exp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="待摊费用减少",
+        "decr_deferred_exp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="待摊费用减少"
     )
     incr_acc_exp = Column(
-        "incr_acc_exp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="预提费用增加",
+        "incr_acc_exp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="预提费用增加"
     )
     loss_disp_fiolta = Column(
         "loss_disp_fiolta",
@@ -669,28 +563,13 @@ class Cashflow(Base):
         comment="处置固定、无形资产和其他长期资产的损失",
     )
     loss_scr_fa = Column(
-        "loss_scr_fa",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="固定资产报废损失",
+        "loss_scr_fa", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="固定资产报废损失"
     )
     loss_fv_chg = Column(
-        "loss_fv_chg",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="公允价值变动损失",
+        "loss_fv_chg", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="公允价值变动损失"
     )
     invest_loss = Column(
-        "invest_loss",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="投资损失",
+        "invest_loss", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="投资损失"
     )
     decr_def_inc_tax_assets = Column(
         "decr_def_inc_tax_assets",
@@ -709,12 +588,7 @@ class Cashflow(Base):
         comment="递延所得税负债增加",
     )
     decr_inventories = Column(
-        "decr_inventories",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="存货的减少",
+        "decr_inventories", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="存货的减少"
     )
     decr_oper_payable = Column(
         "decr_oper_payable",
@@ -732,14 +606,7 @@ class Cashflow(Base):
         server_default=text("'0.0'"),
         comment="经营性应付项目的增加",
     )
-    others = Column(
-        "others",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他",
-    )
+    others = Column("others", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他")
     im_net_cashflow_oper_act = Column(
         "im_net_cashflow_oper_act",
         Float,
@@ -749,12 +616,7 @@ class Cashflow(Base):
         comment="经营活动产生的现金流量净额(间接法)",
     )
     conv_debt_into_cap = Column(
-        "conv_debt_into_cap",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="债务转为资本",
+        "conv_debt_into_cap", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="债务转为资本"
     )
     conv_copbonds_due_within_1y = Column(
         "conv_copbonds_due_within_1y",
@@ -765,12 +627,7 @@ class Cashflow(Base):
         comment="一年内到期的可转换公司债券",
     )
     fa_fnc_leases = Column(
-        "fa_fnc_leases",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="融资租入固定资产",
+        "fa_fnc_leases", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="融资租入固定资产"
     )
     im_n_incr_cash_equ = Column(
         "im_n_incr_cash_equ",
@@ -797,12 +654,7 @@ class Cashflow(Base):
         comment="代理买卖证券收到的现金净额(元)",
     )
     credit_impa_loss = Column(
-        "credit_impa_loss",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="信用减值损失",
+        "credit_impa_loss", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="信用减值损失"
     )
     use_right_asset_dep = Column(
         "use_right_asset_dep",
@@ -813,28 +665,13 @@ class Cashflow(Base):
         comment="使用权资产折旧",
     )
     oth_loss_asset = Column(
-        "oth_loss_asset",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他资产减值损失",
+        "oth_loss_asset", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他资产减值损失"
     )
     end_bal_cash = Column(
-        "end_bal_cash",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="现金的期末余额",
+        "end_bal_cash", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="现金的期末余额"
     )
     beg_bal_cash = Column(
-        "beg_bal_cash",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="减:现金的期初余额",
+        "beg_bal_cash", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="减:现金的期初余额"
     )
     end_bal_cash_equ = Column(
         "end_bal_cash_equ",
@@ -853,10 +690,5 @@ class Cashflow(Base):
         comment="减:现金等价物的期初余额",
     )
     update_flag = Column(
-        "update_flag",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="更新标志",
+        "update_flag", String(), nullable=False, default="", server_default=text("''"), comment="更新标志"
     )

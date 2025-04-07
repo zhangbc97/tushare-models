@@ -34,11 +34,7 @@ class OptDaily(Base):
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "exchange": {"type": "str", "required": False, "description": "交易所"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -60,14 +56,7 @@ class OptDaily(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -76,91 +65,20 @@ class OptDaily(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易市场",
-    )
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易市场")
     pre_settle = Column(
-        "pre_settle",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="昨结算价",
+        "pre_settle", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="昨结算价"
     )
     pre_close = Column(
-        "pre_close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="前收盘价",
+        "pre_close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="前收盘价"
     )
-    open = Column(
-        "open",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="开盘价",
-    )
-    high = Column(
-        "high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最高价",
-    )
-    low = Column(
-        "low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最低价",
-    )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘价",
-    )
-    settle = Column(
-        "settle",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="结算价",
-    )
-    vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交量(手)",
-    )
+    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="开盘价")
+    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最高价")
+    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最低价")
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘价")
+    settle = Column("settle", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="结算价")
+    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交量(手)")
     amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交金额(万元)",
+        "amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交金额(万元)"
     )
-    oi = Column(
-        "oi",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="持仓量(手)",
-    )
+    oi = Column("oi", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="持仓量(手)")

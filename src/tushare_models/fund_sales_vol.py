@@ -18,12 +18,7 @@ class FundSalesVol(Base):
     __api_name__: ClassVar[str] = "fund_sales_vol"
     __api_title__: ClassVar[str] = "销售机构公募基金销售保有规模"
     __api_info_title__: ClassVar[str] = "销售机构公募基金销售保有规模"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "财富管理",
-        "基金销售行业数据",
-        "销售机构公募基金销售保有规模",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "财富管理", "基金销售行业数据", "销售机构公募基金销售保有规模"]
     __api_path_ids__: ClassVar[List[int]] = [2, 263, 264, 266]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -37,11 +32,7 @@ class FundSalesVol(Base):
         "quarter": {"type": "str", "required": False, "description": "季度"},
         "name": {"type": "str", "required": False, "description": "机构名称"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -63,30 +54,9 @@ class FundSalesVol(Base):
         },
     )
 
-    year = Column(
-        "year",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="年度",
-    )
-    quarter = Column(
-        "quarter",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="季度",
-    )
-    inst_name = Column(
-        "inst_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="销售机构",
-    )
+    year = Column("year", Integer, nullable=False, default=0, server_default=text("'0'"), comment="年度")
+    quarter = Column("quarter", String(), nullable=False, default="", server_default=text("''"), comment="季度")
+    inst_name = Column("inst_name", String(), nullable=False, default="", server_default=text("''"), comment="销售机构")
     fund_scale = Column(
         "fund_scale",
         Float,
@@ -103,11 +73,4 @@ class FundSalesVol(Base):
         server_default=text("'0.0'"),
         comment="非货币市场公募基金保有规模(亿元)",
     )
-    rank = Column(
-        "rank",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="排名",
-    )
+    rank = Column("rank", Integer, nullable=False, default=0, server_default=text("'0'"), comment="排名")

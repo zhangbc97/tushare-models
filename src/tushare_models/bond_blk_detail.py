@@ -63,59 +63,14 @@ class BondBlkDetail(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="债券代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="债券名称",
-    )
-    price = Column(
-        "price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交价(元)",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="债券代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="债券名称")
+    price = Column("price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交价(元)")
     vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交数量(万股/万份/万张/万手)",
+        "vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交数量(万股/万份/万张/万手)"
     )
     amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交金额(万元)",
+        "amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交金额(万元)"
     )
-    buy_dp = Column(
-        "buy_dp",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="买方营业部",
-    )
-    sell_dp = Column(
-        "sell_dp",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="卖方营业部",
-    )
+    buy_dp = Column("buy_dp", String(), nullable=False, default="", server_default=text("''"), comment="买方营业部")
+    sell_dp = Column("sell_dp", String(), nullable=False, default="", server_default=text("''"), comment="卖方营业部")

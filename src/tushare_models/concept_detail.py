@@ -18,12 +18,7 @@ class ConceptDetail(Base):
     __api_name__: ClassVar[str] = "concept_detail"
     __api_title__: ClassVar[str] = "概念股明细列表"
     __api_info_title__: ClassVar[str] = "概念股列表"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "参考数据",
-        "概念股明细列表",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "参考数据", "概念股明细列表"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 17, 126]
     __api_points_required__: ClassVar[int] = 5000
     __api_special_permission__: ClassVar[bool] = False
@@ -36,11 +31,7 @@ class ConceptDetail(Base):
         "id": {"type": "str", "required": False, "description": "概念分类ID"},
         "ts_code": {"type": "str", "required": False, "description": "股票代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -62,51 +53,15 @@ class ConceptDetail(Base):
         },
     )
 
-    id = Column(
-        "id",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="概念代码",
-    )
+    id = Column("id", String(), nullable=False, default="", server_default=text("''"), comment="概念代码")
     concept_name = Column(
-        "concept_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="概念名称",
+        "concept_name", String(), nullable=False, default="", server_default=text("''"), comment="概念名称"
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票名称",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
     in_date = Column(
-        "in_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="纳入日期",
+        "in_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="纳入日期"
     )
     out_date = Column(
-        "out_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="剔除日期",
+        "out_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="剔除日期"
     )

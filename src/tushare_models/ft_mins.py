@@ -30,18 +30,10 @@ class FtMins(Base):
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": False, "description": "ts_code"},
         "freq": {"type": "str", "required": False, "description": "分钟频度"},
-        "start_date": {
-            "type": "datetime",
-            "required": False,
-            "description": "开始时间",
-        },
+        "start_date": {"type": "datetime", "required": False, "description": "开始时间"},
         "end_date": {"type": "datetime", "required": False, "description": "结束时间"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -63,75 +55,12 @@ class FtMins(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="",
-    )
-    trade_time = Column(
-        "trade_time",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="",
-    )
-    open = Column(
-        "open",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    high = Column(
-        "high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    low = Column(
-        "low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
-    oi = Column(
-        "oi",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="")
+    trade_time = Column("trade_time", String(), nullable=False, default="", server_default=text("''"), comment="")
+    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+    oi = Column("oi", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")

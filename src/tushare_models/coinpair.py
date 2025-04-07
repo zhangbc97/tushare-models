@@ -31,11 +31,7 @@ class Coinpair(Base):
         "trade_date": {"type": "str", "required": False, "description": "日期"},
         "exchange": {"type": "str", "required": True, "description": "交易所"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -58,34 +54,12 @@ class Coinpair(Base):
     )
 
     trade_date = Column(
-        "trade_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="日期",
+        "trade_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="日期"
     )
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所",
-    )
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易所")
     exchange_pair = Column(
-        "exchange_pair",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所原始交易对名称",
+        "exchange_pair", String(), nullable=False, default="", server_default=text("''"), comment="交易所原始交易对名称"
     )
     ts_pair = Column(
-        "ts_pair",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="Tushare标准名称",
+        "ts_pair", String(), nullable=False, default="", server_default=text("''"), comment="Tushare标准名称"
     )

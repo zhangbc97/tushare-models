@@ -18,11 +18,7 @@ class IrmQaSh(Base):
     __api_name__: ClassVar[str] = "irm_qa_sh"
     __api_title__: ClassVar[str] = "上证e互动问答"
     __api_info_title__: ClassVar[str] = "上证E互动"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "大模型语料专题数据",
-        "上证e互动问答",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "大模型语料专题数据", "上证e互动问答"]
     __api_path_ids__: ClassVar[List[int]] = [2, 142, 366]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -33,11 +29,7 @@ class IrmQaSh(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": False, "description": "股票代码"},
-        "trade_date": {
-            "type": "str",
-            "required": False,
-            "description": "交易日期（格式：YYYYMMDD，下同）",
-        },
+        "trade_date": {"type": "str", "required": False, "description": "交易日期（格式：YYYYMMDD，下同）"},
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "offset": {"type": "str", "required": False, "description": ""},
@@ -63,46 +55,13 @@ class IrmQaSh(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="公司名称",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="公司名称")
     trade_date = Column(
-        "trade_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="日期",
+        "trade_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="日期"
     )
-    q = Column(
-        "q",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="问题",
-    )
-    a = Column(
-        "a",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="回复",
-    )
+    q = Column("q", String(), nullable=False, default="", server_default=text("''"), comment="问题")
+    a = Column("a", String(), nullable=False, default="", server_default=text("''"), comment="回复")
     pub_time = Column(
         "pub_time",
         DateTime,

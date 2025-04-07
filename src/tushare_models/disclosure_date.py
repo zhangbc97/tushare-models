@@ -18,12 +18,7 @@ class DisclosureDate(Base):
     __api_name__: ClassVar[str] = "disclosure_date"
     __api_title__: ClassVar[str] = "财报披露日期表"
     __api_info_title__: ClassVar[str] = "财报披露计划"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "财务数据",
-        "财报披露日期表",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "财务数据", "财报披露日期表"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 16, 162]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -36,11 +31,7 @@ class DisclosureDate(Base):
         "ts_code": {"type": "str", "required": False, "description": "TS股票代码"},
         "end_date": {"type": "str", "required": False, "description": "财报周期"},
         "pre_date": {"type": "str", "required": False, "description": "计划披露日期"},
-        "actual_date": {
-            "type": "str",
-            "required": False,
-            "description": "实际披露日期",
-        },
+        "actual_date": {"type": "str", "required": False, "description": "实际披露日期"},
         "offset": {"type": "int", "required": False, "description": ""},
         "limit": {"type": "int", "required": False, "description": ""},
     }
@@ -64,14 +55,7 @@ class DisclosureDate(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
     ann_date = Column(
         "ann_date",
         Date,
@@ -81,12 +65,7 @@ class DisclosureDate(Base):
         comment="最新披露公告日",
     )
     end_date = Column(
-        "end_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="报告期",
+        "end_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="报告期"
     )
     pre_date = Column(
         "pre_date",

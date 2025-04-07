@@ -18,11 +18,7 @@ class FutWeeklyMonthly(Base):
     __api_name__: ClassVar[str] = "fut_weekly_monthly"
     __api_title__: ClassVar[str] = "期货周/月线行情(每日更新)"
     __api_info_title__: ClassVar[str] = "期货周/月线行情(每日更新)"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "期货数据",
-        "期货周/月线行情(每日更新)",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "期货数据", "期货周/月线行情(每日更新)"]
     __api_path_ids__: ClassVar[List[int]] = [2, 134, 337]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -39,11 +35,7 @@ class FutWeeklyMonthly(Base):
         "freq": {"type": "str", "required": True, "description": "频率week周，month月"},
         "exchange": {"type": "str", "required": False, "description": "交易所"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -65,14 +57,7 @@ class FutWeeklyMonthly(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="期货代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="期货代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -82,109 +67,28 @@ class FutWeeklyMonthly(Base):
         comment="交易日期",
     )
     freq = Column(
-        "freq",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="频率(周week,月month)",
+        "freq", String(), nullable=False, default="", server_default=text("''"), comment="频率(周week,月month)"
     )
-    open = Column(
-        "open",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="(周/月)开盘价",
-    )
-    high = Column(
-        "high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="(周/月)最高价",
-    )
-    low = Column(
-        "low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="(周/月)最低价",
-    )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="(周/月)收盘价",
-    )
+    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="(周/月)开盘价")
+    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="(周/月)最高价")
+    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="(周/月)最低价")
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="(周/月)收盘价")
     pre_close = Column(
-        "pre_close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="前一(周/月)收盘价",
+        "pre_close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="前一(周/月)收盘价"
     )
-    settle = Column(
-        "settle",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="(周/月)结算价",
-    )
+    settle = Column("settle", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="(周/月)结算价")
     pre_settle = Column(
-        "pre_settle",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="前一(周/月)结算价",
+        "pre_settle", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="前一(周/月)结算价"
     )
-    vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="(周/月)成交量(手)",
-    )
+    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="(周/月)成交量(手)")
     amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="(周/月)成交金额(万元)",
+        "amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="(周/月)成交金额(万元)"
     )
-    oi = Column(
-        "oi",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="(周/月)持仓量(手)",
-    )
+    oi = Column("oi", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="(周/月)持仓量(手)")
     oi_chg = Column(
-        "oi_chg",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="(周/月)持仓量变化",
+        "oi_chg", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="(周/月)持仓量变化"
     )
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所",
-    )
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易所")
     change1 = Column(
         "change1",
         Float,

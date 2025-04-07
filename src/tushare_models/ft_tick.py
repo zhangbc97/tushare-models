@@ -29,18 +29,10 @@ class FtTick(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "symbol": {"type": "str", "required": True, "description": "期货期权代码"},
-        "start_date": {
-            "type": "datetime",
-            "required": False,
-            "description": "开始时间",
-        },
+        "start_date": {"type": "datetime", "required": False, "description": "开始时间"},
         "end_date": {"type": "datetime", "required": False, "description": "结束时间"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -62,91 +54,16 @@ class FtTick(Base):
         },
     )
 
-    symbol = Column(
-        "symbol",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易代码",
-    )
+    symbol = Column("symbol", String(), nullable=False, default="", server_default=text("''"), comment="交易代码")
     trade_time = Column(
-        "trade_time",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易时间",
+        "trade_time", String(), nullable=False, default="", server_default=text("''"), comment="交易时间"
     )
-    trade_ms = Column(
-        "trade_ms",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易毫秒数",
-    )
-    price = Column(
-        "price",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="当前价",
-    )
-    vol = Column(
-        "vol",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="成交量",
-    )
-    amount = Column(
-        "amount",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="成交金额",
-    )
-    ask_p1 = Column(
-        "ask_p1",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="申卖价一",
-    )
-    ask_v1 = Column(
-        "ask_v1",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="申卖量一",
-    )
-    bid_p1 = Column(
-        "bid_p1",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="申买价一",
-    )
-    bid_v1 = Column(
-        "bid_v1",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="申买量一",
-    )
-    oi = Column(
-        "oi",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="持仓量",
-    )
+    trade_ms = Column("trade_ms", String(), nullable=False, default="", server_default=text("''"), comment="交易毫秒数")
+    price = Column("price", String(), nullable=False, default="", server_default=text("''"), comment="当前价")
+    vol = Column("vol", String(), nullable=False, default="", server_default=text("''"), comment="成交量")
+    amount = Column("amount", String(), nullable=False, default="", server_default=text("''"), comment="成交金额")
+    ask_p1 = Column("ask_p1", String(), nullable=False, default="", server_default=text("''"), comment="申卖价一")
+    ask_v1 = Column("ask_v1", String(), nullable=False, default="", server_default=text("''"), comment="申卖量一")
+    bid_p1 = Column("bid_p1", String(), nullable=False, default="", server_default=text("''"), comment="申买价一")
+    bid_v1 = Column("bid_v1", String(), nullable=False, default="", server_default=text("''"), comment="申买量一")
+    oi = Column("oi", String(), nullable=False, default="", server_default=text("''"), comment="持仓量")

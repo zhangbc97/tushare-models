@@ -31,11 +31,7 @@ class Coincap(Base):
         "trade_date": {"type": "str", "required": True, "description": "日期"},
         "coin": {"type": "str", "required": False, "description": "coin代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -65,59 +61,18 @@ class Coincap(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    coin = Column(
-        "coin",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="货币代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="货币名称",
-    )
+    coin = Column("coin", String(), nullable=False, default="", server_default=text("''"), comment="货币代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="货币名称")
     marketcap = Column(
-        "marketcap",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="市值(美元)",
+        "marketcap", String(), nullable=False, default="", server_default=text("''"), comment="市值(美元)"
     )
     price = Column(
-        "price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="当前时间价格(美元)",
+        "price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="当前时间价格(美元)"
     )
     vol24 = Column(
-        "vol24",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="24小时成交额(美元)",
+        "vol24", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="24小时成交额(美元)"
     )
-    supply = Column(
-        "supply",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="流通总量",
-    )
+    supply = Column("supply", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流通总量")
     create_time = Column(
-        "create_time",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="数据采集时间",
+        "create_time", String(), nullable=False, default="", server_default=text("''"), comment="数据采集时间"
     )

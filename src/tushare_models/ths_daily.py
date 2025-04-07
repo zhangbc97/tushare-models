@@ -18,12 +18,8 @@ class ThsDaily(Base):
     __api_name__: ClassVar[str] = "ths_daily"
     __api_title__: ClassVar[str] = "同花顺概念和行业指数行情"
     __api_info_title__: ClassVar[str] = "同花顺板块指数行情"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "指数专题",
-        "同花顺概念和行业指数行情",
-    ]
-    __api_path_ids__: ClassVar[List[int]] = [2, 93, 260]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据", "同花顺概念和行业指数行情"]
+    __api_path_ids__: ClassVar[List[int]] = [2, 14, 346, 260]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
@@ -33,19 +29,11 @@ class ThsDaily(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": False, "description": "指数代码"},
-        "trade_date": {
-            "type": "str",
-            "required": False,
-            "description": "交易日期（YYYYMMDD格式，下同）",
-        },
+        "trade_date": {"type": "str", "required": False, "description": "交易日期（YYYYMMDD格式，下同）"},
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -67,131 +55,29 @@ class ThsDaily(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS指数代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS指数代码")
     trade_date = Column(
-        "trade_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="交易日",
+        "trade_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="交易日"
     )
-    open = Column(
-        "open",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="开盘点位",
-    )
-    high = Column(
-        "high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最高点位",
-    )
-    low = Column(
-        "low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最低点位",
-    )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘点位",
-    )
+    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="开盘点位")
+    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最高点位")
+    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最低点位")
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘点位")
     pre_close = Column(
-        "pre_close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="昨日收盘点",
+        "pre_close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="昨日收盘点"
     )
     avg_price = Column(
-        "avg_price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="平均点位",
+        "avg_price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="平均点位"
     )
-    change = Column(
-        "change",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨跌点位",
-    )
+    change = Column("change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌点位")
     pct_change = Column(
-        "pct_change",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨跌幅",
+        "pct_change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌幅"
     )
-    vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交量",
-    )
+    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交量")
     turnover_rate = Column(
-        "turnover_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="换手率",
+        "turnover_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="换手率"
     )
-    total_mv = Column(
-        "total_mv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="总市值",
-    )
-    float_mv = Column(
-        "float_mv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="流通市值",
-    )
-    pe_ttm = Column(
-        "pe_ttm",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PE TTM",
-    )
-    pb_mrq = Column(
-        "pb_mrq",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PB MRQ",
-    )
+    total_mv = Column("total_mv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="总市值")
+    float_mv = Column("float_mv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流通市值")
+    pe_ttm = Column("pe_ttm", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="PE TTM")
+    pb_mrq = Column("pb_mrq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="PB MRQ")

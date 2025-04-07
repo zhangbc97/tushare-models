@@ -55,14 +55,7 @@ class FundAdj(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="ts基金代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="ts基金代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -72,18 +65,8 @@ class FundAdj(Base):
         comment="交易日期",
     )
     adj_factor = Column(
-        "adj_factor",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="复权因子",
+        "adj_factor", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="复权因子"
     )
     discount_rate = Column(
-        "discount_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="贴水率(%)",
+        "discount_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="贴水率(%)"
     )

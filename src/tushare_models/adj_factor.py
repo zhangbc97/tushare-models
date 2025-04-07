@@ -18,7 +18,7 @@ class AdjFactor(Base):
     __api_name__: ClassVar[str] = "adj_factor"
     __api_title__: ClassVar[str] = "复权因子"
     __api_info_title__: ClassVar[str] = "复权因子"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "沪深股票", "行情数据", "复权因子"]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "行情数据", "复权因子"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 15, 28]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -29,19 +29,11 @@ class AdjFactor(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": False, "description": "股票代码"},
-        "trade_date": {
-            "type": "str",
-            "required": False,
-            "description": "交易日期（格式：YYYYMMDD，下同）",
-        },
+        "trade_date": {"type": "str", "required": False, "description": "交易日期（格式：YYYYMMDD，下同）"},
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -63,14 +55,7 @@ class AdjFactor(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -80,10 +65,5 @@ class AdjFactor(Base):
         comment="交易日期",
     )
     adj_factor = Column(
-        "adj_factor",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="复权因子",
+        "adj_factor", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="复权因子"
     )

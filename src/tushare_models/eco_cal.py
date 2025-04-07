@@ -36,11 +36,7 @@ class EcoCal(Base):
         "event": {"type": "str", "required": False, "description": "事件"},
         "is_new": {"type": "str", "required": False, "description": "是否最新"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -62,67 +58,11 @@ class EcoCal(Base):
         },
     )
 
-    date = Column(
-        "date",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="日期",
-    )
-    time = Column(
-        "time",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="时间",
-    )
-    currency = Column(
-        "currency",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="货币代码",
-    )
-    country = Column(
-        "country",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="国家",
-    )
-    event = Column(
-        "event",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="经济事件",
-    )
-    value = Column(
-        "value",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="今值",
-    )
-    pre_value = Column(
-        "pre_value",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="前值",
-    )
-    fore_value = Column(
-        "fore_value",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="预测值",
-    )
+    date = Column("date", String(), nullable=False, default="", server_default=text("''"), comment="日期")
+    time = Column("time", String(), nullable=False, default="", server_default=text("''"), comment="时间")
+    currency = Column("currency", String(), nullable=False, default="", server_default=text("''"), comment="货币代码")
+    country = Column("country", String(), nullable=False, default="", server_default=text("''"), comment="国家")
+    event = Column("event", String(), nullable=False, default="", server_default=text("''"), comment="经济事件")
+    value = Column("value", String(), nullable=False, default="", server_default=text("''"), comment="今值")
+    pre_value = Column("pre_value", String(), nullable=False, default="", server_default=text("''"), comment="前值")
+    fore_value = Column("fore_value", String(), nullable=False, default="", server_default=text("''"), comment="预测值")

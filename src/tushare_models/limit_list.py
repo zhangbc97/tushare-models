@@ -30,19 +30,11 @@ class LimitList(Base):
     __api_params__: ClassVar[Dict[str, Any]] = {
         "trade_date": {"type": "str", "required": False, "description": "交易日期"},
         "ts_code": {"type": "str", "required": False, "description": "股票代码"},
-        "limit_type": {
-            "type": "str",
-            "required": False,
-            "description": "涨跌停类型U涨停D跌停",
-        },
+        "limit_type": {"type": "str", "required": False, "description": "涨跌停类型U涨停D跌停"},
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -72,107 +64,28 @@ class LimitList(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票名称",
-    )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘价",
-    )
-    pct_chg = Column(
-        "pct_chg",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨跌幅",
-    )
-    amp = Column(
-        "amp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="振幅",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘价")
+    pct_chg = Column("pct_chg", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌幅")
+    amp = Column("amp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="振幅")
     fc_ratio = Column(
-        "fc_ratio",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="封单金额/日成交金额",
+        "fc_ratio", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="封单金额/日成交金额"
     )
     fl_ratio = Column(
-        "fl_ratio",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="封单手数/流通股本",
+        "fl_ratio", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="封单手数/流通股本"
     )
     fd_amount = Column(
-        "fd_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="封单金额",
+        "fd_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="封单金额"
     )
     first_time = Column(
-        "first_time",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="首次涨停时间",
+        "first_time", String(), nullable=False, default="", server_default=text("''"), comment="首次涨停时间"
     )
     last_time = Column(
-        "last_time",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="最后封板时间",
+        "last_time", String(), nullable=False, default="", server_default=text("''"), comment="最后封板时间"
     )
     open_times = Column(
-        "open_times",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="打开次数",
+        "open_times", Integer, nullable=False, default=0, server_default=text("'0'"), comment="打开次数"
     )
-    strth = Column(
-        "strth",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="强度",
-    )
-    limit = Column(
-        "limit",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="D跌停U涨停",
-    )
+    strth = Column("strth", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="强度")
+    limit = Column("limit", String(), nullable=False, default="", server_default=text("''"), comment="D跌停U涨停")

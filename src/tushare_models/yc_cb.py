@@ -28,26 +28,14 @@ class YcCb(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {
-            "type": "str",
-            "required": False,
-            "description": "收益率曲线编码：1001.CB-国债收益率曲线",
-        },
-        "curve_type": {
-            "type": "str",
-            "required": False,
-            "description": "曲线类型：0-到期，1-即期",
-        },
+        "ts_code": {"type": "str", "required": False, "description": "收益率曲线编码：1001.CB-国债收益率曲线"},
+        "curve_type": {"type": "str", "required": False, "description": "曲线类型：0-到期，1-即期"},
         "trade_date": {"type": "str", "required": False, "description": "交易日期"},
         "start_date": {"type": "str", "required": False, "description": "查询起始日期"},
         "end_date": {"type": "str", "required": False, "description": "查询结束日期"},
         "curve_term": {"type": "str", "required": False, "description": "期限"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -77,21 +65,9 @@ class YcCb(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="曲线编码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="曲线编码")
     curve_name = Column(
-        "curve_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="曲线名称",
+        "curve_name", String(), nullable=False, default="", server_default=text("''"), comment="曲线名称"
     )
     curve_type = Column(
         "curve_type",
@@ -102,18 +78,6 @@ class YcCb(Base):
         comment="曲线类型：0-到期，1-即期",
     )
     curve_term = Column(
-        "curve_term",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="期限(年)",
+        "curve_term", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="期限(年)"
     )
-    _yield = Column(
-        "yield",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收益率(%)",
-    )
+    _yield = Column("yield", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收益率(%)")

@@ -31,11 +31,7 @@ class Coinexchanges(Base):
         "exchange": {"type": "str", "required": False, "description": "交易所"},
         "area_code": {"type": "str", "required": False, "description": "地区"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -57,123 +53,34 @@ class Coinexchanges(Base):
         },
     )
 
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所名称",
-    )
-    pairs = Column(
-        "pairs",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="交易对数量",
-    )
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易所代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="交易所名称")
+    pairs = Column("pairs", Integer, nullable=False, default=0, server_default=text("'0'"), comment="交易对数量")
     area_code = Column(
-        "area_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="所在地区代码",
+        "area_code", String(), nullable=False, default="", server_default=text("''"), comment="所在地区代码"
     )
-    area = Column(
-        "area",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="所在地区",
-    )
+    area = Column("area", String(), nullable=False, default="", server_default=text("''"), comment="所在地区")
     coin_trade = Column(
-        "coin_trade",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="支持现货交易",
+        "coin_trade", String(), nullable=False, default="", server_default=text("''"), comment="支持现货交易"
     )
     fut_trade = Column(
-        "fut_trade",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="支持期货交易",
+        "fut_trade", String(), nullable=False, default="", server_default=text("''"), comment="支持期货交易"
     )
     oct_trade = Column(
-        "oct_trade",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="支持场外交易",
+        "oct_trade", String(), nullable=False, default="", server_default=text("''"), comment="支持场外交易"
     )
     deep_share = Column(
-        "deep_share",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="支持共享交易深度",
+        "deep_share", String(), nullable=False, default="", server_default=text("''"), comment="支持共享交易深度"
     )
     mineable = Column(
-        "mineable",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="支持挖矿交易",
+        "mineable", String(), nullable=False, default="", server_default=text("''"), comment="支持挖矿交易"
     )
-    desc = Column(
-        "desc",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所简介",
-    )
-    website = Column(
-        "website",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所官网",
-    )
+    desc = Column("desc", String(), nullable=False, default="", server_default=text("''"), comment="交易所简介")
+    website = Column("website", String(), nullable=False, default="", server_default=text("''"), comment="交易所官网")
     twitter = Column(
-        "twitter",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所twitter",
+        "twitter", String(), nullable=False, default="", server_default=text("''"), comment="交易所twitter"
     )
     facebook = Column(
-        "facebook",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所facebook",
+        "facebook", String(), nullable=False, default="", server_default=text("''"), comment="交易所facebook"
     )
-    weibo = Column(
-        "weibo",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所weibo",
-    )
+    weibo = Column("weibo", String(), nullable=False, default="", server_default=text("''"), comment="交易所weibo")

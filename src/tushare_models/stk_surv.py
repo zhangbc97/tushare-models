@@ -18,12 +18,7 @@ class StkSurv(Base):
     __api_name__: ClassVar[str] = "stk_surv"
     __api_title__: ClassVar[str] = "机构调研数据"
     __api_info_title__: ClassVar[str] = "机构调研表"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "特色数据",
-        "机构调研数据",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "特色数据", "机构调研数据"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 291, 275]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -38,11 +33,7 @@ class StkSurv(Base):
         "start_date": {"type": "str", "required": False, "description": "调研开始日期"},
         "end_date": {"type": "str", "required": False, "description": "调研结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -64,83 +55,23 @@ class StkSurv(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票名称",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
     surv_date = Column(
-        "surv_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="调研日期",
+        "surv_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="调研日期"
     )
     fund_visitors = Column(
-        "fund_visitors",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="机构参与人员",
+        "fund_visitors", String(), nullable=False, default="", server_default=text("''"), comment="机构参与人员"
     )
     rece_place = Column(
-        "rece_place",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="接待地点",
+        "rece_place", String(), nullable=False, default="", server_default=text("''"), comment="接待地点"
     )
-    rece_mode = Column(
-        "rece_mode",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="接待方式",
-    )
-    rece_org = Column(
-        "rece_org",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="接待的公司",
-    )
+    rece_mode = Column("rece_mode", String(), nullable=False, default="", server_default=text("''"), comment="接待方式")
+    rece_org = Column("rece_org", String(), nullable=False, default="", server_default=text("''"), comment="接待的公司")
     org_type = Column(
-        "org_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="接待公司类型",
+        "org_type", String(), nullable=False, default="", server_default=text("''"), comment="接待公司类型"
     )
     comp_rece = Column(
-        "comp_rece",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="上市公司接待人员",
+        "comp_rece", String(), nullable=False, default="", server_default=text("''"), comment="上市公司接待人员"
     )
-    content = Column(
-        "content",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="调研内容",
-    )
+    content = Column("content", String(), nullable=False, default="", server_default=text("''"), comment="调研内容")

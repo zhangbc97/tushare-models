@@ -18,12 +18,7 @@ class StkManagers(Base):
     __api_name__: ClassVar[str] = "stk_managers"
     __api_title__: ClassVar[str] = "上市公司管理层"
     __api_info_title__: ClassVar[str] = "上市公司管理层"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "基础数据",
-        "上市公司管理层",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "基础数据", "上市公司管理层"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 24, 193]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -38,11 +33,7 @@ class StkManagers(Base):
         "start_date": {"type": "str", "required": False, "description": "公告开始日期"},
         "end_date": {"type": "str", "required": False, "description": "公告结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -64,78 +55,17 @@ class StkManagers(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS股票代码")
     ann_date = Column(
-        "ann_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="公告日期",
+        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
     )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="姓名",
-    )
-    gender = Column(
-        "gender",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="性别",
-    )
-    lev = Column(
-        "lev",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="岗位类别",
-    )
-    title = Column(
-        "title",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="岗位",
-    )
-    edu = Column(
-        "edu",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="学历",
-    )
-    national = Column(
-        "national",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="国籍",
-    )
-    birthday = Column(
-        "birthday",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="出生年份",
-    )
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="姓名")
+    gender = Column("gender", String(), nullable=False, default="", server_default=text("''"), comment="性别")
+    lev = Column("lev", String(), nullable=False, default="", server_default=text("''"), comment="岗位类别")
+    title = Column("title", String(), nullable=False, default="", server_default=text("''"), comment="岗位")
+    edu = Column("edu", String(), nullable=False, default="", server_default=text("''"), comment="学历")
+    national = Column("national", String(), nullable=False, default="", server_default=text("''"), comment="国籍")
+    birthday = Column("birthday", String(), nullable=False, default="", server_default=text("''"), comment="出生年份")
     begin_date = Column(
         "begin_date",
         Date,
@@ -145,18 +75,6 @@ class StkManagers(Base):
         comment="上任日期",
     )
     end_date = Column(
-        "end_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="离任日期",
+        "end_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="离任日期"
     )
-    resume = Column(
-        "resume",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="个人简历",
-    )
+    resume = Column("resume", String(), nullable=False, default="", server_default=text("''"), comment="个人简历")

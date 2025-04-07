@@ -34,11 +34,7 @@ class IndexBasic(Base):
         "category": {"type": "str", "required": False, "description": "指数类别"},
         "name": {"type": "str", "required": False, "description": "指数名称"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -60,107 +56,26 @@ class IndexBasic(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="简称",
-    )
-    fullname = Column(
-        "fullname",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="指数全称",
-    )
-    market = Column(
-        "market",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="市场",
-    )
-    publisher = Column(
-        "publisher",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="发布方",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="简称")
+    fullname = Column("fullname", String(), nullable=False, default="", server_default=text("''"), comment="指数全称")
+    market = Column("market", String(), nullable=False, default="", server_default=text("''"), comment="市场")
+    publisher = Column("publisher", String(), nullable=False, default="", server_default=text("''"), comment="发布方")
     index_type = Column(
-        "index_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="指数风格",
+        "index_type", String(), nullable=False, default="", server_default=text("''"), comment="指数风格"
     )
-    category = Column(
-        "category",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="指数类别",
-    )
+    category = Column("category", String(), nullable=False, default="", server_default=text("''"), comment="指数类别")
     base_date = Column(
-        "base_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="基期",
+        "base_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="基期"
     )
-    base_point = Column(
-        "base_point",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="基点",
-    )
+    base_point = Column("base_point", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="基点")
     list_date = Column(
-        "list_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="发布日期",
+        "list_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="发布日期"
     )
     weight_rule = Column(
-        "weight_rule",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="加权方式",
+        "weight_rule", String(), nullable=False, default="", server_default=text("''"), comment="加权方式"
     )
-    desc = Column(
-        "desc",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="描述",
-    )
+    desc = Column("desc", String(), nullable=False, default="", server_default=text("''"), comment="描述")
     exp_date = Column(
-        "exp_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="终止日期",
+        "exp_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="终止日期"
     )

@@ -18,12 +18,7 @@ class Concept(Base):
     __api_name__: ClassVar[str] = "concept"
     __api_title__: ClassVar[str] = "概念股分类表"
     __api_info_title__: ClassVar[str] = "概念股分类"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "参考数据",
-        "概念股分类表",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "参考数据", "概念股分类表"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 17, 125]
     __api_points_required__: ClassVar[int] = 5000
     __api_special_permission__: ClassVar[bool] = False
@@ -35,11 +30,7 @@ class Concept(Base):
     __api_params__: ClassVar[Dict[str, Any]] = {
         "src": {"type": "str", "required": False, "description": "来源"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -61,27 +52,6 @@ class Concept(Base):
         },
     )
 
-    code = Column(
-        "code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="概念分类ID",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="概念分类名称",
-    )
-    src = Column(
-        "src",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="来源",
-    )
+    code = Column("code", String(), nullable=False, default="", server_default=text("''"), comment="概念分类ID")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="概念分类名称")
+    src = Column("src", String(), nullable=False, default="", server_default=text("''"), comment="来源")

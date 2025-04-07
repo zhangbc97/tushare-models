@@ -18,12 +18,7 @@ class MoneyflowHsgt(Base):
     __api_name__: ClassVar[str] = "moneyflow_hsgt"
     __api_title__: ClassVar[str] = "沪深港通资金流向"
     __api_info_title__: ClassVar[str] = "沪深港通资金流向"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "资金流向数据",
-        "沪深港通资金流向",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "资金流向数据", "沪深港通资金流向"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 342, 47]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -37,11 +32,7 @@ class MoneyflowHsgt(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -71,51 +62,13 @@ class MoneyflowHsgt(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ggt_ss = Column(
-        "ggt_ss",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="港股通(上海)",
-    )
-    ggt_sz = Column(
-        "ggt_sz",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="港股通(深圳)",
-    )
-    hgt = Column(
-        "hgt",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="沪股通",
-    )
-    sgt = Column(
-        "sgt",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="深股通",
-    )
+    ggt_ss = Column("ggt_ss", String(), nullable=False, default="", server_default=text("''"), comment="港股通(上海)")
+    ggt_sz = Column("ggt_sz", String(), nullable=False, default="", server_default=text("''"), comment="港股通(深圳)")
+    hgt = Column("hgt", String(), nullable=False, default="", server_default=text("''"), comment="沪股通")
+    sgt = Column("sgt", String(), nullable=False, default="", server_default=text("''"), comment="深股通")
     north_money = Column(
-        "north_money",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="北向资金",
+        "north_money", String(), nullable=False, default="", server_default=text("''"), comment="北向资金"
     )
     south_money = Column(
-        "south_money",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="南向资金",
+        "south_money", String(), nullable=False, default="", server_default=text("''"), comment="南向资金"
     )

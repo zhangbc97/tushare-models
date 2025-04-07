@@ -33,11 +33,7 @@ class SgeDaily(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -60,114 +56,28 @@ class SgeDaily(Base):
     )
 
     ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="现货合约代码",
+        "ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="现货合约代码"
     )
     trade_date = Column(
-        "trade_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="交易日",
+        "trade_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="交易日"
     )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘点位",
-    )
-    open = Column(
-        "open",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="开盘点位",
-    )
-    high = Column(
-        "high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最高点位",
-    )
-    low = Column(
-        "low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最低点位",
-    )
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘点位")
+    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="开盘点位")
+    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最高点位")
+    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最低点位")
     price_avg = Column(
-        "price_avg",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="昨日收盘点",
+        "price_avg", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="昨日收盘点"
     )
-    change = Column(
-        "change",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨跌点位",
-    )
+    change = Column("change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌点位")
     pct_change = Column(
-        "pct_change",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨跌幅",
+        "pct_change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌幅"
     )
-    vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交量",
-    )
-    amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交金额",
-    )
-    oi = Column(
-        "oi",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="持仓量",
-    )
+    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交量")
+    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交金额")
+    oi = Column("oi", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="持仓量")
     settle_vol = Column(
-        "settle_vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="交收量",
+        "settle_vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="交收量"
     )
     settle_dire = Column(
-        "settle_dire",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="持仓方向",
+        "settle_dire", String(), nullable=False, default="", server_default=text("''"), comment="持仓方向"
     )

@@ -18,12 +18,7 @@ class TmtTwincome(Base):
     __api_name__: ClassVar[str] = "tmt_twincome"
     __api_title__: ClassVar[str] = "台湾电子产业月营收"
     __api_info_title__: ClassVar[str] = "台湾电子产业月度营收"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "行业经济",
-        "TMT行业",
-        "台湾电子产业月营收",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "行业经济", "TMT行业", "台湾电子产业月营收"]
     __api_path_ids__: ClassVar[List[int]] = [2, 82, 83, 88]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -35,18 +30,10 @@ class TmtTwincome(Base):
     __api_params__: ClassVar[Dict[str, Any]] = {
         "date": {"type": "str", "required": False, "description": "报告期"},
         "item": {"type": "str", "required": True, "description": "产品代码"},
-        "start_date": {
-            "type": "str",
-            "required": False,
-            "description": "报告期开始日期",
-        },
+        "start_date": {"type": "str", "required": False, "description": "报告期开始日期"},
         "end_date": {"type": "str", "required": False, "description": "报告期结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -68,27 +55,6 @@ class TmtTwincome(Base):
         },
     )
 
-    date = Column(
-        "date",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="报告期",
-    )
-    item = Column(
-        "item",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="产品代码",
-    )
-    op_income = Column(
-        "op_income",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="月度收入",
-    )
+    date = Column("date", String(), nullable=False, default="", server_default=text("''"), comment="报告期")
+    item = Column("item", String(), nullable=False, default="", server_default=text("''"), comment="产品代码")
+    op_income = Column("op_income", String(), nullable=False, default="", server_default=text("''"), comment="月度收入")

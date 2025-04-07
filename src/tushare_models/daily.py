@@ -18,7 +18,7 @@ class Daily(Base):
     __api_name__: ClassVar[str] = "daily"
     __api_title__: ClassVar[str] = "日线行情"
     __api_info_title__: ClassVar[str] = "日线行情"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "沪深股票", "行情数据", "日线行情"]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "行情数据", "日线行情"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 15, 27]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -55,14 +55,7 @@ class Daily(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -71,75 +64,12 @@ class Daily(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    open = Column(
-        "open",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="开盘价",
-    )
-    high = Column(
-        "high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最高价",
-    )
-    low = Column(
-        "low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最低价",
-    )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘价",
-    )
-    pre_close = Column(
-        "pre_close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="昨收价",
-    )
-    change = Column(
-        "change",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨跌额",
-    )
-    pct_chg = Column(
-        "pct_chg",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨跌幅",
-    )
-    vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交量",
-    )
-    amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交额",
-    )
+    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="开盘价")
+    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最高价")
+    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最低价")
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘价")
+    pre_close = Column("pre_close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="昨收价")
+    change = Column("change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌额")
+    pct_chg = Column("pct_chg", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌幅")
+    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交量")
+    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交额")

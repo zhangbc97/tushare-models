@@ -18,13 +18,7 @@ class CnCpi(Base):
     __api_name__: ClassVar[str] = "cn_cpi"
     __api_title__: ClassVar[str] = "居民消费价格指数(CPI)"
     __api_info_title__: ClassVar[str] = "居民消费价格指数"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "宏观经济",
-        "国内宏观",
-        "价格指数",
-        "居民消费价格指数（CPI）",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国内宏观", "价格指数", "居民消费价格指数（CPI）"]
     __api_path_ids__: ClassVar[List[int]] = [2, 147, 224, 226, 228]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -34,19 +28,11 @@ class CnCpi(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "m": {
-            "type": "str",
-            "required": False,
-            "description": "月份（YYYYMM，下同），支持多个月份同时输入，逗号分隔",
-        },
+        "m": {"type": "str", "required": False, "description": "月份（YYYYMM，下同），支持多个月份同时输入，逗号分隔"},
         "start_m": {"type": "str", "required": False, "description": "开始月份"},
         "end_m": {"type": "str", "required": False, "description": "结束月份"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -68,107 +54,26 @@ class CnCpi(Base):
         },
     )
 
-    month = Column(
-        "month",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="月份YYYYMM",
-    )
-    nt_val = Column(
-        "nt_val",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="全国当月至",
-    )
-    nt_yoy = Column(
-        "nt_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="全国同比(%)",
-    )
-    nt_mom = Column(
-        "nt_mom",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="全国环比(%)",
-    )
-    nt_accu = Column(
-        "nt_accu",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="全国累计值",
-    )
+    month = Column("month", String(), nullable=False, default="", server_default=text("''"), comment="月份YYYYMM")
+    nt_val = Column("nt_val", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="全国当月至")
+    nt_yoy = Column("nt_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="全国同比(%)")
+    nt_mom = Column("nt_mom", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="全国环比(%)")
+    nt_accu = Column("nt_accu", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="全国累计值")
     town_val = Column(
-        "town_val",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="城市当值月",
+        "town_val", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="城市当值月"
     )
     town_yoy = Column(
-        "town_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="城市同比(%)",
+        "town_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="城市同比(%)"
     )
     town_mom = Column(
-        "town_mom",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="城市环比(%)",
+        "town_mom", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="城市环比(%)"
     )
     town_accu = Column(
-        "town_accu",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="城市累计值",
+        "town_accu", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="城市累计值"
     )
-    cnt_val = Column(
-        "cnt_val",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="农村当月值",
-    )
-    cnt_yoy = Column(
-        "cnt_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="农村同比(%)",
-    )
-    cnt_mom = Column(
-        "cnt_mom",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="农村环比(%)",
-    )
+    cnt_val = Column("cnt_val", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="农村当月值")
+    cnt_yoy = Column("cnt_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="农村同比(%)")
+    cnt_mom = Column("cnt_mom", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="农村环比(%)")
     cnt_accu = Column(
-        "cnt_accu",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="农村累计值",
+        "cnt_accu", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="农村累计值"
     )

@@ -18,12 +18,7 @@ class GgtTop10(Base):
     __api_name__: ClassVar[str] = "ggt_top10"
     __api_title__: ClassVar[str] = "港股通十大成交股"
     __api_info_title__: ClassVar[str] = "港股通十大成交股"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "行情数据",
-        "港股通十大成交股",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "行情数据", "港股通十大成交股"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 15, 49]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -37,17 +32,9 @@ class GgtTop10(Base):
         "trade_date": {"type": "str", "required": False, "description": "交易日期"},
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
-        "market_type": {
-            "type": "str",
-            "required": False,
-            "description": "市场类型 2：港股通（沪） 4：港股通（深）",
-        },
+        "market_type": {"type": "str", "required": False, "description": "市场类型 2：港股通（沪） 4：港股通（深）"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -77,46 +64,11 @@ class GgtTop10(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票名称",
-    )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘价",
-    )
-    p_change = Column(
-        "p_change",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨跌幅",
-    )
-    rank = Column(
-        "rank",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="资金排名",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘价")
+    p_change = Column("p_change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌幅")
+    rank = Column("rank", String(), nullable=False, default="", server_default=text("''"), comment="资金排名")
     market_type = Column(
         "market_type",
         String(),
@@ -125,83 +77,27 @@ class GgtTop10(Base):
         server_default=text("''"),
         comment="市场类型 2：港股通(沪) 4：港股通(深)",
     )
-    amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="累计成交金额",
-    )
+    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="累计成交金额")
     net_amount = Column(
-        "net_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="净买入金额",
+        "net_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="净买入金额"
     )
     sh_amount = Column(
-        "sh_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="沪市成交金额",
+        "sh_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="沪市成交金额"
     )
     sh_net_amount = Column(
-        "sh_net_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="沪市净买入金额",
+        "sh_net_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="沪市净买入金额"
     )
-    sh_buy = Column(
-        "sh_buy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="沪市买入金额",
-    )
+    sh_buy = Column("sh_buy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="沪市买入金额")
     sh_sell = Column(
-        "sh_sell",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="沪市卖出金额",
+        "sh_sell", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="沪市卖出金额"
     )
     sz_amount = Column(
-        "sz_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="深市成交金额",
+        "sz_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="深市成交金额"
     )
     sz_net_amount = Column(
-        "sz_net_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="深市净买入金额",
+        "sz_net_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="深市净买入金额"
     )
-    sz_buy = Column(
-        "sz_buy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="深市买入金额",
-    )
+    sz_buy = Column("sz_buy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="深市买入金额")
     sz_sell = Column(
-        "sz_sell",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="深市卖出金额",
+        "sz_sell", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="深市卖出金额"
     )

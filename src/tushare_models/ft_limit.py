@@ -32,18 +32,10 @@ class FtLimit(Base):
         "trade_date": {"type": "str", "required": False, "description": "交易日期"},
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
-        "cont": {
-            "type": "str",
-            "required": False,
-            "description": "合约代码（例如：cont='CU')",
-        },
+        "cont": {"type": "str", "required": False, "description": "合约代码（例如：cont='CU')"},
         "exchange": {"type": "str", "required": False, "description": "交易所代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -73,59 +65,14 @@ class FtLimit(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS股票代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="合约名称",
-    )
-    up_limit = Column(
-        "up_limit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨停价",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS股票代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="合约名称")
+    up_limit = Column("up_limit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨停价")
     down_limit = Column(
-        "down_limit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="跌停价",
+        "down_limit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="跌停价"
     )
     m_ratio = Column(
-        "m_ratio",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最低交易保证金率",
+        "m_ratio", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最低交易保证金率"
     )
-    cont = Column(
-        "cont",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="合约代码",
-    )
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所代码",
-    )
+    cont = Column("cont", String(), nullable=False, default="", server_default=text("''"), comment="合约代码")
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易所代码")

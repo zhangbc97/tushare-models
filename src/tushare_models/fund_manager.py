@@ -54,62 +54,17 @@ class FundManager(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="基金代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="基金代码")
     ann_date = Column(
-        "ann_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="公告日期",
+        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
     )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="基金经理姓名",
-    )
-    gender = Column(
-        "gender",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="性别",
-    )
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="基金经理姓名")
+    gender = Column("gender", String(), nullable=False, default="", server_default=text("''"), comment="性别")
     birth_year = Column(
-        "birth_year",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="出生年份",
+        "birth_year", String(), nullable=False, default="", server_default=text("''"), comment="出生年份"
     )
-    edu = Column(
-        "edu",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="学历",
-    )
-    nationality = Column(
-        "nationality",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="国籍",
-    )
+    edu = Column("edu", String(), nullable=False, default="", server_default=text("''"), comment="学历")
+    nationality = Column("nationality", String(), nullable=False, default="", server_default=text("''"), comment="国籍")
     begin_date = Column(
         "begin_date",
         Date,
@@ -119,18 +74,6 @@ class FundManager(Base):
         comment="任职日期",
     )
     end_date = Column(
-        "end_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="历任日期",
+        "end_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="历任日期"
     )
-    resume = Column(
-        "resume",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="简历",
-    )
+    resume = Column("resume", String(), nullable=False, default="", server_default=text("''"), comment="简历")

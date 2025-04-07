@@ -18,12 +18,7 @@ class PledgeStat(Base):
     __api_name__: ClassVar[str] = "pledge_stat"
     __api_title__: ClassVar[str] = "股权质押统计数据"
     __api_info_title__: ClassVar[str] = "股权质押统计数据"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "参考数据",
-        "股权质押统计数据",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "参考数据", "股权质押统计数据"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 17, 110]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -34,17 +29,9 @@ class PledgeStat(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": False, "description": "股票代码"},
-        "end_date": {
-            "type": "str",
-            "required": False,
-            "description": "截止日期（格式：YYYYMMDD）",
-        },
+        "end_date": {"type": "str", "required": False, "description": "截止日期（格式：YYYYMMDD）"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -66,29 +53,12 @@ class PledgeStat(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
     end_date = Column(
-        "end_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="截至日期",
+        "end_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="截至日期"
     )
     pledge_count = Column(
-        "pledge_count",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="质押次数",
+        "pledge_count", Integer, nullable=False, default=0, server_default=text("'0'"), comment="质押次数"
     )
     unrest_pledge = Column(
         "unrest_pledge",
@@ -99,34 +69,14 @@ class PledgeStat(Base):
         comment="无限售股质押数量(万)",
     )
     rest_pledge = Column(
-        "rest_pledge",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="限售股份质押数量(万)",
+        "rest_pledge", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="限售股份质押数量(万)"
     )
     total_share = Column(
-        "total_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="总股本",
+        "total_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="总股本"
     )
     pledge_ratio = Column(
-        "pledge_ratio",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="质押比例",
+        "pledge_ratio", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="质押比例"
     )
     update_flag = Column(
-        "update_flag",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="更新标识",
+        "update_flag", String(), nullable=False, default="", server_default=text("''"), comment="更新标识"
     )

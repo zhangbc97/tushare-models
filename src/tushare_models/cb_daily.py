@@ -33,11 +33,7 @@ class CbDaily(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -59,14 +55,7 @@ class CbDaily(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="转债代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="转债代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -76,106 +65,25 @@ class CbDaily(Base):
         comment="交易日期",
     )
     pre_close = Column(
-        "pre_close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="昨收盘价(元)",
+        "pre_close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="昨收盘价(元)"
     )
-    open = Column(
-        "open",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="开盘价(元)",
-    )
-    high = Column(
-        "high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最高价(元)",
-    )
-    low = Column(
-        "low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最低价(元)",
-    )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘价(元)",
-    )
-    change = Column(
-        "change",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨跌(元)",
-    )
-    pct_chg = Column(
-        "pct_chg",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨跌幅(%)",
-    )
-    vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交量(手)",
-    )
+    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="开盘价(元)")
+    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最高价(元)")
+    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最低价(元)")
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘价(元)")
+    change = Column("change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌(元)")
+    pct_chg = Column("pct_chg", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌幅(%)")
+    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交量(手)")
     amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交金额(万元)",
+        "amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交金额(万元)"
     )
     bond_value = Column(
-        "bond_value",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="纯债价值",
+        "bond_value", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="纯债价值"
     )
     bond_over_rate = Column(
-        "bond_over_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="纯债溢价率(%)",
+        "bond_over_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="纯债溢价率(%)"
     )
-    cb_value = Column(
-        "cb_value",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="转股价值",
-    )
+    cb_value = Column("cb_value", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="转股价值")
     cb_over_rate = Column(
-        "cb_over_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="转股溢价率(%)",
+        "cb_over_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="转股溢价率(%)"
     )

@@ -18,12 +18,7 @@ class BakBasic(Base):
     __api_name__: ClassVar[str] = "bak_basic"
     __api_title__: ClassVar[str] = "股票历史列表"
     __api_info_title__: ClassVar[str] = "备用列表"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "基础数据",
-        "股票历史列表",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "基础数据", "股票历史列表"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 24, 262]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -36,11 +31,7 @@ class BakBasic(Base):
         "trade_date": {"type": "str", "required": False, "description": "交易日期"},
         "ts_code": {"type": "str", "required": False, "description": "股票代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -70,187 +61,46 @@ class BakBasic(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS股票代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票名称",
-    )
-    industry = Column(
-        "industry",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="行业",
-    )
-    area = Column(
-        "area",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="地域",
-    )
-    pe = Column(
-        "pe",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="市盈率(动)",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS股票代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
+    industry = Column("industry", String(), nullable=False, default="", server_default=text("''"), comment="行业")
+    area = Column("area", String(), nullable=False, default="", server_default=text("''"), comment="地域")
+    pe = Column("pe", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="市盈率(动)")
     float_share = Column(
-        "float_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="流通股本(亿)",
+        "float_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流通股本(亿)"
     )
     total_share = Column(
-        "total_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="总股本(亿)",
+        "total_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="总股本(亿)"
     )
     total_assets = Column(
-        "total_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="总资产(亿)",
+        "total_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="总资产(亿)"
     )
     liquid_assets = Column(
-        "liquid_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="流动资产(亿)",
+        "liquid_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流动资产(亿)"
     )
     fixed_assets = Column(
-        "fixed_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="固定资产(亿)",
+        "fixed_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="固定资产(亿)"
     )
-    reserved = Column(
-        "reserved",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="公积金",
-    )
+    reserved = Column("reserved", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="公积金")
     reserved_pershare = Column(
-        "reserved_pershare",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="每股公积金",
+        "reserved_pershare", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="每股公积金"
     )
-    eps = Column(
-        "eps",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="每股收益",
-    )
-    bvps = Column(
-        "bvps",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="每股净资产",
-    )
-    pb = Column(
-        "pb",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="市净率",
-    )
+    eps = Column("eps", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="每股收益")
+    bvps = Column("bvps", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="每股净资产")
+    pb = Column("pb", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="市净率")
     list_date = Column(
-        "list_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="上市日期",
+        "list_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="上市日期"
     )
-    undp = Column(
-        "undp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="未分配利润",
-    )
+    undp = Column("undp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="未分配利润")
     per_undp = Column(
-        "per_undp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="每股未分配利润",
+        "per_undp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="每股未分配利润"
     )
-    rev_yoy = Column(
-        "rev_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收入同比(%)",
-    )
+    rev_yoy = Column("rev_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收入同比(%)")
     profit_yoy = Column(
-        "profit_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="利润同比(%)",
+        "profit_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="利润同比(%)"
     )
-    gpr = Column(
-        "gpr",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="毛利率(%)",
-    )
-    npr = Column(
-        "npr",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="净利润率(%)",
-    )
+    gpr = Column("gpr", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="毛利率(%)")
+    npr = Column("npr", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="净利润率(%)")
     holder_num = Column(
-        "holder_num",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="股东人数",
+        "holder_num", Integer, nullable=False, default=0, server_default=text("'0'"), comment="股东人数"
     )

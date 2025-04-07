@@ -18,12 +18,7 @@ class LimitStep(Base):
     __api_name__: ClassVar[str] = "limit_step"
     __api_title__: ClassVar[str] = "涨停股票连板天梯"
     __api_info_title__: ClassVar[str] = "连板天梯"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "打板专题数据",
-        "涨停股票连板天梯",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据", "涨停股票连板天梯"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 346, 356]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -33,21 +28,13 @@ class LimitStep(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "trade_date": {
-            "type": "str",
-            "required": False,
-            "description": "交易日期(格式：YYYYMMDD，下同)",
-        },
+        "trade_date": {"type": "str", "required": False, "description": "交易日期(格式：YYYYMMDD，下同)"},
         "ts_code": {"type": "str", "required": False, "description": "股票代码"},
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "nums": {"type": "str", "required": False, "description": "连板次数"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -69,22 +56,8 @@ class LimitStep(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="名称",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="名称")
     trade_date = Column(
         "trade_date",
         Date,
@@ -93,11 +66,4 @@ class LimitStep(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    nums = Column(
-        "nums",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="连板次数",
-    )
+    nums = Column("nums", String(), nullable=False, default="", server_default=text("''"), comment="连板次数")

@@ -18,12 +18,7 @@ class CyqPerf(Base):
     __api_name__: ClassVar[str] = "cyq_perf"
     __api_title__: ClassVar[str] = "每日筹码及胜率"
     __api_info_title__: ClassVar[str] = "每日筹码及胜率"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "特色数据",
-        "每日筹码及胜率",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "特色数据", "每日筹码及胜率"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 291, 293]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -34,19 +29,11 @@ class CyqPerf(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": False, "description": "股票代码"},
-        "trade_date": {
-            "type": "str",
-            "required": False,
-            "description": "交易日期（YYYYMMDD）",
-        },
+        "trade_date": {"type": "str", "required": False, "description": "交易日期（YYYYMMDD）"},
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -68,14 +55,7 @@ class CyqPerf(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -84,75 +64,28 @@ class CyqPerf(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    his_low = Column(
-        "his_low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="历史最低价",
-    )
+    his_low = Column("his_low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="历史最低价")
     his_high = Column(
-        "his_high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="历史最高价",
+        "his_high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="历史最高价"
     )
     cost_5pct = Column(
-        "cost_5pct",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="5分位成本",
+        "cost_5pct", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="5分位成本"
     )
     cost_15pct = Column(
-        "cost_15pct",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="15分位成本",
+        "cost_15pct", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="15分位成本"
     )
     cost_50pct = Column(
-        "cost_50pct",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="50分位成本",
+        "cost_50pct", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="50分位成本"
     )
     cost_85pct = Column(
-        "cost_85pct",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="85分位成本",
+        "cost_85pct", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="85分位成本"
     )
     cost_95pct = Column(
-        "cost_95pct",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="95分位成本",
+        "cost_95pct", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="95分位成本"
     )
     weight_avg = Column(
-        "weight_avg",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="加权平均成本",
+        "weight_avg", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="加权平均成本"
     )
     winner_rate = Column(
-        "winner_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="胜率",
+        "winner_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="胜率"
     )

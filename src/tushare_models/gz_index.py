@@ -18,13 +18,7 @@ class GzIndex(Base):
     __api_name__: ClassVar[str] = "gz_index"
     __api_title__: ClassVar[str] = "广州民间借贷利率"
     __api_info_title__: ClassVar[str] = "广州民间借贷利率"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "宏观经济",
-        "国内宏观",
-        "利率数据",
-        "广州民间借贷利率",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国内宏观", "利率数据", "广州民间借贷利率"]
     __api_path_ids__: ClassVar[List[int]] = [2, 147, 224, 148, 174]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -38,11 +32,7 @@ class GzIndex(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -64,21 +54,9 @@ class GzIndex(Base):
         },
     )
 
-    date = Column(
-        "date",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="日期",
-    )
+    date = Column("date", String(), nullable=False, default="", server_default=text("''"), comment="日期")
     d10_rate = Column(
-        "d10_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="小额贷市场平均利率(十天)",
+        "d10_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="小额贷市场平均利率(十天)"
     )
     m1_rate = Column(
         "m1_rate",

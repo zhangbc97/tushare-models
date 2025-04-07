@@ -34,11 +34,7 @@ class FutWsr(Base):
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "exchange": {"type": "str", "required": False, "description": "交易所代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -68,131 +64,19 @@ class FutWsr(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    symbol = Column(
-        "symbol",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="产品代码",
-    )
-    fut_name = Column(
-        "fut_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="产品名称",
-    )
-    warehouse = Column(
-        "warehouse",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="仓库名称",
-    )
-    wh_id = Column(
-        "wh_id",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="仓库编号",
-    )
-    pre_vol = Column(
-        "pre_vol",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="昨日仓单量",
-    )
-    vol = Column(
-        "vol",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="今日仓单量",
-    )
-    vol_chg = Column(
-        "vol_chg",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="增减量",
-    )
-    area = Column(
-        "area",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="地区",
-    )
-    year = Column(
-        "year",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="年度",
-    )
-    grade = Column(
-        "grade",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="等级",
-    )
-    brand = Column(
-        "brand",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="品牌",
-    )
-    place = Column(
-        "place",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="产地",
-    )
-    pd = Column(
-        "pd",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="升贴水",
-    )
-    is_ct = Column(
-        "is_ct",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="是否折算仓单",
-    )
-    unit = Column(
-        "unit",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="单位",
-    )
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所",
-    )
+    symbol = Column("symbol", String(), nullable=False, default="", server_default=text("''"), comment="产品代码")
+    fut_name = Column("fut_name", String(), nullable=False, default="", server_default=text("''"), comment="产品名称")
+    warehouse = Column("warehouse", String(), nullable=False, default="", server_default=text("''"), comment="仓库名称")
+    wh_id = Column("wh_id", String(), nullable=False, default="", server_default=text("''"), comment="仓库编号")
+    pre_vol = Column("pre_vol", Integer, nullable=False, default=0, server_default=text("'0'"), comment="昨日仓单量")
+    vol = Column("vol", Integer, nullable=False, default=0, server_default=text("'0'"), comment="今日仓单量")
+    vol_chg = Column("vol_chg", Integer, nullable=False, default=0, server_default=text("'0'"), comment="增减量")
+    area = Column("area", String(), nullable=False, default="", server_default=text("''"), comment="地区")
+    year = Column("year", String(), nullable=False, default="", server_default=text("''"), comment="年度")
+    grade = Column("grade", String(), nullable=False, default="", server_default=text("''"), comment="等级")
+    brand = Column("brand", String(), nullable=False, default="", server_default=text("''"), comment="品牌")
+    place = Column("place", String(), nullable=False, default="", server_default=text("''"), comment="产地")
+    pd = Column("pd", Integer, nullable=False, default=0, server_default=text("'0'"), comment="升贴水")
+    is_ct = Column("is_ct", String(), nullable=False, default="", server_default=text("''"), comment="是否折算仓单")
+    unit = Column("unit", String(), nullable=False, default="", server_default=text("''"), comment="单位")
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易所")

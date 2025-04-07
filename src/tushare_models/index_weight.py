@@ -34,11 +34,7 @@ class IndexWeight(Base):
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "ts_code": {"type": "str", "required": False, "description": "股票成分代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -61,21 +57,9 @@ class IndexWeight(Base):
     )
 
     index_code = Column(
-        "index_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="指数代码",
+        "index_code", String(), nullable=False, default="", server_default=text("''"), comment="指数代码"
     )
-    con_code = Column(
-        "con_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="成分代码",
-    )
+    con_code = Column("con_code", String(), nullable=False, default="", server_default=text("''"), comment="成分代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -84,11 +68,4 @@ class IndexWeight(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    weight = Column(
-        "weight",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="权重",
-    )
+    weight = Column("weight", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="权重")

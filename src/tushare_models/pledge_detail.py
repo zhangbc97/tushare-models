@@ -18,12 +18,7 @@ class PledgeDetail(Base):
     __api_name__: ClassVar[str] = "pledge_detail"
     __api_title__: ClassVar[str] = "股权质押明细数据"
     __api_info_title__: ClassVar[str] = "股权质押明细"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "参考数据",
-        "股权质押明细数据",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "参考数据", "股权质押明细数据"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 17, 111]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -35,11 +30,7 @@ class PledgeDetail(Base):
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": True, "description": "股票代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -61,45 +52,18 @@ class PledgeDetail(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS股票代码")
     ann_date = Column(
-        "ann_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="公告日期",
+        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
     )
     holder_name = Column(
-        "holder_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股东名称",
+        "holder_name", String(), nullable=False, default="", server_default=text("''"), comment="股东名称"
     )
     holder_type = Column(
-        "holder_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股东类型",
+        "holder_type", String(), nullable=False, default="", server_default=text("''"), comment="股东类型"
     )
     pledge_amount = Column(
-        "pledge_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="质押数量",
+        "pledge_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="质押数量"
     )
     start_date = Column(
         "start_date",
@@ -118,12 +82,7 @@ class PledgeDetail(Base):
         comment="质押结束日期",
     )
     is_release = Column(
-        "is_release",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="是否已解押",
+        "is_release", String(), nullable=False, default="", server_default=text("''"), comment="是否已解押"
     )
     release_date = Column(
         "release_date",
@@ -133,29 +92,12 @@ class PledgeDetail(Base):
         server_default=text("'1970-01-01'"),
         comment="解押日期",
     )
-    pledgor = Column(
-        "pledgor",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="质押方",
-    )
+    pledgor = Column("pledgor", String(), nullable=False, default="", server_default=text("''"), comment="质押方")
     holding_amount = Column(
-        "holding_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="持股总数",
+        "holding_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="持股总数"
     )
     pledged_amount = Column(
-        "pledged_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="质押总数",
+        "pledged_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="质押总数"
     )
     p_total_ratio = Column(
         "p_total_ratio",
@@ -174,18 +116,6 @@ class PledgeDetail(Base):
         comment="持股总数占总股本比例",
     )
     is_buyback = Column(
-        "is_buyback",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="是否回购",
+        "is_buyback", String(), nullable=False, default="", server_default=text("''"), comment="是否回购"
     )
-    desc = Column(
-        "desc",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="备注",
-    )
+    desc = Column("desc", String(), nullable=False, default="", server_default=text("''"), comment="备注")

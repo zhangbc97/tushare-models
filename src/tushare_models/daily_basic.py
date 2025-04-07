@@ -18,7 +18,7 @@ class DailyBasic(Base):
     __api_name__: ClassVar[str] = "daily_basic"
     __api_title__: ClassVar[str] = "每日指标"
     __api_info_title__: ClassVar[str] = "每日指标"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "沪深股票", "行情数据", "每日指标"]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "行情数据", "每日指标"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 15, 32]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -29,19 +29,11 @@ class DailyBasic(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": False, "description": "股票代码"},
-        "trade_date": {
-            "type": "str",
-            "required": False,
-            "description": "交易日期（格式：YYYYMMDD，下同）",
-        },
+        "trade_date": {"type": "str", "required": False, "description": "交易日期（格式：YYYYMMDD，下同）"},
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -63,14 +55,7 @@ class DailyBasic(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS股票代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -79,21 +64,9 @@ class DailyBasic(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="当日收盘价",
-    )
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="当日收盘价")
     turnover_rate = Column(
-        "turnover_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="换手率",
+        "turnover_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="换手率"
     )
     turnover_rate_f = Column(
         "turnover_rate_f",
@@ -104,114 +77,28 @@ class DailyBasic(Base):
         comment="换手率(自由流通股)",
     )
     volume_ratio = Column(
-        "volume_ratio",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="量比",
+        "volume_ratio", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="量比"
     )
-    pe = Column(
-        "pe",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="市盈率(总市值/净利润)",
-    )
-    pe_ttm = Column(
-        "pe_ttm",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="市盈率(TTM)",
-    )
-    pb = Column(
-        "pb",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="市净率(总市值/净资产)",
-    )
-    ps = Column(
-        "ps",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="市销率",
-    )
-    ps_ttm = Column(
-        "ps_ttm",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="市销率(TTM)",
-    )
-    dv_ratio = Column(
-        "dv_ratio",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="股息率(%)",
-    )
+    pe = Column("pe", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="市盈率(总市值/净利润)")
+    pe_ttm = Column("pe_ttm", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="市盈率(TTM)")
+    pb = Column("pb", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="市净率(总市值/净资产)")
+    ps = Column("ps", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="市销率")
+    ps_ttm = Column("ps_ttm", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="市销率(TTM)")
+    dv_ratio = Column("dv_ratio", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="股息率(%)")
     dv_ttm = Column(
-        "dv_ttm",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="股息率(TTM) (%)",
+        "dv_ttm", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="股息率(TTM) (%)"
     )
     total_share = Column(
-        "total_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="总股本",
+        "total_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="总股本"
     )
     float_share = Column(
-        "float_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="流通股本",
+        "float_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流通股本"
     )
     free_share = Column(
-        "free_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="自由流通股本",
+        "free_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="自由流通股本"
     )
-    total_mv = Column(
-        "total_mv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="总市值",
-    )
-    circ_mv = Column(
-        "circ_mv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="流通市值",
-    )
+    total_mv = Column("total_mv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="总市值")
+    circ_mv = Column("circ_mv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流通市值")
     limit_status = Column(
-        "limit_status",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="涨跌停状态",
+        "limit_status", Integer, nullable=False, default=0, server_default=text("'0'"), comment="涨跌停状态"
     )

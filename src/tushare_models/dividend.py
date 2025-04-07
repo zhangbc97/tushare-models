@@ -18,47 +18,24 @@ class Dividend(Base):
     __api_name__: ClassVar[str] = "dividend"
     __api_title__: ClassVar[str] = "分红送股数据"
     __api_info_title__: ClassVar[str] = "分红送股"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "财务数据",
-        "分红送股数据",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "财务数据", "分红送股数据"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 16, 103]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = True
     __dependencies__: ClassVar[List[str]] = ["stock_basic"]
-    __primary_key__: ClassVar[List[str]] = [
-        "ts_code",
-        "end_date",
-        "ann_date",
-        "div_proc",
-        "update_flag",
-    ]
+    __primary_key__: ClassVar[List[str]] = ["ts_code", "end_date", "ann_date", "div_proc", "update_flag"]
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": False, "description": "TS代码"},
-        "ann_date": {
-            "type": "str",
-            "required": False,
-            "description": "公告日（格式：YYYYMMDD，下同）",
-        },
+        "ann_date": {"type": "str", "required": False, "description": "公告日（格式：YYYYMMDD，下同）"},
         "end_date": {"type": "str", "required": False, "description": "分红年度"},
-        "record_date": {
-            "type": "str",
-            "required": False,
-            "description": "股权登记日期",
-        },
+        "record_date": {"type": "str", "required": False, "description": "股权登记日期"},
         "ex_date": {"type": "str", "required": False, "description": "除权除息日"},
         "imp_ann_date": {"type": "str", "required": False, "description": "除权除息日"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -80,21 +57,9 @@ class Dividend(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
     end_date = Column(
-        "end_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="分送年度",
+        "end_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="分送年度"
     )
     ann_date = Column(
         "ann_date",
@@ -104,53 +69,19 @@ class Dividend(Base):
         server_default=text("'1970-01-01'"),
         comment="预案公告日(董事会)",
     )
-    div_proc = Column(
-        "div_proc",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="实施进度",
-    )
-    stk_div = Column(
-        "stk_div",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="每股送转",
-    )
+    div_proc = Column("div_proc", String(), nullable=False, default="", server_default=text("''"), comment="实施进度")
+    stk_div = Column("stk_div", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="每股送转")
     stk_bo_rate = Column(
-        "stk_bo_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="每股送股比例",
+        "stk_bo_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="每股送股比例"
     )
     stk_co_rate = Column(
-        "stk_co_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="每股转增比例",
+        "stk_co_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="每股转增比例"
     )
     cash_div = Column(
-        "cash_div",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="每股分红(税后)",
+        "cash_div", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="每股分红(税后)"
     )
     cash_div_tax = Column(
-        "cash_div_tax",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="每股分红(税前)",
+        "cash_div_tax", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="每股分红(税前)"
     )
     record_date = Column(
         "record_date",
@@ -161,28 +92,13 @@ class Dividend(Base):
         comment="股权登记日",
     )
     ex_date = Column(
-        "ex_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="除权除息日",
+        "ex_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="除权除息日"
     )
     pay_date = Column(
-        "pay_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="派息日",
+        "pay_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="派息日"
     )
     div_listdate = Column(
-        "div_listdate",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="红股上市日",
+        "div_listdate", String(), nullable=False, default="", server_default=text("''"), comment="红股上市日"
     )
     imp_ann_date = Column(
         "imp_ann_date",
@@ -193,26 +109,11 @@ class Dividend(Base):
         comment="实施公告日",
     )
     base_date = Column(
-        "base_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="基准日",
+        "base_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="基准日"
     )
     base_share = Column(
-        "base_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="实施基准股本(万)",
+        "base_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="实施基准股本(万)"
     )
     update_flag = Column(
-        "update_flag",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="是否变更过(1表示变更)",
+        "update_flag", String(), nullable=False, default="", server_default=text("''"), comment="是否变更过(1表示变更)"
     )

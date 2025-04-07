@@ -18,13 +18,7 @@ class WzIndex(Base):
     __api_name__: ClassVar[str] = "wz_index"
     __api_title__: ClassVar[str] = "温州民间借贷利率"
     __api_info_title__: ClassVar[str] = "温州民间借贷利率"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "宏观经济",
-        "国内宏观",
-        "利率数据",
-        "温州民间借贷利率",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国内宏观", "利率数据", "温州民间借贷利率"]
     __api_path_ids__: ClassVar[List[int]] = [2, 147, 224, 148, 173]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -38,11 +32,7 @@ class WzIndex(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -64,14 +54,7 @@ class WzIndex(Base):
         },
     )
 
-    date = Column(
-        "date",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="日期",
-    )
+    date = Column("date", String(), nullable=False, default="", server_default=text("''"), comment="日期")
     comp_rate = Column(
         "comp_rate",
         Float,
@@ -81,52 +64,22 @@ class WzIndex(Base):
         comment="温州民间融资综合利率指数",
     )
     center_rate = Column(
-        "center_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="民间借贷服务中心利率",
+        "center_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="民间借贷服务中心利率"
     )
     micro_rate = Column(
-        "micro_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="小额贷款公司放款利率",
+        "micro_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="小额贷款公司放款利率"
     )
     cm_rate = Column(
-        "cm_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="民间资本管理公司融资价格",
+        "cm_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="民间资本管理公司融资价格"
     )
     sdb_rate = Column(
-        "sdb_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="社会直接借贷利率",
+        "sdb_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="社会直接借贷利率"
     )
     om_rate = Column(
-        "om_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他市场主体利率",
+        "om_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他市场主体利率"
     )
     aa_rate = Column(
-        "aa_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="农村互助会互助金费率",
+        "aa_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="农村互助会互助金费率"
     )
     m1_rate = Column(
         "m1_rate",

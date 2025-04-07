@@ -57,67 +57,21 @@ class FundPortfolio(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS基金代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS基金代码")
     ann_date = Column(
-        "ann_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="公告日期",
+        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
     )
     end_date = Column(
-        "end_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="截止日期",
+        "end_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="截止日期"
     )
-    symbol = Column(
-        "symbol",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
-    mkv = Column(
-        "mkv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="持有股票市值(元)",
-    )
+    symbol = Column("symbol", String(), nullable=False, default="", server_default=text("''"), comment="股票代码")
+    mkv = Column("mkv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="持有股票市值(元)")
     amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="持有股票数量(股)",
+        "amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="持有股票数量(股)"
     )
     stk_mkv_ratio = Column(
-        "stk_mkv_ratio",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="占股票市值比",
+        "stk_mkv_ratio", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="占股票市值比"
     )
     stk_float_ratio = Column(
-        "stk_float_ratio",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="占流通股本比例",
+        "stk_float_ratio", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="占流通股本比例"
     )

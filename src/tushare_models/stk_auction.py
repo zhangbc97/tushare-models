@@ -18,12 +18,7 @@ class StkAuction(Base):
     __api_name__: ClassVar[str] = "stk_auction"
     __api_title__: ClassVar[str] = "开盘竞价成交(当日)"
     __api_info_title__: ClassVar[str] = "当日集合竞价"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "打板专题数据",
-        "开盘竞价成交（当日）",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据", "开盘竞价成交（当日）"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 346, 369]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -34,19 +29,12 @@ class StkAuction(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": False, "description": "股票代码"},
-        "trade_date": {
-            "type": "str",
-            "required": False,
-            "description": "交易日期（YYYYMMDD格式，下同)",
-        },
+        "trade_date": {"type": "str", "required": False, "description": "交易日期（YYYYMMDD格式，下同)"},
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
+        "ts_type": {"type": "str", "required": False, "description": "类型"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -68,14 +56,7 @@ class StkAuction(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -84,59 +65,16 @@ class StkAuction(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    vol = Column(
-        "vol",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="成交量",
-    )
-    price = Column(
-        "price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交均价(元)",
-    )
-    amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交金额(元)",
-    )
-    pre_close = Column(
-        "pre_close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="昨收价",
-    )
+    vol = Column("vol", Integer, nullable=False, default=0, server_default=text("'0'"), comment="成交量")
+    price = Column("price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交均价(元)")
+    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交金额(元)")
+    pre_close = Column("pre_close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="昨收价")
     turnover_rate = Column(
-        "turnover_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="换手率(%)",
+        "turnover_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="换手率(%)"
     )
     volume_ratio = Column(
-        "volume_ratio",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="量比",
+        "volume_ratio", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="量比"
     )
     float_share = Column(
-        "float_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="流通股本(万股)",
+        "float_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流通股本(万股)"
     )

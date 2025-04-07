@@ -18,7 +18,7 @@ class Income(Base):
     __api_name__: ClassVar[str] = "income"
     __api_title__: ClassVar[str] = "利润表"
     __api_info_title__: ClassVar[str] = "利润表"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "沪深股票", "财务数据", "利润表"]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "财务数据", "利润表"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 16, 33]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -36,28 +36,16 @@ class Income(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": True, "description": "股票代码"},
-        "ann_date": {
-            "type": "str",
-            "required": False,
-            "description": "公告日期（格式：YYYYMMDD，下同）",
-        },
+        "ann_date": {"type": "str", "required": False, "description": "公告日期（格式：YYYYMMDD，下同）"},
         "f_ann_date": {"type": "str", "required": False, "description": "实际公告日期"},
-        "start_date": {
-            "type": "str",
-            "required": False,
-            "description": "报告期开始日期",
-        },
+        "start_date": {"type": "str", "required": False, "description": "报告期开始日期"},
         "end_date": {"type": "str", "required": False, "description": "报告期结束日期"},
         "period": {"type": "str", "required": False, "description": "报告期"},
         "report_type": {"type": "str", "required": False, "description": "报告类型"},
         "comp_type": {"type": "str", "required": False, "description": "公司类型"},
         "is_calc": {"type": "int", "required": False, "description": "是否计算报表"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -79,21 +67,9 @@ class Income(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
     ann_date = Column(
-        "ann_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="公告日期",
+        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
     )
     f_ann_date = Column(
         "f_ann_date",
@@ -104,12 +80,7 @@ class Income(Base):
         comment="实际公告日期",
     )
     end_date = Column(
-        "end_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="报告期",
+        "end_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="报告期"
     )
     report_type = Column(
         "report_type",
@@ -127,69 +98,25 @@ class Income(Base):
         server_default=text("''"),
         comment="公司类型(1一般工商业2银行3保险4证券)",
     )
-    end_type = Column(
-        "end_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="报告期类型",
-    )
+    end_type = Column("end_type", String(), nullable=False, default="", server_default=text("''"), comment="报告期类型")
     basic_eps = Column(
-        "basic_eps",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="基本每股收益",
+        "basic_eps", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="基本每股收益"
     )
     diluted_eps = Column(
-        "diluted_eps",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="稀释每股收益",
+        "diluted_eps", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="稀释每股收益"
     )
     total_revenue = Column(
-        "total_revenue",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="营业总收入",
+        "total_revenue", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="营业总收入"
     )
-    revenue = Column(
-        "revenue",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="营业收入",
-    )
+    revenue = Column("revenue", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="营业收入")
     int_income = Column(
-        "int_income",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="利息收入",
+        "int_income", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="利息收入"
     )
     prem_earned = Column(
-        "prem_earned",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="已赚保费",
+        "prem_earned", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="已赚保费"
     )
     comm_income = Column(
-        "comm_income",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="手续费及佣金收入",
+        "comm_income", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="手续费及佣金收入"
     )
     n_commis_income = Column(
         "n_commis_income",
@@ -200,36 +127,16 @@ class Income(Base):
         comment="手续费及佣金净收入",
     )
     n_oth_income = Column(
-        "n_oth_income",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他经营净收益",
+        "n_oth_income", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他经营净收益"
     )
     n_oth_b_income = Column(
-        "n_oth_b_income",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="加:其他业务净收益",
+        "n_oth_b_income", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="加:其他业务净收益"
     )
     prem_income = Column(
-        "prem_income",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="保险业务收入",
+        "prem_income", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="保险业务收入"
     )
     out_prem = Column(
-        "out_prem",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="减:分出保费",
+        "out_prem", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="减:分出保费"
     )
     une_prem_reser = Column(
         "une_prem_reser",
@@ -240,12 +147,7 @@ class Income(Base):
         comment="提取未到期责任准备金",
     )
     reins_income = Column(
-        "reins_income",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其中:分保费收入",
+        "reins_income", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其中:分保费收入"
     )
     n_sec_tb_income = Column(
         "n_sec_tb_income",
@@ -272,12 +174,7 @@ class Income(Base):
         comment="受托客户资产管理业务净收入",
     )
     oth_b_income = Column(
-        "oth_b_income",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他业务收入",
+        "oth_b_income", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他业务收入"
     )
     fv_value_chg_gain = Column(
         "fv_value_chg_gain",
@@ -288,12 +185,7 @@ class Income(Base):
         comment="加:公允价值变动净收益",
     )
     invest_income = Column(
-        "invest_income",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="加:投资净收益",
+        "invest_income", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="加:投资净收益"
     )
     ass_invest_income = Column(
         "ass_invest_income",
@@ -304,77 +196,28 @@ class Income(Base):
         comment="其中:对联营企业和合营企业的投资收益",
     )
     forex_gain = Column(
-        "forex_gain",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="加:汇兑净收益",
+        "forex_gain", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="加:汇兑净收益"
     )
     total_cogs = Column(
-        "total_cogs",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="营业总成本",
+        "total_cogs", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="营业总成本"
     )
     oper_cost = Column(
-        "oper_cost",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="减:营业成本",
+        "oper_cost", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="减:营业成本"
     )
-    int_exp = Column(
-        "int_exp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="减:利息支出",
-    )
+    int_exp = Column("int_exp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="减:利息支出")
     comm_exp = Column(
-        "comm_exp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="减:手续费及佣金支出",
+        "comm_exp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="减:手续费及佣金支出"
     )
     biz_tax_surchg = Column(
-        "biz_tax_surchg",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="减:营业税金及附加",
+        "biz_tax_surchg", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="减:营业税金及附加"
     )
     sell_exp = Column(
-        "sell_exp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="减:销售费用",
+        "sell_exp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="减:销售费用"
     )
     admin_exp = Column(
-        "admin_exp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="减:管理费用",
+        "admin_exp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="减:管理费用"
     )
-    fin_exp = Column(
-        "fin_exp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="减:财务费用",
-    )
+    fin_exp = Column("fin_exp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="减:财务费用")
     assets_impair_loss = Column(
         "assets_impair_loss",
         Float,
@@ -384,20 +227,10 @@ class Income(Base):
         comment="减:资产减值损失",
     )
     prem_refund = Column(
-        "prem_refund",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="退保金",
+        "prem_refund", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="退保金"
     )
     compens_payout = Column(
-        "compens_payout",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="赔付总支出",
+        "compens_payout", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="赔付总支出"
     )
     reser_insur_liab = Column(
         "reser_insur_liab",
@@ -408,29 +241,12 @@ class Income(Base):
         comment="提取保险责任准备金",
     )
     div_payt = Column(
-        "div_payt",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="保户红利支出",
+        "div_payt", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="保户红利支出"
     )
     reins_exp = Column(
-        "reins_exp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="分保费用",
+        "reins_exp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="分保费用"
     )
-    oper_exp = Column(
-        "oper_exp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="营业支出",
-    )
+    oper_exp = Column("oper_exp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="营业支出")
     compens_payout_refu = Column(
         "compens_payout_refu",
         Float,
@@ -448,44 +264,19 @@ class Income(Base):
         comment="减:摊回保险责任准备金",
     )
     reins_cost_refund = Column(
-        "reins_cost_refund",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="减:摊回分保费用",
+        "reins_cost_refund", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="减:摊回分保费用"
     )
     other_bus_cost = Column(
-        "other_bus_cost",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他业务成本",
+        "other_bus_cost", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他业务成本"
     )
     operate_profit = Column(
-        "operate_profit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="营业利润",
+        "operate_profit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="营业利润"
     )
     non_oper_income = Column(
-        "non_oper_income",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="加:营业外收入",
+        "non_oper_income", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="加:营业外收入"
     )
     non_oper_exp = Column(
-        "non_oper_exp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="减:营业外支出",
+        "non_oper_exp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="减:营业外支出"
     )
     nca_disploss = Column(
         "nca_disploss",
@@ -496,28 +287,13 @@ class Income(Base):
         comment="其中:减:非流动资产处置净损失",
     )
     total_profit = Column(
-        "total_profit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="利润总额",
+        "total_profit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="利润总额"
     )
     income_tax = Column(
-        "income_tax",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="所得税费用",
+        "income_tax", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="所得税费用"
     )
     n_income = Column(
-        "n_income",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="净利润(含少数股东损益)",
+        "n_income", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="净利润(含少数股东损益)"
     )
     n_income_attr_p = Column(
         "n_income_attr_p",
@@ -528,28 +304,13 @@ class Income(Base):
         comment="净利润(不含少数股东损益)",
     )
     minority_gain = Column(
-        "minority_gain",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="少数股东损益",
+        "minority_gain", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="少数股东损益"
     )
     oth_compr_income = Column(
-        "oth_compr_income",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他综合收益",
+        "oth_compr_income", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他综合收益"
     )
     t_compr_income = Column(
-        "t_compr_income",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="综合收益总额",
+        "t_compr_income", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="综合收益总额"
     )
     compr_inc_attr_p = Column(
         "compr_inc_attr_p",
@@ -567,69 +328,25 @@ class Income(Base):
         server_default=text("'0.0'"),
         comment="归属于少数股东的综合收益总额",
     )
-    ebit = Column(
-        "ebit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="息税前利润",
-    )
+    ebit = Column("ebit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="息税前利润")
     ebitda = Column(
-        "ebitda",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="息税折旧摊销前利润",
+        "ebitda", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="息税折旧摊销前利润"
     )
     insurance_exp = Column(
-        "insurance_exp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="保险业务支出",
+        "insurance_exp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="保险业务支出"
     )
     undist_profit = Column(
-        "undist_profit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="年初未分配利润",
+        "undist_profit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="年初未分配利润"
     )
     distable_profit = Column(
-        "distable_profit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="可分配利润",
+        "distable_profit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="可分配利润"
     )
-    rd_exp = Column(
-        "rd_exp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="研发费用",
-    )
+    rd_exp = Column("rd_exp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="研发费用")
     fin_exp_int_exp = Column(
-        "fin_exp_int_exp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="财务费用:利息费用",
+        "fin_exp_int_exp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="财务费用:利息费用"
     )
     fin_exp_int_inc = Column(
-        "fin_exp_int_inc",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="财务费用:利息收入",
+        "fin_exp_int_inc", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="财务费用:利息收入"
     )
     transfer_surplus_rese = Column(
         "transfer_surplus_rese",
@@ -648,20 +365,10 @@ class Income(Base):
         comment="住房周转金转入",
     )
     transfer_oth = Column(
-        "transfer_oth",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他转入",
+        "transfer_oth", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他转入"
     )
     adj_lossgain = Column(
-        "adj_lossgain",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="调整以前年度损益",
+        "adj_lossgain", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="调整以前年度损益"
     )
     withdra_legal_surplus = Column(
         "withdra_legal_surplus",
@@ -688,12 +395,7 @@ class Income(Base):
         comment="提取企业发展基金",
     )
     withdra_rese_fund = Column(
-        "withdra_rese_fund",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="提取储备基金",
+        "withdra_rese_fund", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="提取储备基金"
     )
     withdra_oth_ersu = Column(
         "withdra_oth_ersu",
@@ -704,12 +406,7 @@ class Income(Base):
         comment="提取任意盈余公积金",
     )
     workers_welfare = Column(
-        "workers_welfare",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="职工奖金福利",
+        "workers_welfare", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="职工奖金福利"
     )
     distr_profit_shrhder = Column(
         "distr_profit_shrhder",
@@ -752,20 +449,10 @@ class Income(Base):
         comment="扣除非经常性损益后的净利润(更正前)",
     )
     oth_income = Column(
-        "oth_income",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他收益",
+        "oth_income", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他收益"
     )
     asset_disp_income = Column(
-        "asset_disp_income",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="资产处置收益",
+        "asset_disp_income", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="资产处置收益"
     )
     continued_net_profit = Column(
         "continued_net_profit",
@@ -776,20 +463,10 @@ class Income(Base):
         comment="持续经营净利润",
     )
     end_net_profit = Column(
-        "end_net_profit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="终止经营净利润",
+        "end_net_profit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="终止经营净利润"
     )
     credit_impa_loss = Column(
-        "credit_impa_loss",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="信用减值损失",
+        "credit_impa_loss", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="信用减值损失"
     )
     net_expo_hedging_benefits = Column(
         "net_expo_hedging_benefits",
@@ -808,12 +485,7 @@ class Income(Base):
         comment="其他资产减值损失",
     )
     total_opcost = Column(
-        "total_opcost",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="营业总成本2",
+        "total_opcost", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="营业总成本2"
     )
     amodcost_fin_assets = Column(
         "amodcost_fin_assets",
@@ -824,10 +496,5 @@ class Income(Base):
         comment="以摊余成本计量的金融资产终止确认收益",
     )
     update_flag = Column(
-        "update_flag",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="更新标识",
+        "update_flag", String(), nullable=False, default="", server_default=text("''"), comment="更新标识"
     )

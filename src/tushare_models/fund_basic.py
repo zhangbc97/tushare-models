@@ -56,46 +56,11 @@ class FundBasic(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="基金代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="简称",
-    )
-    management = Column(
-        "management",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="管理人",
-    )
-    custodian = Column(
-        "custodian",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="托管人",
-    )
-    fund_type = Column(
-        "fund_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="投资类型",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="基金代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="简称")
+    management = Column("management", String(), nullable=False, default="", server_default=text("''"), comment="管理人")
+    custodian = Column("custodian", String(), nullable=False, default="", server_default=text("''"), comment="托管人")
+    fund_type = Column("fund_type", String(), nullable=False, default="", server_default=text("''"), comment="投资类型")
     found_date = Column(
         "found_date",
         Date,
@@ -105,20 +70,10 @@ class FundBasic(Base):
         comment="成立日期",
     )
     due_date = Column(
-        "due_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="到期日期",
+        "due_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="到期日期"
     )
     list_date = Column(
-        "list_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="上市时间",
+        "list_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="上市时间"
     )
     issue_date = Column(
         "issue_date",
@@ -137,122 +92,35 @@ class FundBasic(Base):
         comment="退市日期",
     )
     issue_amount = Column(
-        "issue_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="发行份额(亿份)",
+        "issue_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="发行份额(亿份)"
     )
-    m_fee = Column(
-        "m_fee",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="管理费",
-    )
-    c_fee = Column(
-        "c_fee",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="托管费",
-    )
+    m_fee = Column("m_fee", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="管理费")
+    c_fee = Column("c_fee", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="托管费")
     duration_year = Column(
-        "duration_year",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="存续期",
+        "duration_year", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="存续期"
     )
-    p_value = Column(
-        "p_value",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="面值",
-    )
+    p_value = Column("p_value", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="面值")
     min_amount = Column(
-        "min_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="起点金额(万元)",
+        "min_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="起点金额(万元)"
     )
     exp_return = Column(
-        "exp_return",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="预期收益率",
+        "exp_return", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="预期收益率"
     )
     benchmark = Column(
-        "benchmark",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="业绩比较基准",
+        "benchmark", String(), nullable=False, default="", server_default=text("''"), comment="业绩比较基准"
     )
     status = Column(
-        "status",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="存续状态D摘牌 I发行 L已上市",
+        "status", String(), nullable=False, default="", server_default=text("''"), comment="存续状态D摘牌 I发行 L已上市"
     )
     invest_type = Column(
-        "invest_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="投资风格",
+        "invest_type", String(), nullable=False, default="", server_default=text("''"), comment="投资风格"
     )
-    type = Column(
-        "type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="基金类型",
-    )
-    trustee = Column(
-        "trustee",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="受托人",
-    )
+    type = Column("type", String(), nullable=False, default="", server_default=text("''"), comment="基金类型")
+    trustee = Column("trustee", String(), nullable=False, default="", server_default=text("''"), comment="受托人")
     purc_startdate = Column(
-        "purc_startdate",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="日常申购起始日",
+        "purc_startdate", String(), nullable=False, default="", server_default=text("''"), comment="日常申购起始日"
     )
     redm_startdate = Column(
-        "redm_startdate",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="日常赎回起始日",
+        "redm_startdate", String(), nullable=False, default="", server_default=text("''"), comment="日常赎回起始日"
     )
-    market = Column(
-        "market",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="E场内O场外",
-    )
+    market = Column("market", String(), nullable=False, default="", server_default=text("''"), comment="E场内O场外")

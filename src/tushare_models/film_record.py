@@ -18,12 +18,7 @@ class FilmRecord(Base):
     __api_name__: ClassVar[str] = "film_record"
     __api_title__: ClassVar[str] = "全国电影剧本备案数据"
     __api_info_title__: ClassVar[str] = "全国电影剧本备案数据"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "行业经济",
-        "TMT行业",
-        "全国电影剧本备案数据",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "行业经济", "TMT行业", "全国电影剧本备案数据"]
     __api_path_ids__: ClassVar[List[int]] = [2, 82, 83, 156]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -37,11 +32,7 @@ class FilmRecord(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -63,69 +54,21 @@ class FilmRecord(Base):
         },
     )
 
-    rec_no = Column(
-        "rec_no",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="备案号",
-    )
-    film_name = Column(
-        "film_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="影片名称",
-    )
-    rec_org = Column(
-        "rec_org",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="备案单位",
-    )
+    rec_no = Column("rec_no", String(), nullable=False, default="", server_default=text("''"), comment="备案号")
+    film_name = Column("film_name", String(), nullable=False, default="", server_default=text("''"), comment="影片名称")
+    rec_org = Column("rec_org", String(), nullable=False, default="", server_default=text("''"), comment="备案单位")
     script_writer = Column(
-        "script_writer",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="编剧",
+        "script_writer", String(), nullable=False, default="", server_default=text("''"), comment="编剧"
     )
     rec_result = Column(
-        "rec_result",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="备案结果",
+        "rec_result", String(), nullable=False, default="", server_default=text("''"), comment="备案结果"
     )
-    rec_area = Column(
-        "rec_area",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="备案地",
-    )
+    rec_area = Column("rec_area", String(), nullable=False, default="", server_default=text("''"), comment="备案地")
     classified = Column(
-        "classified",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="影片分类",
+        "classified", String(), nullable=False, default="", server_default=text("''"), comment="影片分类"
     )
     date_range = Column(
-        "date_range",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="备案日期",
+        "date_range", String(), nullable=False, default="", server_default=text("''"), comment="备案日期"
     )
     ann_date = Column(
         "ann_date",

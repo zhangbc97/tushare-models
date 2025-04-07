@@ -18,12 +18,7 @@ class StkNineturn(Base):
     __api_name__: ClassVar[str] = "stk_nineturn"
     __api_title__: ClassVar[str] = "神奇九转指标"
     __api_info_title__: ClassVar[str] = "神奇9转指标"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "特色数据",
-        "神奇九转指标",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "特色数据", "神奇九转指标"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 291, 364]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -35,19 +30,11 @@ class StkNineturn(Base):
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": True, "description": "股票代码"},
         "trade_date": {"type": "str", "required": False, "description": "交易日期"},
-        "freq": {
-            "type": "str",
-            "required": False,
-            "description": "频率(日daily,分钟60min)",
-        },
+        "freq": {"type": "str", "required": False, "description": "频率(日daily,分钟60min)"},
         "start_date": {"type": "str", "required": False, "description": "开始时间"},
         "end_date": {"type": "str", "required": False, "description": "结束时间"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -69,14 +56,7 @@ class StkNineturn(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -86,76 +66,19 @@ class StkNineturn(Base):
         comment="交易日期",
     )
     freq = Column(
-        "freq",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="频率(日daily,分钟60min)",
+        "freq", String(), nullable=False, default="", server_default=text("''"), comment="频率(日daily,分钟60min)"
     )
-    open = Column(
-        "open",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="开盘价",
-    )
-    high = Column(
-        "high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最高价",
-    )
-    low = Column(
-        "low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最低价",
-    )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘价",
-    )
-    vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交量",
-    )
-    amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交额",
-    )
+    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="开盘价")
+    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最高价")
+    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最低价")
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘价")
+    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交量")
+    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交额")
     up_count = Column(
-        "up_count",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="上九转计数",
+        "up_count", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="上九转计数"
     )
     down_count = Column(
-        "down_count",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="下九转计数",
+        "down_count", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="下九转计数"
     )
     nine_up_turn = Column(
         "nine_up_turn",

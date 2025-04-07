@@ -18,12 +18,7 @@ class Top10Floatholders(Base):
     __api_name__: ClassVar[str] = "top10_floatholders"
     __api_title__: ClassVar[str] = "前十大流通股东"
     __api_info_title__: ClassVar[str] = "前十大流通股东"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "参考数据",
-        "前十大流通股东",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "参考数据", "前十大流通股东"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 17, 62]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -36,11 +31,7 @@ class Top10Floatholders(Base):
         "ts_code": {"type": "str", "required": False, "description": "TS代码"},
         "period": {"type": "str", "required": False, "description": "报告期"},
         "ann_date": {"type": "str", "required": False, "description": "公告日期"},
-        "start_date": {
-            "type": "str",
-            "required": False,
-            "description": "报告期开始日期",
-        },
+        "start_date": {"type": "str", "required": False, "description": "报告期开始日期"},
         "end_date": {"type": "str", "required": False, "description": "报告期结束日期"},
         "offset": {"type": "str", "required": False, "description": ""},
         "limit": {"type": "str", "required": False, "description": ""},
@@ -66,53 +57,21 @@ class Top10Floatholders(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS股票代码")
     ann_date = Column(
-        "ann_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="公告日期",
+        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
     )
     end_date = Column(
-        "end_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="报告期",
+        "end_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="报告期"
     )
     holder_name = Column(
-        "holder_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股东名称",
+        "holder_name", String(), nullable=False, default="", server_default=text("''"), comment="股东名称"
     )
     hold_amount = Column(
-        "hold_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="持有数量",
+        "hold_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="持有数量"
     )
     hold_ratio = Column(
-        "hold_ratio",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="占总股本比例(%)",
+        "hold_ratio", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="占总股本比例(%)"
     )
     hold_float_ratio = Column(
         "hold_float_ratio",
@@ -123,18 +82,8 @@ class Top10Floatholders(Base):
         comment="占流通股本比例(%)",
     )
     hold_change = Column(
-        "hold_change",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="持股变动",
+        "hold_change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="持股变动"
     )
     holder_type = Column(
-        "holder_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股东性质",
+        "holder_type", String(), nullable=False, default="", server_default=text("''"), comment="股东性质"
     )

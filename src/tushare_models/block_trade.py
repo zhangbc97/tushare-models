@@ -18,7 +18,7 @@ class BlockTrade(Base):
     __api_name__: ClassVar[str] = "block_trade"
     __api_title__: ClassVar[str] = "大宗交易"
     __api_info_title__: ClassVar[str] = "大宗交易"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "沪深股票", "参考数据", "大宗交易"]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "参考数据", "大宗交易"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 17, 161]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -33,11 +33,7 @@ class BlockTrade(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -59,14 +55,7 @@ class BlockTrade(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -75,43 +64,8 @@ class BlockTrade(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日历",
     )
-    price = Column(
-        "price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交价",
-    )
-    vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交量(万股)",
-    )
-    amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交金额",
-    )
-    buyer = Column(
-        "buyer",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="买方营业部",
-    )
-    seller = Column(
-        "seller",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="卖房营业部",
-    )
+    price = Column("price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交价")
+    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交量(万股)")
+    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交金额")
+    buyer = Column("buyer", String(), nullable=False, default="", server_default=text("''"), comment="买方营业部")
+    seller = Column("seller", String(), nullable=False, default="", server_default=text("''"), comment="卖房营业部")

@@ -32,11 +32,7 @@ class Suspend(Base):
         "suspend_date": {"type": "str", "required": False, "description": "停牌日期"},
         "resume_date": {"type": "str", "required": False, "description": "复牌日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -58,14 +54,7 @@ class Suspend(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
     suspend_date = Column(
         "suspend_date",
         Date,
@@ -83,34 +72,14 @@ class Suspend(Base):
         comment="复牌日期",
     )
     ann_date = Column(
-        "ann_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="公告日期",
+        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
     )
     suspend_reason = Column(
-        "suspend_reason",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="停牌原因",
+        "suspend_reason", String(), nullable=False, default="", server_default=text("''"), comment="停牌原因"
     )
     reason_type = Column(
-        "reason_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="停牌原因类别",
+        "reason_type", String(), nullable=False, default="", server_default=text("''"), comment="停牌原因类别"
     )
     suspend_timing = Column(
-        "suspend_timing",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="停牌时间段",
+        "suspend_timing", String(), nullable=False, default="", server_default=text("''"), comment="停牌时间段"
     )

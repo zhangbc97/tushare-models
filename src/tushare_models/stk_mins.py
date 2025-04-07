@@ -18,7 +18,7 @@ class StkMins(Base):
     __api_name__: ClassVar[str] = "stk_mins"
     __api_title__: ClassVar[str] = "分钟行情"
     __api_info_title__: ClassVar[str] = "股票基金指数es分钟"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "沪深股票", "行情数据", "分钟行情"]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "行情数据", "分钟行情"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 15, 370]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = True
@@ -33,11 +33,7 @@ class StkMins(Base):
         "start_date": {"type": "datetime", "required": False, "description": ""},
         "end_date": {"type": "datetime", "required": False, "description": "结束时间"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -59,14 +55,7 @@ class StkMins(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
     trade_time = Column(
         "trade_time",
         DateTime,
@@ -75,75 +64,12 @@ class StkMins(Base):
         server_default=text("'1970-01-01 00:00:00'"),
         comment="交易日期",
     )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘价",
-    )
-    open = Column(
-        "open",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="开盘价",
-    )
-    high = Column(
-        "high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最高价",
-    )
-    low = Column(
-        "low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最低价",
-    )
-    vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交量",
-    )
-    amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交额",
-    )
-    freq = Column(
-        "freq",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="频率",
-    )
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所",
-    )
-    vwap = Column(
-        "vwap",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="平均价",
-    )
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘价")
+    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="开盘价")
+    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最高价")
+    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最低价")
+    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交量")
+    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交额")
+    freq = Column("freq", String(), nullable=False, default="", server_default=text("''"), comment="频率")
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易所")
+    vwap = Column("vwap", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="平均价")

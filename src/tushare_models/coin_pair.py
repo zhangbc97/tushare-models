@@ -32,11 +32,7 @@ class CoinPair(Base):
         "ts_code": {"type": "str", "required": False, "description": "交易对代码"},
         "status": {"type": "str", "required": False, "description": ""},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -58,54 +54,16 @@ class CoinPair(Base):
         },
     )
 
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所",
-    )
-    symbol = Column(
-        "symbol",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易对",
-    )
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易所")
+    symbol = Column("symbol", String(), nullable=False, default="", server_default=text("''"), comment="交易对")
     is_contract = Column(
-        "is_contract",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="是否合约",
+        "is_contract", String(), nullable=False, default="", server_default=text("''"), comment="是否合约"
     )
     status = Column(
-        "status",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="状态Y可用N不可用",
+        "status", String(), nullable=False, default="", server_default=text("''"), comment="状态Y可用N不可用"
     )
-    base_coin = Column(
-        "base_coin",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="",
-    )
-    price_coin = Column(
-        "price_coin",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="",
-    )
+    base_coin = Column("base_coin", String(), nullable=False, default="", server_default=text("''"), comment="")
+    price_coin = Column("price_coin", String(), nullable=False, default="", server_default=text("''"), comment="")
     listing = Column(
         "listing",
         DateTime,

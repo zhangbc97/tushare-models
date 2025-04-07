@@ -33,11 +33,7 @@ class CbIssue(Base):
         "start_date": {"type": "str", "required": False, "description": "公告开始日期"},
         "end_date": {"type": "str", "required": False, "description": "公告结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -59,14 +55,7 @@ class CbIssue(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="转债代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="转债代码")
     ann_date = Column(
         "ann_date",
         Date,
@@ -84,60 +73,25 @@ class CbIssue(Base):
         comment="发行结果公告日",
     )
     plan_issue_size = Column(
-        "plan_issue_size",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="计划发行总额(元)",
+        "plan_issue_size", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="计划发行总额(元)"
     )
     issue_size = Column(
-        "issue_size",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="发行总额(元)",
+        "issue_size", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="发行总额(元)"
     )
     issue_price = Column(
-        "issue_price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="发行价格",
+        "issue_price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="发行价格"
     )
     issue_type = Column(
-        "issue_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="发行方式",
+        "issue_type", String(), nullable=False, default="", server_default=text("''"), comment="发行方式"
     )
     issue_cost = Column(
-        "issue_cost",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="发行费用(元)",
+        "issue_cost", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="发行费用(元)"
     )
     onl_code = Column(
-        "onl_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="网上申购代码",
+        "onl_code", String(), nullable=False, default="", server_default=text("''"), comment="网上申购代码"
     )
     onl_name = Column(
-        "onl_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="网上申购简称",
+        "onl_name", String(), nullable=False, default="", server_default=text("''"), comment="网上申购简称"
     )
     onl_date = Column(
         "onl_date",
@@ -148,12 +102,7 @@ class CbIssue(Base):
         comment="网上发行日期",
     )
     onl_size = Column(
-        "onl_size",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="网上发行总额(元)",
+        "onl_size", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="网上发行总额(元)"
     )
     onl_pch_vol = Column(
         "onl_pch_vol",
@@ -164,12 +113,7 @@ class CbIssue(Base):
         comment="网上发行有效申购数量(张)",
     )
     onl_pch_num = Column(
-        "onl_pch_num",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="网上发行有效申购户数",
+        "onl_pch_num", Integer, nullable=False, default=0, server_default=text("'0'"), comment="网上发行有效申购户数"
     )
     onl_pch_excess = Column(
         "onl_pch_excess",
@@ -188,20 +132,10 @@ class CbIssue(Base):
         comment="网上发行中签率(%)",
     )
     shd_ration_code = Column(
-        "shd_ration_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="老股东配售代码",
+        "shd_ration_code", String(), nullable=False, default="", server_default=text("''"), comment="老股东配售代码"
     )
     shd_ration_name = Column(
-        "shd_ration_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="老股东配售简称",
+        "shd_ration_name", String(), nullable=False, default="", server_default=text("''"), comment="老股东配售简称"
     )
     shd_ration_date = Column(
         "shd_ration_date",
@@ -228,20 +162,10 @@ class CbIssue(Base):
         comment="老股东配售缴款日",
     )
     shd_ration_price = Column(
-        "shd_ration_price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="老股东配售价格",
+        "shd_ration_price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="老股东配售价格"
     )
     shd_ration_ratio = Column(
-        "shd_ration_ratio",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="老股东配售比例",
+        "shd_ration_ratio", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="老股东配售比例"
     )
     shd_ration_size = Column(
         "shd_ration_size",
@@ -276,20 +200,10 @@ class CbIssue(Base):
         comment="老股东配售超额认购倍数",
     )
     offl_size = Column(
-        "offl_size",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="网下发行总额(元)",
+        "offl_size", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="网下发行总额(元)"
     )
     offl_deposit = Column(
-        "offl_deposit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="网下发行定金比例(%)",
+        "offl_deposit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="网下发行定金比例(%)"
     )
     offl_pch_vol = Column(
         "offl_pch_vol",
@@ -300,12 +214,7 @@ class CbIssue(Base):
         comment="网下发行有效申购数量(张)",
     )
     offl_pch_num = Column(
-        "offl_pch_num",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="网下发行有效申购户数",
+        "offl_pch_num", Integer, nullable=False, default=0, server_default=text("'0'"), comment="网下发行有效申购户数"
     )
     offl_pch_excess = Column(
         "offl_pch_excess",
@@ -316,20 +225,10 @@ class CbIssue(Base):
         comment="网下发行超额认购倍数",
     )
     offl_winning_rate = Column(
-        "offl_winning_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="网下发行中签率",
+        "offl_winning_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="网下发行中签率"
     )
     lead_underwriter = Column(
-        "lead_underwriter",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="主承销商",
+        "lead_underwriter", String(), nullable=False, default="", server_default=text("''"), comment="主承销商"
     )
     lead_underwriter_vol = Column(
         "lead_underwriter_vol",

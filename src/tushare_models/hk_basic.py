@@ -29,17 +29,9 @@ class HkBasic(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": False, "description": "TS代码"},
-        "list_status": {
-            "type": "str",
-            "required": False,
-            "description": "上市状态 L上市 D退市 P暂停上市",
-        },
+        "list_status": {"type": "str", "required": False, "description": "上市状态 L上市 D退市 P暂停上市"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -61,69 +53,17 @@ class HkBasic(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票简称",
-    )
-    fullname = Column(
-        "fullname",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="公司全称",
-    )
-    enname = Column(
-        "enname",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="英文名称",
-    )
-    cn_spell = Column(
-        "cn_spell",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="拼音",
-    )
-    market = Column(
-        "market",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="市场类别",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票简称")
+    fullname = Column("fullname", String(), nullable=False, default="", server_default=text("''"), comment="公司全称")
+    enname = Column("enname", String(), nullable=False, default="", server_default=text("''"), comment="英文名称")
+    cn_spell = Column("cn_spell", String(), nullable=False, default="", server_default=text("''"), comment="拼音")
+    market = Column("market", String(), nullable=False, default="", server_default=text("''"), comment="市场类别")
     list_status = Column(
-        "list_status",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="上市状态",
+        "list_status", String(), nullable=False, default="", server_default=text("''"), comment="上市状态"
     )
     list_date = Column(
-        "list_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="上市日期",
+        "list_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="上市日期"
     )
     delist_date = Column(
         "delist_date",
@@ -134,26 +74,7 @@ class HkBasic(Base):
         comment="退市日期",
     )
     trade_unit = Column(
-        "trade_unit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="交易单位",
+        "trade_unit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="交易单位"
     )
-    isin = Column(
-        "isin",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="ISIN代码",
-    )
-    curr_type = Column(
-        "curr_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="货币代码",
-    )
+    isin = Column("isin", String(), nullable=False, default="", server_default=text("''"), comment="ISIN代码")
+    curr_type = Column("curr_type", String(), nullable=False, default="", server_default=text("''"), comment="货币代码")

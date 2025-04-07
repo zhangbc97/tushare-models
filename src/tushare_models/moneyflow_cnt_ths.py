@@ -10,22 +10,22 @@ from sqlalchemy import Column, PrimaryKeyConstraint, text
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
 
 
-class MoneyflowIndThs(Base):
-    """行业资金流向(THS)"""
+class MoneyflowCntThs(Base):
+    """板块资金流向(THS)"""
 
-    __tablename__: str = "moneyflow_ind_ths"
-    __api_id__: ClassVar[int] = 343
-    __api_name__: ClassVar[str] = "moneyflow_ind_ths"
-    __api_title__: ClassVar[str] = "行业资金流向(THS)"
-    __api_info_title__: ClassVar[str] = "行业资金流向(THS)"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "资金流向数据", "行业资金流向（THS）"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 14, 342, 343]
+    __tablename__: str = "moneyflow_cnt_ths"
+    __api_id__: ClassVar[int] = 371
+    __api_name__: ClassVar[str] = "moneyflow_cnt_ths"
+    __api_title__: ClassVar[str] = "板块资金流向(THS)"
+    __api_info_title__: ClassVar[str] = "板块资金流向(THS)"
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "资金流向数据", "板块资金流向（THS)"]
+    __api_path_ids__: ClassVar[List[int]] = [2, 14, 342, 371]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
-    __dependencies__: ClassVar[List[str]] = ["stock_basic", "trade_cal"]
+    __dependencies__: ClassVar[List[str]] = []
     __primary_key__: ClassVar[List[str]] = ["ts_code", "trade_date"]
-    __start_date__: ClassVar[str | None] = "2024-09-10"
+    __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": False, "description": "代码"},
@@ -42,7 +42,7 @@ class MoneyflowIndThs(Base):
         # ClickHouse引擎
         engines.ReplacingMergeTree(order_by=__primary_key__),
         {
-            "comment": "行业资金流向(THS)",
+            "comment": "板块资金流向(THS)",
             # MySQL引擎
             "mysql_engine": "InnoDB",
             # StarRocks引擎
@@ -64,13 +64,18 @@ class MoneyflowIndThs(Base):
         comment="交易日期",
     )
     ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="板块代码")
-    industry = Column("industry", String(), nullable=False, default="", server_default=text("''"), comment="板块名称")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="板块名称")
     lead_stock = Column(
         "lead_stock", String(), nullable=False, default="", server_default=text("''"), comment="领涨股票名称"
     )
-    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘指数")
+    close_price = Column(
+        "close_price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最新价"
+    )
     pct_change = Column(
-        "pct_change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数涨跌幅"
+        "pct_change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="行业涨跌幅"
+    )
+    industry_index = Column(
+        "industry_index", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="行业指数"
     )
     company_num = Column(
         "company_num", Integer, nullable=False, default=0, server_default=text("'0'"), comment="公司数量"
@@ -78,14 +83,11 @@ class MoneyflowIndThs(Base):
     pct_change_stock = Column(
         "pct_change_stock", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="领涨股涨跌幅"
     )
-    close_price = Column(
-        "close_price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="领涨股最新价"
-    )
     net_buy_amount = Column(
         "net_buy_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流入资金(元)"
     )
     net_sell_amount = Column(
-        "net_sell_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流出资金(元)"
+        "net_sell_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流出资金(元)	"
     )
     net_amount = Column(
         "net_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="净额(元)"

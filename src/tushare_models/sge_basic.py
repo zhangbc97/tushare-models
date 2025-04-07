@@ -30,11 +30,7 @@ class SgeBasic(Base):
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": False, "description": "合约代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -56,115 +52,39 @@ class SgeBasic(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="品种代码",
-    )
-    ts_name = Column(
-        "ts_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="品种名称",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="品种代码")
+    ts_name = Column("ts_name", String(), nullable=False, default="", server_default=text("''"), comment="品种名称")
     trade_type = Column(
-        "trade_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易类型",
+        "trade_type", String(), nullable=False, default="", server_default=text("''"), comment="交易类型"
     )
     t_unit = Column(
-        "t_unit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="交易单位(克/手)",
+        "t_unit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="交易单位(克/手)"
     )
-    p_unit = Column(
-        "p_unit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="报价单位",
-    )
+    p_unit = Column("p_unit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="报价单位")
     min_change = Column(
-        "min_change",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最小变动价位",
+        "min_change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最小变动价位"
     )
     price_limit = Column(
-        "price_limit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="每日价格最大波动限制",
+        "price_limit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="每日价格最大波动限制"
     )
     min_vol = Column(
-        "min_vol",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="最小单笔报价量(手)",
+        "min_vol", Integer, nullable=False, default=0, server_default=text("'0'"), comment="最小单笔报价量(手)"
     )
     max_vol = Column(
-        "max_vol",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="最大单笔报价量(手)",
+        "max_vol", Integer, nullable=False, default=0, server_default=text("'0'"), comment="最大单笔报价量(手)"
     )
     trade_mode = Column(
-        "trade_mode",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易期限",
+        "trade_mode", String(), nullable=False, default="", server_default=text("''"), comment="交易期限"
     )
     margin_rate = Column(
-        "margin_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="保证金比例",
+        "margin_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="保证金比例"
     )
     liq_rate = Column(
-        "liq_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="违约金比例(%)",
+        "liq_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="违约金比例(%)"
     )
     trade_time = Column(
-        "trade_time",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易时间",
+        "trade_time", String(), nullable=False, default="", server_default=text("''"), comment="交易时间"
     )
     list_date = Column(
-        "list_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="上市日期	",
+        "list_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="上市日期	"
     )

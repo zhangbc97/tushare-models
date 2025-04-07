@@ -30,11 +30,7 @@ class FundCompany(Base):
     __api_params__: ClassVar[Dict[str, Any]] = {
         "setup_date": {"type": "str", "required": False, "description": "成立日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -56,101 +52,21 @@ class FundCompany(Base):
         },
     )
 
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="公司名称",
-    )
-    shortname = Column(
-        "shortname",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="简称",
-    )
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="公司名称")
+    shortname = Column("shortname", String(), nullable=False, default="", server_default=text("''"), comment="简称")
     short_enname = Column(
-        "short_enname",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="英文缩写",
+        "short_enname", String(), nullable=False, default="", server_default=text("''"), comment="英文缩写"
     )
-    province = Column(
-        "province",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="省份",
-    )
-    city = Column(
-        "city",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="城市",
-    )
-    address = Column(
-        "address",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="注册地址",
-    )
-    phone = Column(
-        "phone",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="电话",
-    )
-    office = Column(
-        "office",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="办公地址",
-    )
-    website = Column(
-        "website",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="公司网址",
-    )
-    chairman = Column(
-        "chairman",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="法人代表",
-    )
-    manager = Column(
-        "manager",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="总经理",
-    )
+    province = Column("province", String(), nullable=False, default="", server_default=text("''"), comment="省份")
+    city = Column("city", String(), nullable=False, default="", server_default=text("''"), comment="城市")
+    address = Column("address", String(), nullable=False, default="", server_default=text("''"), comment="注册地址")
+    phone = Column("phone", String(), nullable=False, default="", server_default=text("''"), comment="电话")
+    office = Column("office", String(), nullable=False, default="", server_default=text("''"), comment="办公地址")
+    website = Column("website", String(), nullable=False, default="", server_default=text("''"), comment="公司网址")
+    chairman = Column("chairman", String(), nullable=False, default="", server_default=text("''"), comment="法人代表")
+    manager = Column("manager", String(), nullable=False, default="", server_default=text("''"), comment="总经理")
     reg_capital = Column(
-        "reg_capital",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="注册资本",
+        "reg_capital", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="注册资本"
     )
     setup_date = Column(
         "setup_date",
@@ -169,34 +85,14 @@ class FundCompany(Base):
         comment="公司终止日期",
     )
     employees = Column(
-        "employees",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="员工总数",
+        "employees", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="员工总数"
     )
     main_business = Column(
-        "main_business",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="主要产品及业务",
+        "main_business", String(), nullable=False, default="", server_default=text("''"), comment="主要产品及业务"
     )
     org_code = Column(
-        "org_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="组织机构代码",
+        "org_code", String(), nullable=False, default="", server_default=text("''"), comment="组织机构代码"
     )
     credit_code = Column(
-        "credit_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="统一社会信用代码",
+        "credit_code", String(), nullable=False, default="", server_default=text("''"), comment="统一社会信用代码"
     )

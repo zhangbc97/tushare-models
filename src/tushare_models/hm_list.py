@@ -18,12 +18,7 @@ class HmList(Base):
     __api_name__: ClassVar[str] = "hm_list"
     __api_title__: ClassVar[str] = "市场游资最全名录"
     __api_info_title__: ClassVar[str] = "游资名录"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "打板专题数据",
-        "市场游资最全名录",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据", "市场游资最全名录"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 346, 311]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -35,11 +30,7 @@ class HmList(Base):
     __api_params__: ClassVar[Dict[str, Any]] = {
         "name": {"type": "str", "required": False, "description": "游资名称"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -61,27 +52,6 @@ class HmList(Base):
         },
     )
 
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="",
-    )
-    desc = Column(
-        "desc",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="描述",
-    )
-    orgs = Column(
-        "orgs",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="关联机构",
-    )
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="")
+    desc = Column("desc", String(), nullable=False, default="", server_default=text("''"), comment="描述")
+    orgs = Column("orgs", String(), nullable=False, default="", server_default=text("''"), comment="关联机构")

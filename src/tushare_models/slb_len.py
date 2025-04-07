@@ -18,12 +18,7 @@ class SlbLen(Base):
     __api_name__: ClassVar[str] = "slb_len"
     __api_title__: ClassVar[str] = "转融资交易汇总"
     __api_info_title__: ClassVar[str] = "转融资交易汇总"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "两融及转融通",
-        "转融资交易汇总",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "两融及转融通", "转融资交易汇总"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 330, 331]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -33,19 +28,11 @@ class SlbLen(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "trade_date": {
-            "type": "str",
-            "required": False,
-            "description": "交易日期（YYYYMMDD格式，下同）",
-        },
+        "trade_date": {"type": "str", "required": False, "description": "交易日期（YYYYMMDD格式，下同）"},
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "开始日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -75,43 +62,14 @@ class SlbLen(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期(YYYYMMDD)",
     )
-    ob = Column(
-        "ob",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="期初余额(亿元)",
-    )
+    ob = Column("ob", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="期初余额(亿元)")
     auc_amount = Column(
-        "auc_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="竞价成交金额(亿元)",
+        "auc_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="竞价成交金额(亿元)"
     )
     repo_amount = Column(
-        "repo_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="再借成交金额(亿元)",
+        "repo_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="再借成交金额(亿元)"
     )
     repay_amount = Column(
-        "repay_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="偿还金额(亿元)",
+        "repay_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="偿还金额(亿元)"
     )
-    cb = Column(
-        "cb",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="期末余额(亿元)",
-    )
+    cb = Column("cb", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="期末余额(亿元)")

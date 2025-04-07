@@ -18,12 +18,7 @@ class StkFactorPro(Base):
     __api_name__: ClassVar[str] = "stk_factor_pro"
     __api_title__: ClassVar[str] = "股票技术面因子(专业版)"
     __api_info_title__: ClassVar[str] = "股票技术因子(专业版)"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "特色数据",
-        "股票技术面因子(专业版）",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "特色数据", "股票技术面因子(专业版）"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 291, 328]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -38,11 +33,7 @@ class StkFactorPro(Base):
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "trade_date": {"type": "str", "required": False, "description": "交易日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -64,14 +55,7 @@ class StkFactorPro(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -80,118 +64,22 @@ class StkFactorPro(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    open = Column(
-        "open",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="开盘价",
-    )
-    open_hfq = Column(
-        "open_hfq",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="开盘价",
-    )
-    open_qfq = Column(
-        "open_qfq",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="开盘价",
-    )
-    high = Column(
-        "high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最高价",
-    )
-    high_hfq = Column(
-        "high_hfq",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最高价",
-    )
-    high_qfq = Column(
-        "high_qfq",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最高价",
-    )
-    low = Column(
-        "low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最低价",
-    )
-    low_hfq = Column(
-        "low_hfq",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最低价",
-    )
-    low_qfq = Column(
-        "low_qfq",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最低价",
-    )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘价",
-    )
-    close_hfq = Column(
-        "close_hfq",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘价",
-    )
-    close_qfq = Column(
-        "close_qfq",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘价",
-    )
+    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="开盘价")
+    open_hfq = Column("open_hfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="开盘价")
+    open_qfq = Column("open_qfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="开盘价")
+    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最高价")
+    high_hfq = Column("high_hfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最高价")
+    high_qfq = Column("high_qfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最高价")
+    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最低价")
+    low_hfq = Column("low_hfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最低价")
+    low_qfq = Column("low_qfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最低价")
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘价")
+    close_hfq = Column("close_hfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘价")
+    close_qfq = Column("close_qfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘价")
     pre_close = Column(
-        "pre_close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="昨收价(前复权)",
+        "pre_close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="昨收价(前复权)"
     )
-    change = Column(
-        "change",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨跌额",
-    )
+    change = Column("change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌额")
     pct_chg = Column(
         "pct_chg",
         Float,
@@ -200,29 +88,10 @@ class StkFactorPro(Base):
         server_default=text("'0.0'"),
         comment="涨跌幅 (未复权，如果是复权请用 通用行情接口 )",
     )
-    vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交量 (手)",
-    )
-    amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交额 (千元)",
-    )
+    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交量 (手)")
+    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交额 (千元)")
     turnover_rate = Column(
-        "turnover_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="换手率(%)",
+        "turnover_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="换手率(%)"
     )
     turnover_rate_f = Column(
         "turnover_rate_f",
@@ -233,12 +102,7 @@ class StkFactorPro(Base):
         comment="换手率(自由流通股)",
     )
     volume_ratio = Column(
-        "volume_ratio",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="量比",
+        "volume_ratio", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="量比"
     )
     pe = Column(
         "pe",
@@ -249,100 +113,34 @@ class StkFactorPro(Base):
         comment="市盈率(总市值/净利润， 亏损的PE为空)",
     )
     pe_ttm = Column(
-        "pe_ttm",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="市盈率(TTM，亏损的PE为空)",
+        "pe_ttm", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="市盈率(TTM，亏损的PE为空)"
     )
-    pb = Column(
-        "pb",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="市净率(总市值/净资产)",
-    )
-    ps = Column(
-        "ps",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="市销率",
-    )
-    ps_ttm = Column(
-        "ps_ttm",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="市销率(TTM)",
-    )
+    pb = Column("pb", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="市净率(总市值/净资产)")
+    ps = Column("ps", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="市销率")
+    ps_ttm = Column("ps_ttm", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="市销率(TTM)")
     dv_ratio = Column(
-        "dv_ratio",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="股息率 (%)",
+        "dv_ratio", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="股息率 (%)"
     )
     dv_ttm = Column(
-        "dv_ttm",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="股息率(TTM)(%)",
+        "dv_ttm", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="股息率(TTM)(%)"
     )
     total_share = Column(
-        "total_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="总股本 (万股)",
+        "total_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="总股本 (万股)"
     )
     float_share = Column(
-        "float_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="流通股本 (万股)",
+        "float_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流通股本 (万股)"
     )
     free_share = Column(
-        "free_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="自由流通股本 (万)",
+        "free_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="自由流通股本 (万)"
     )
     total_mv = Column(
-        "total_mv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="总市值 (万元)",
+        "total_mv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="总市值 (万元)"
     )
     circ_mv = Column(
-        "circ_mv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="流通市值(万元)",
+        "circ_mv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流通市值(万元)"
     )
     adj_factor = Column(
-        "adj_factor",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="复权因子",
+        "adj_factor", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="复权因子"
     )
     asi_bfq = Column(
         "asi_bfq",
@@ -824,22 +622,8 @@ class StkFactorPro(Base):
         server_default=text("'0.0'"),
         comment=" 动向指标-CLOSE, HIGH, LOW, M1=14, M2=6",
     )
-    downdays = Column(
-        "downdays",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="连跌天数",
-    )
-    updays = Column(
-        "updays",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="连涨天数",
-    )
+    downdays = Column("downdays", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="连跌天数")
+    updays = Column("updays", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="连涨天数")
     dpo_bfq = Column(
         "dpo_bfq",
         Float,
@@ -889,172 +673,67 @@ class StkFactorPro(Base):
         comment="区间震荡线-CLOSE, M1=20, M2=10, M3=6",
     )
     ema_bfq_10 = Column(
-        "ema_bfq_10",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=10",
+        "ema_bfq_10", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=10"
     )
     ema_bfq_20 = Column(
-        "ema_bfq_20",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=20",
+        "ema_bfq_20", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=20"
     )
     ema_bfq_250 = Column(
-        "ema_bfq_250",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=250",
+        "ema_bfq_250", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=250"
     )
     ema_bfq_30 = Column(
-        "ema_bfq_30",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=30",
+        "ema_bfq_30", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=30"
     )
     ema_bfq_5 = Column(
-        "ema_bfq_5",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=5",
+        "ema_bfq_5", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=5"
     )
     ema_bfq_60 = Column(
-        "ema_bfq_60",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=60",
+        "ema_bfq_60", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=60"
     )
     ema_bfq_90 = Column(
-        "ema_bfq_90",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=90",
+        "ema_bfq_90", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=90"
     )
     ema_hfq_10 = Column(
-        "ema_hfq_10",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=10",
+        "ema_hfq_10", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=10"
     )
     ema_hfq_20 = Column(
-        "ema_hfq_20",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=20",
+        "ema_hfq_20", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=20"
     )
     ema_hfq_250 = Column(
-        "ema_hfq_250",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=250",
+        "ema_hfq_250", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=250"
     )
     ema_hfq_30 = Column(
-        "ema_hfq_30",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=30",
+        "ema_hfq_30", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=30"
     )
     ema_hfq_5 = Column(
-        "ema_hfq_5",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=5",
+        "ema_hfq_5", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=5"
     )
     ema_hfq_60 = Column(
-        "ema_hfq_60",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=60",
+        "ema_hfq_60", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=60"
     )
     ema_hfq_90 = Column(
-        "ema_hfq_90",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=90",
+        "ema_hfq_90", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=90"
     )
     ema_qfq_10 = Column(
-        "ema_qfq_10",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=10",
+        "ema_qfq_10", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=10"
     )
     ema_qfq_20 = Column(
-        "ema_qfq_20",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=20",
+        "ema_qfq_20", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=20"
     )
     ema_qfq_250 = Column(
-        "ema_qfq_250",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=250",
+        "ema_qfq_250", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=250"
     )
     ema_qfq_30 = Column(
-        "ema_qfq_30",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=30",
+        "ema_qfq_30", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=30"
     )
     ema_qfq_5 = Column(
-        "ema_qfq_5",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=5",
+        "ema_qfq_5", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=5"
     )
     ema_qfq_60 = Column(
-        "ema_qfq_60",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=60",
+        "ema_qfq_60", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=60"
     )
     ema_qfq_90 = Column(
-        "ema_qfq_90",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=90",
+        "ema_qfq_90", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=90"
     )
     emv_bfq = Column(
         "emv_bfq",
@@ -1313,172 +992,67 @@ class StkFactorPro(Base):
         comment="TOPRANGE(HIGH)表示当前最高价是近多少周期内最高价的最大值",
     )
     ma_bfq_10 = Column(
-        "ma_bfq_10",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=10",
+        "ma_bfq_10", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=10"
     )
     ma_bfq_20 = Column(
-        "ma_bfq_20",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=20",
+        "ma_bfq_20", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=20"
     )
     ma_bfq_250 = Column(
-        "ma_bfq_250",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=250",
+        "ma_bfq_250", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=250"
     )
     ma_bfq_30 = Column(
-        "ma_bfq_30",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=30",
+        "ma_bfq_30", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=30"
     )
     ma_bfq_5 = Column(
-        "ma_bfq_5",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=5",
+        "ma_bfq_5", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=5"
     )
     ma_bfq_60 = Column(
-        "ma_bfq_60",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=60",
+        "ma_bfq_60", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=60"
     )
     ma_bfq_90 = Column(
-        "ma_bfq_90",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=90",
+        "ma_bfq_90", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=90"
     )
     ma_hfq_10 = Column(
-        "ma_hfq_10",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=10",
+        "ma_hfq_10", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=10"
     )
     ma_hfq_20 = Column(
-        "ma_hfq_20",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=20",
+        "ma_hfq_20", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=20"
     )
     ma_hfq_250 = Column(
-        "ma_hfq_250",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=250",
+        "ma_hfq_250", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=250"
     )
     ma_hfq_30 = Column(
-        "ma_hfq_30",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=30",
+        "ma_hfq_30", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=30"
     )
     ma_hfq_5 = Column(
-        "ma_hfq_5",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=5",
+        "ma_hfq_5", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=5"
     )
     ma_hfq_60 = Column(
-        "ma_hfq_60",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=60",
+        "ma_hfq_60", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=60"
     )
     ma_hfq_90 = Column(
-        "ma_hfq_90",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=90",
+        "ma_hfq_90", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=90"
     )
     ma_qfq_10 = Column(
-        "ma_qfq_10",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=10",
+        "ma_qfq_10", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=10"
     )
     ma_qfq_20 = Column(
-        "ma_qfq_20",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=20",
+        "ma_qfq_20", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=20"
     )
     ma_qfq_250 = Column(
-        "ma_qfq_250",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=250",
+        "ma_qfq_250", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=250"
     )
     ma_qfq_30 = Column(
-        "ma_qfq_30",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=30",
+        "ma_qfq_30", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=30"
     )
     ma_qfq_5 = Column(
-        "ma_qfq_5",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=5",
+        "ma_qfq_5", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=5"
     )
     ma_qfq_60 = Column(
-        "ma_qfq_60",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=60",
+        "ma_qfq_60", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=60"
     )
     ma_qfq_90 = Column(
-        "ma_qfq_90",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=90",
+        "ma_qfq_90", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=90"
     )
     macd_bfq = Column(
         "macd_bfq",
@@ -1625,28 +1199,13 @@ class StkFactorPro(Base):
         comment="MFI指标是成交量的RSI指标-CLOSE, HIGH, LOW, VOL, N=14",
     )
     mtm_bfq = Column(
-        "mtm_bfq",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="动量指标-CLOSE, N=12, M=6",
+        "mtm_bfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="动量指标-CLOSE, N=12, M=6"
     )
     mtm_hfq = Column(
-        "mtm_hfq",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="动量指标-CLOSE, N=12, M=6",
+        "mtm_hfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="动量指标-CLOSE, N=12, M=6"
     )
     mtm_qfq = Column(
-        "mtm_qfq",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="动量指标-CLOSE, N=12, M=6",
+        "mtm_qfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="动量指标-CLOSE, N=12, M=6"
     )
     mtmma_bfq = Column(
         "mtmma_bfq",
@@ -1673,28 +1232,13 @@ class StkFactorPro(Base):
         comment="动量指标-CLOSE, N=12, M=6",
     )
     obv_bfq = Column(
-        "obv_bfq",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="能量潮指标-CLOSE, VOL",
+        "obv_bfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="能量潮指标-CLOSE, VOL"
     )
     obv_hfq = Column(
-        "obv_hfq",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="能量潮指标-CLOSE, VOL",
+        "obv_hfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="能量潮指标-CLOSE, VOL"
     )
     obv_qfq = Column(
-        "obv_qfq",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="能量潮指标-CLOSE, VOL",
+        "obv_qfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="能量潮指标-CLOSE, VOL"
     )
     psy_bfq = Column(
         "psy_bfq",
@@ -1793,76 +1337,31 @@ class StkFactorPro(Base):
         comment="变动率指标-CLOSE, N=12, M=6",
     )
     rsi_bfq_12 = Column(
-        "rsi_bfq_12",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="RSI指标-CLOSE, N=12",
+        "rsi_bfq_12", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="RSI指标-CLOSE, N=12"
     )
     rsi_bfq_24 = Column(
-        "rsi_bfq_24",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="RSI指标-CLOSE, N=24",
+        "rsi_bfq_24", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="RSI指标-CLOSE, N=24"
     )
     rsi_bfq_6 = Column(
-        "rsi_bfq_6",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="RSI指标-CLOSE, N=6",
+        "rsi_bfq_6", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="RSI指标-CLOSE, N=6"
     )
     rsi_hfq_12 = Column(
-        "rsi_hfq_12",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="RSI指标-CLOSE, N=12",
+        "rsi_hfq_12", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="RSI指标-CLOSE, N=12"
     )
     rsi_hfq_24 = Column(
-        "rsi_hfq_24",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="RSI指标-CLOSE, N=24",
+        "rsi_hfq_24", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="RSI指标-CLOSE, N=24"
     )
     rsi_hfq_6 = Column(
-        "rsi_hfq_6",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="RSI指标-CLOSE, N=6",
+        "rsi_hfq_6", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="RSI指标-CLOSE, N=6"
     )
     rsi_qfq_12 = Column(
-        "rsi_qfq_12",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="RSI指标-CLOSE, N=12",
+        "rsi_qfq_12", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="RSI指标-CLOSE, N=12"
     )
     rsi_qfq_24 = Column(
-        "rsi_qfq_24",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="RSI指标-CLOSE, N=24",
+        "rsi_qfq_24", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="RSI指标-CLOSE, N=24"
     )
     rsi_qfq_6 = Column(
-        "rsi_qfq_6",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="RSI指标-CLOSE, N=6",
+        "rsi_qfq_6", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="RSI指标-CLOSE, N=6"
     )
     taq_down_bfq = Column(
         "taq_down_bfq",

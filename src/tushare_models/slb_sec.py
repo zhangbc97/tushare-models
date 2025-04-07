@@ -18,12 +18,7 @@ class SlbSec(Base):
     __api_name__: ClassVar[str] = "slb_sec"
     __api_title__: ClassVar[str] = "转融券交易汇总"
     __api_info_title__: ClassVar[str] = "转融券交易汇总"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "两融及转融通",
-        "转融券交易汇总",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "两融及转融通", "转融券交易汇总"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 330, 332]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -33,20 +28,12 @@ class SlbSec(Base):
     __start_date__: ClassVar[str | None] = "2013-02-28"
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "trade_date": {
-            "type": "str",
-            "required": False,
-            "description": "交易日期（YYYYMMDD格式，下同）",
-        },
+        "trade_date": {"type": "str", "required": False, "description": "交易日期（YYYYMMDD格式，下同）"},
         "ts_code": {"type": "str", "required": False, "description": "股票代码"},
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "开始日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -76,51 +63,17 @@ class SlbSec(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期(YYYYMMDD)",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票名称",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
     ope_inv = Column(
-        "ope_inv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="期初余量(万股)",
+        "ope_inv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="期初余量(万股)"
     )
     lent_qnt = Column(
-        "lent_qnt",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="转融券融出数量(万股)",
+        "lent_qnt", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="转融券融出数量(万股)"
     )
     cls_inv = Column(
-        "cls_inv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="期末余量(万股)",
+        "cls_inv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="期末余量(万股)"
     )
     end_bal = Column(
-        "end_bal",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="期末余额(万元)",
+        "end_bal", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="期末余额(万元)"
     )

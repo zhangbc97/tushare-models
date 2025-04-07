@@ -18,12 +18,7 @@ class Balancesheet(Base):
     __api_name__: ClassVar[str] = "balancesheet"
     __api_title__: ClassVar[str] = "资产负债表"
     __api_info_title__: ClassVar[str] = "资产负债表"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "财务数据",
-        "资产负债表",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "财务数据", "资产负债表"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 16, 36]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -41,27 +36,15 @@ class Balancesheet(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": True, "description": "股票代码"},
-        "ann_date": {
-            "type": "str",
-            "required": False,
-            "description": "公告日期（格式：YYYYMMDD，下同）",
-        },
+        "ann_date": {"type": "str", "required": False, "description": "公告日期（格式：YYYYMMDD，下同）"},
         "f_ann_date": {"type": "str", "required": False, "description": "实际公告日期"},
-        "start_date": {
-            "type": "str",
-            "required": False,
-            "description": "报告期开始日期",
-        },
+        "start_date": {"type": "str", "required": False, "description": "报告期开始日期"},
         "end_date": {"type": "str", "required": False, "description": "报告期结束日期"},
         "period": {"type": "str", "required": False, "description": "报告期"},
         "report_type": {"type": "str", "required": False, "description": "报告类型"},
         "comp_type": {"type": "str", "required": False, "description": "公司类型"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -83,21 +66,9 @@ class Balancesheet(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS股票代码")
     ann_date = Column(
-        "ann_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="公告日期",
+        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
     )
     f_ann_date = Column(
         "f_ann_date",
@@ -108,20 +79,10 @@ class Balancesheet(Base):
         comment="实际公告日期",
     )
     end_date = Column(
-        "end_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="报告期",
+        "end_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="报告期"
     )
     report_type = Column(
-        "report_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="报表类型",
+        "report_type", String(), nullable=False, default="", server_default=text("''"), comment="报表类型"
     )
     comp_type = Column(
         "comp_type",
@@ -131,133 +92,51 @@ class Balancesheet(Base):
         server_default=text("''"),
         comment="公司类型(1一般工商业2银行3保险4证券)",
     )
-    end_type = Column(
-        "end_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="报告期类型",
-    )
+    end_type = Column("end_type", String(), nullable=False, default="", server_default=text("''"), comment="报告期类型")
     total_share = Column(
-        "total_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="期末总股本",
+        "total_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="期末总股本"
     )
     cap_rese = Column(
-        "cap_rese",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="资本公积金",
+        "cap_rese", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="资本公积金"
     )
     undistr_porfit = Column(
-        "undistr_porfit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="未分配利润",
+        "undistr_porfit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="未分配利润"
     )
     surplus_rese = Column(
-        "surplus_rese",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="盈余公积金",
+        "surplus_rese", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="盈余公积金"
     )
     special_rese = Column(
-        "special_rese",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="专项储备",
+        "special_rese", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="专项储备"
     )
     money_cap = Column(
-        "money_cap",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="货币资金",
+        "money_cap", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="货币资金"
     )
     trad_asset = Column(
-        "trad_asset",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="交易性金融资产",
+        "trad_asset", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="交易性金融资产"
     )
     notes_receiv = Column(
-        "notes_receiv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应收票据",
+        "notes_receiv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应收票据"
     )
     accounts_receiv = Column(
-        "accounts_receiv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应收账款",
+        "accounts_receiv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应收账款"
     )
     oth_receiv = Column(
-        "oth_receiv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他应收款",
+        "oth_receiv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他应收款"
     )
     prepayment = Column(
-        "prepayment",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="预付款项",
+        "prepayment", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="预付款项"
     )
     div_receiv = Column(
-        "div_receiv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应收股利",
+        "div_receiv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应收股利"
     )
     int_receiv = Column(
-        "int_receiv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应收利息",
+        "int_receiv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应收利息"
     )
     inventories = Column(
-        "inventories",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="存货",
+        "inventories", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="存货"
     )
     amor_exp = Column(
-        "amor_exp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="长期待摊费用",
+        "amor_exp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="长期待摊费用"
     )
     nca_within_1y = Column(
         "nca_within_1y",
@@ -268,36 +147,16 @@ class Balancesheet(Base):
         comment="一年内到期的非流动资产",
     )
     sett_rsrv = Column(
-        "sett_rsrv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="结算备付金",
+        "sett_rsrv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="结算备付金"
     )
     loanto_oth_bank_fi = Column(
-        "loanto_oth_bank_fi",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="拆出资金",
+        "loanto_oth_bank_fi", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="拆出资金"
     )
     premium_receiv = Column(
-        "premium_receiv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应收保费",
+        "premium_receiv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应收保费"
     )
     reinsur_receiv = Column(
-        "reinsur_receiv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应收分保账款",
+        "reinsur_receiv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应收分保账款"
     )
     reinsur_res_receiv = Column(
         "reinsur_res_receiv",
@@ -308,28 +167,13 @@ class Balancesheet(Base):
         comment="应收分保合同准备金",
     )
     pur_resale_fa = Column(
-        "pur_resale_fa",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="买入返售金融资产",
+        "pur_resale_fa", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="买入返售金融资产"
     )
     oth_cur_assets = Column(
-        "oth_cur_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他流动资产",
+        "oth_cur_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他流动资产"
     )
     total_cur_assets = Column(
-        "total_cur_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="流动资产合计",
+        "total_cur_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流动资产合计"
     )
     fa_avail_for_sale = Column(
         "fa_avail_for_sale",
@@ -340,164 +184,56 @@ class Balancesheet(Base):
         comment="可供出售金融资产",
     )
     htm_invest = Column(
-        "htm_invest",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="持有至到期投资",
+        "htm_invest", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="持有至到期投资"
     )
     lt_eqt_invest = Column(
-        "lt_eqt_invest",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="长期股权投资",
+        "lt_eqt_invest", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="长期股权投资"
     )
     invest_real_estate = Column(
-        "invest_real_estate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="投资性房地产",
+        "invest_real_estate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="投资性房地产"
     )
     time_deposits = Column(
-        "time_deposits",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="定期存款",
+        "time_deposits", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="定期存款"
     )
     oth_assets = Column(
-        "oth_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他资产",
+        "oth_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他资产"
     )
-    lt_rec = Column(
-        "lt_rec",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="长期应收款",
-    )
+    lt_rec = Column("lt_rec", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="长期应收款")
     fix_assets = Column(
-        "fix_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="固定资产",
+        "fix_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="固定资产"
     )
-    cip = Column(
-        "cip",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="在建工程",
-    )
+    cip = Column("cip", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="在建工程")
     const_materials = Column(
-        "const_materials",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="工程物资",
+        "const_materials", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="工程物资"
     )
     fixed_assets_disp = Column(
-        "fixed_assets_disp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="固定资产清理",
+        "fixed_assets_disp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="固定资产清理"
     )
     produc_bio_assets = Column(
-        "produc_bio_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="生产性生物资产",
+        "produc_bio_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="生产性生物资产"
     )
     oil_and_gas_assets = Column(
-        "oil_and_gas_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="油气资产",
+        "oil_and_gas_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="油气资产"
     )
     intan_assets = Column(
-        "intan_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="无形资产",
+        "intan_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="无形资产"
     )
-    r_and_d = Column(
-        "r_and_d",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="研发支出",
-    )
-    goodwill = Column(
-        "goodwill",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="商誉",
-    )
+    r_and_d = Column("r_and_d", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="研发支出")
+    goodwill = Column("goodwill", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="商誉")
     lt_amor_exp = Column(
-        "lt_amor_exp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="长期待摊费用",
+        "lt_amor_exp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="长期待摊费用"
     )
     defer_tax_assets = Column(
-        "defer_tax_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="递延所得税资产",
+        "defer_tax_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="递延所得税资产"
     )
     decr_in_disbur = Column(
-        "decr_in_disbur",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="发放贷款及垫款",
+        "decr_in_disbur", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="发放贷款及垫款"
     )
     oth_nca = Column(
-        "oth_nca",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他非流动资产",
+        "oth_nca", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他非流动资产"
     )
     total_nca = Column(
-        "total_nca",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="非流动资产合计",
+        "total_nca", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="非流动资产合计"
     )
     cash_reser_cb = Column(
         "cash_reser_cb",
@@ -516,20 +252,10 @@ class Balancesheet(Base):
         comment="存放同业和其它金融机构款项",
     )
     prec_metals = Column(
-        "prec_metals",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="贵金属",
+        "prec_metals", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="贵金属"
     )
     deriv_assets = Column(
-        "deriv_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="衍生金融资产",
+        "deriv_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="衍生金融资产"
     )
     rr_reins_une_prem = Column(
         "rr_reins_une_prem",
@@ -564,100 +290,36 @@ class Balancesheet(Base):
         comment="应收分保长期健康险责任准备金",
     )
     refund_depos = Column(
-        "refund_depos",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="存出保证金",
+        "refund_depos", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="存出保证金"
     )
     ph_pledge_loans = Column(
-        "ph_pledge_loans",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="保户质押贷款",
+        "ph_pledge_loans", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="保户质押贷款"
     )
     refund_cap_depos = Column(
-        "refund_cap_depos",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="存出资本保证金",
+        "refund_cap_depos", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="存出资本保证金"
     )
     indep_acct_assets = Column(
-        "indep_acct_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="独立账户资产",
+        "indep_acct_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="独立账户资产"
     )
     client_depos = Column(
-        "client_depos",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其中：客户资金存款",
+        "client_depos", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其中：客户资金存款"
     )
     client_prov = Column(
-        "client_prov",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其中：客户备付金",
+        "client_prov", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其中：客户备付金"
     )
     transac_seat_fee = Column(
-        "transac_seat_fee",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其中:交易席位费",
+        "transac_seat_fee", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其中:交易席位费"
     )
     invest_as_receiv = Column(
-        "invest_as_receiv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应收款项类投资",
+        "invest_as_receiv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应收款项类投资"
     )
     total_assets = Column(
-        "total_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="资产总计",
+        "total_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="资产总计"
     )
-    lt_borr = Column(
-        "lt_borr",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="长期借款",
-    )
-    st_borr = Column(
-        "st_borr",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="短期借款",
-    )
+    lt_borr = Column("lt_borr", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="长期借款")
+    st_borr = Column("st_borr", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="短期借款")
     cb_borr = Column(
-        "cb_borr",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="向中央银行借款",
+        "cb_borr", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="向中央银行借款"
     )
     depos_ib_deposits = Column(
         "depos_ib_deposits",
@@ -668,44 +330,19 @@ class Balancesheet(Base):
         comment="吸收存款及同业存放",
     )
     loan_oth_bank = Column(
-        "loan_oth_bank",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="拆入资金",
+        "loan_oth_bank", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="拆入资金"
     )
     trading_fl = Column(
-        "trading_fl",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="交易性金融负债",
+        "trading_fl", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="交易性金融负债"
     )
     notes_payable = Column(
-        "notes_payable",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应付票据",
+        "notes_payable", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应付票据"
     )
     acct_payable = Column(
-        "acct_payable",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应付账款",
+        "acct_payable", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应付账款"
     )
     adv_receipts = Column(
-        "adv_receipts",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="预收款项",
+        "adv_receipts", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="预收款项"
     )
     sold_for_repur_fa = Column(
         "sold_for_repur_fa",
@@ -716,108 +353,41 @@ class Balancesheet(Base):
         comment="卖出回购金融资产款",
     )
     comm_payable = Column(
-        "comm_payable",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应付手续费及佣金",
+        "comm_payable", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应付手续费及佣金"
     )
     payroll_payable = Column(
-        "payroll_payable",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应付职工薪酬",
+        "payroll_payable", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应付职工薪酬"
     )
     taxes_payable = Column(
-        "taxes_payable",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应交税费",
+        "taxes_payable", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应交税费"
     )
     int_payable = Column(
-        "int_payable",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应付利息",
+        "int_payable", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应付利息"
     )
     div_payable = Column(
-        "div_payable",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应付股利",
+        "div_payable", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应付股利"
     )
     oth_payable = Column(
-        "oth_payable",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他应付款",
+        "oth_payable", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他应付款"
     )
-    acc_exp = Column(
-        "acc_exp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="预提费用",
-    )
+    acc_exp = Column("acc_exp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="预提费用")
     deferred_inc = Column(
-        "deferred_inc",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="递延收益",
+        "deferred_inc", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="递延收益"
     )
     st_bonds_payable = Column(
-        "st_bonds_payable",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应付短期债券",
+        "st_bonds_payable", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应付短期债券"
     )
     payable_to_reinsurer = Column(
-        "payable_to_reinsurer",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应付分保账款",
+        "payable_to_reinsurer", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应付分保账款"
     )
     rsrv_insur_cont = Column(
-        "rsrv_insur_cont",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="保险合同准备金",
+        "rsrv_insur_cont", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="保险合同准备金"
     )
     acting_trading_sec = Column(
-        "acting_trading_sec",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="代理买卖证券款",
+        "acting_trading_sec", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="代理买卖证券款"
     )
     acting_uw_sec = Column(
-        "acting_uw_sec",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="代理承销证券款",
+        "acting_uw_sec", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="代理承销证券款"
     )
     non_cur_liab_due_1y = Column(
         "non_cur_liab_due_1y",
@@ -828,60 +398,25 @@ class Balancesheet(Base):
         comment="一年内到期的非流动负债",
     )
     oth_cur_liab = Column(
-        "oth_cur_liab",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他流动负债",
+        "oth_cur_liab", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他流动负债"
     )
     total_cur_liab = Column(
-        "total_cur_liab",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="流动负债合计",
+        "total_cur_liab", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流动负债合计"
     )
     bond_payable = Column(
-        "bond_payable",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应付债券",
+        "bond_payable", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应付债券"
     )
     lt_payable = Column(
-        "lt_payable",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="长期应付款",
+        "lt_payable", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="长期应付款"
     )
     specific_payables = Column(
-        "specific_payables",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="专项应付款",
+        "specific_payables", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="专项应付款"
     )
     estimated_liab = Column(
-        "estimated_liab",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="预计负债",
+        "estimated_liab", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="预计负债"
     )
     defer_tax_liab = Column(
-        "defer_tax_liab",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="递延所得税负债",
+        "defer_tax_liab", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="递延所得税负债"
     )
     defer_inc_non_cur_liab = Column(
         "defer_inc_non_cur_liab",
@@ -892,20 +427,10 @@ class Balancesheet(Base):
         comment="递延收益-非流动负债",
     )
     oth_ncl = Column(
-        "oth_ncl",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他非流动负债",
+        "oth_ncl", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他非流动负债"
     )
     total_ncl = Column(
-        "total_ncl",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="非流动负债合计",
+        "total_ncl", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="非流动负债合计"
     )
     depos_oth_bfi = Column(
         "depos_oth_bfi",
@@ -916,68 +441,24 @@ class Balancesheet(Base):
         comment="同业和其它金融机构存放款项",
     )
     deriv_liab = Column(
-        "deriv_liab",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="衍生金融负债",
+        "deriv_liab", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="衍生金融负债"
     )
-    depos = Column(
-        "depos",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="吸收存款",
-    )
+    depos = Column("depos", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="吸收存款")
     agency_bus_liab = Column(
-        "agency_bus_liab",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="代理业务负债",
+        "agency_bus_liab", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="代理业务负债"
     )
-    oth_liab = Column(
-        "oth_liab",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他负债",
-    )
+    oth_liab = Column("oth_liab", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他负债")
     prem_receiv_adva = Column(
-        "prem_receiv_adva",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="预收保费",
+        "prem_receiv_adva", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="预收保费"
     )
     depos_received = Column(
-        "depos_received",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="存入保证金",
+        "depos_received", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="存入保证金"
     )
     ph_invest = Column(
-        "ph_invest",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="保户储金及投资款",
+        "ph_invest", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="保户储金及投资款"
     )
     reser_une_prem = Column(
-        "reser_une_prem",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="未到期责任准备金",
+        "reser_une_prem", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="未到期责任准备金"
     )
     reser_outstd_claims = Column(
         "reser_outstd_claims",
@@ -988,12 +469,7 @@ class Balancesheet(Base):
         comment="未决赔款准备金",
     )
     reser_lins_liab = Column(
-        "reser_lins_liab",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="寿险责任准备金",
+        "reser_lins_liab", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="寿险责任准备金"
     )
     reser_lthins_liab = Column(
         "reser_lthins_liab",
@@ -1004,68 +480,28 @@ class Balancesheet(Base):
         comment="长期健康险责任准备金",
     )
     indept_acc_liab = Column(
-        "indept_acc_liab",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="独立账户负债",
+        "indept_acc_liab", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="独立账户负债"
     )
     pledge_borr = Column(
-        "pledge_borr",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其中:质押借款",
+        "pledge_borr", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其中:质押借款"
     )
     indem_payable = Column(
-        "indem_payable",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应付赔付款",
+        "indem_payable", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应付赔付款"
     )
     policy_div_payable = Column(
-        "policy_div_payable",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应付保单红利",
+        "policy_div_payable", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应付保单红利"
     )
     total_liab = Column(
-        "total_liab",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="负债合计",
+        "total_liab", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="负债合计"
     )
     treasury_share = Column(
-        "treasury_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="减:库存股",
+        "treasury_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="减:库存股"
     )
     ordin_risk_reser = Column(
-        "ordin_risk_reser",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="一般风险准备",
+        "ordin_risk_reser", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="一般风险准备"
     )
     forex_differ = Column(
-        "forex_differ",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="外币报表折算差额",
+        "forex_differ", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="外币报表折算差额"
     )
     invest_loss_unconf = Column(
         "invest_loss_unconf",
@@ -1076,12 +512,7 @@ class Balancesheet(Base):
         comment="未确认的投资损失",
     )
     minority_int = Column(
-        "minority_int",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="少数股东权益",
+        "minority_int", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="少数股东权益"
     )
     total_hldr_eqy_exc_min_int = Column(
         "total_hldr_eqy_exc_min_int",
@@ -1116,20 +547,10 @@ class Balancesheet(Base):
         comment="长期应付职工薪酬",
     )
     oth_comp_income = Column(
-        "oth_comp_income",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他综合收益",
+        "oth_comp_income", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他综合收益"
     )
     oth_eqt_tools = Column(
-        "oth_eqt_tools",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他权益工具",
+        "oth_eqt_tools", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他权益工具"
     )
     oth_eqt_tools_p_shr = Column(
         "oth_eqt_tools_p_shr",
@@ -1140,52 +561,20 @@ class Balancesheet(Base):
         comment="其他权益工具(优先股)",
     )
     lending_funds = Column(
-        "lending_funds",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="融出资金",
+        "lending_funds", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="融出资金"
     )
     acc_receivable = Column(
-        "acc_receivable",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应收款项",
+        "acc_receivable", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应收款项"
     )
     st_fin_payable = Column(
-        "st_fin_payable",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应付短期融资款",
+        "st_fin_payable", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应付短期融资款"
     )
-    payables = Column(
-        "payables",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应付款项",
-    )
+    payables = Column("payables", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应付款项")
     hfs_assets = Column(
-        "hfs_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="持有待售的资产",
+        "hfs_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="持有待售的资产"
     )
     hfs_sales = Column(
-        "hfs_sales",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="持有待售的负债",
+        "hfs_sales", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="持有待售的负债"
     )
     cost_fin_assets = Column(
         "cost_fin_assets",
@@ -1204,20 +593,10 @@ class Balancesheet(Base):
         comment="以公允价值计量且其变动计入其他综合收益的金融资产",
     )
     contract_assets = Column(
-        "contract_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="合同资产",
+        "contract_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="合同资产"
     )
     contract_liab = Column(
-        "contract_liab",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="合同负债",
+        "contract_liab", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="合同负债"
     )
     accounts_receiv_bill = Column(
         "accounts_receiv_bill",
@@ -1228,12 +607,7 @@ class Balancesheet(Base):
         comment="应收票据及应收账款",
     )
     accounts_pay = Column(
-        "accounts_pay",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应付票据及应付账款",
+        "accounts_pay", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应付票据及应付账款"
     )
     oth_rcv_total = Column(
         "oth_rcv_total",
@@ -1252,12 +626,7 @@ class Balancesheet(Base):
         comment="固定资产(合计)(元)",
     )
     cip_total = Column(
-        "cip_total",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="在建工程(合计)(元)",
+        "cip_total", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="在建工程(合计)(元)"
     )
     oth_pay_total = Column(
         "oth_pay_total",
@@ -1276,20 +645,10 @@ class Balancesheet(Base):
         comment="长期应付款(合计)(元)",
     )
     debt_invest = Column(
-        "debt_invest",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="债权投资(元)",
+        "debt_invest", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="债权投资(元)"
     )
     oth_debt_invest = Column(
-        "oth_debt_invest",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他债权投资(元)",
+        "oth_debt_invest", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他债权投资(元)"
     )
     oth_eq_invest = Column(
         "oth_eq_invest",
@@ -1316,34 +675,14 @@ class Balancesheet(Base):
         comment="其他权益工具:永续债(元)",
     )
     receiv_financing = Column(
-        "receiv_financing",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="应收款项融资",
+        "receiv_financing", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="应收款项融资"
     )
     use_right_assets = Column(
-        "use_right_assets",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="使用权资产",
+        "use_right_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="使用权资产"
     )
     lease_liab = Column(
-        "lease_liab",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="租赁负债",
+        "lease_liab", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="租赁负债"
     )
     update_flag = Column(
-        "update_flag",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="更新标识",
+        "update_flag", String(), nullable=False, default="", server_default=text("''"), comment="更新标识"
     )

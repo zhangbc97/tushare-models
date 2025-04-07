@@ -18,12 +18,7 @@ class LimitCptList(Base):
     __api_name__: ClassVar[str] = "limit_cpt_list"
     __api_title__: ClassVar[str] = "涨停最强板块统计"
     __api_info_title__: ClassVar[str] = "最强板块统计"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "打板专题数据",
-        "涨停最强板块统计",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据", "涨停最强板块统计"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 346, 357]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -33,20 +28,12 @@ class LimitCptList(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "trade_date": {
-            "type": "str",
-            "required": False,
-            "description": "交易日期(格式：YYYYMMDD，下同)",
-        },
+        "trade_date": {"type": "str", "required": False, "description": "交易日期(格式：YYYYMMDD，下同)"},
         "ts_code": {"type": "str", "required": False, "description": "板块代码"},
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -68,22 +55,8 @@ class LimitCptList(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="板块代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="板块名称",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="板块代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="板块名称")
     trade_date = Column(
         "trade_date",
         Date,
@@ -92,51 +65,9 @@ class LimitCptList(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    days = Column(
-        "days",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="上榜天数",
-    )
-    up_stat = Column(
-        "up_stat",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="连板高度",
-    )
-    cons_nums = Column(
-        "cons_nums",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="连板家数",
-    )
-    up_nums = Column(
-        "up_nums",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="涨停家数",
-    )
-    pct_chg = Column(
-        "pct_chg",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨跌幅%",
-    )
-    rank = Column(
-        "rank",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="板块热点排名",
-    )
+    days = Column("days", String(), nullable=False, default="", server_default=text("''"), comment="上榜天数")
+    up_stat = Column("up_stat", String(), nullable=False, default="", server_default=text("''"), comment="连板高度")
+    cons_nums = Column("cons_nums", String(), nullable=False, default="", server_default=text("''"), comment="连板家数")
+    up_nums = Column("up_nums", String(), nullable=False, default="", server_default=text("''"), comment="涨停家数")
+    pct_chg = Column("pct_chg", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌幅%")
+    rank = Column("rank", String(), nullable=False, default="", server_default=text("''"), comment="板块热点排名")

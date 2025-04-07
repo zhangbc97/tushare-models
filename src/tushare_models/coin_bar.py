@@ -32,19 +32,11 @@ class CoinBar(Base):
         "symbol": {"type": "str", "required": False, "description": "交易所原始代码"},
         "exchange": {"type": "str", "required": False, "description": "交易所"},
         "freq": {"type": "str", "required": False, "description": "频度"},
-        "start_date": {
-            "type": "datetime",
-            "required": False,
-            "description": "开始日期",
-        },
+        "start_date": {"type": "datetime", "required": False, "description": "开始日期"},
         "end_date": {"type": "datetime", "required": False, "description": "结束日期"},
         "is_contract": {"type": "str", "required": False, "description": ""},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -66,91 +58,18 @@ class CoinBar(Base):
         },
     )
 
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所",
-    )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
-    symbol = Column(
-        "symbol",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所原始代码",
-    )
-    freq = Column(
-        "freq",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="频度",
-    )
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易所")
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
+    symbol = Column("symbol", String(), nullable=False, default="", server_default=text("''"), comment="交易所原始代码")
+    freq = Column("freq", String(), nullable=False, default="", server_default=text("''"), comment="频度")
     trade_time = Column(
-        "trade_time",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易时间",
+        "trade_time", String(), nullable=False, default="", server_default=text("''"), comment="交易时间"
     )
-    open = Column(
-        "open",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="开盘价",
-    )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘价",
-    )
-    high = Column(
-        "high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最高价",
-    )
-    low = Column(
-        "low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最低价",
-    )
-    vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交量",
-    )
+    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="开盘价")
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘价")
+    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最高价")
+    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最低价")
+    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交量")
     is_contract = Column(
-        "is_contract",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="是否合约",
+        "is_contract", String(), nullable=False, default="", server_default=text("''"), comment="是否合约"
     )

@@ -18,12 +18,7 @@ class FundSalesRatio(Base):
     __api_name__: ClassVar[str] = "fund_sales_ratio"
     __api_title__: ClassVar[str] = "各渠道公募基金销售保有规模占比"
     __api_info_title__: ClassVar[str] = "各渠道公募基金销售保有规模占比"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "财富管理",
-        "基金销售行业数据",
-        "各渠道公募基金销售保有规模占比",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "财富管理", "基金销售行业数据", "各渠道公募基金销售保有规模占比"]
     __api_path_ids__: ClassVar[List[int]] = [2, 263, 264, 265]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -35,11 +30,7 @@ class FundSalesRatio(Base):
     __api_params__: ClassVar[Dict[str, Any]] = {
         "年份": {"type": "str", "required": False, "description": "年度"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -61,51 +52,15 @@ class FundSalesRatio(Base):
         },
     )
 
-    year = Column(
-        "year",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="年度",
-    )
-    bank = Column(
-        "bank",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="商业银行(%)",
-    )
+    year = Column("year", Integer, nullable=False, default=0, server_default=text("'0'"), comment="年度")
+    bank = Column("bank", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="商业银行(%)")
     sec_comp = Column(
-        "sec_comp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="证券公司(%)",
+        "sec_comp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="证券公司(%)"
     )
     fund_comp = Column(
-        "fund_comp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="基金公司直销(%)",
+        "fund_comp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="基金公司直销(%)"
     )
     indep_comp = Column(
-        "indep_comp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="独立基金销售机构(%)",
+        "indep_comp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="独立基金销售机构(%)"
     )
-    rests = Column(
-        "rests",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="其他(%)",
-    )
+    rests = Column("rests", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他(%)")

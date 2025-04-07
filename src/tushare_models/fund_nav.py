@@ -56,83 +56,29 @@ class FundNav(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
     ann_date = Column(
-        "ann_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="公告日期",
+        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
     )
     nav_date = Column(
-        "nav_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="截止日期",
+        "nav_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="截止日期"
     )
-    unit_nav = Column(
-        "unit_nav",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="单位净值",
-    )
+    unit_nav = Column("unit_nav", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="单位净值")
     accum_nav = Column(
-        "accum_nav",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="累计净值",
+        "accum_nav", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="累计净值"
     )
     accum_div = Column(
-        "accum_div",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="累计分红",
+        "accum_div", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="累计分红"
     )
     net_asset = Column(
-        "net_asset",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="资产净值",
+        "net_asset", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="资产净值"
     )
     total_netasset = Column(
-        "total_netasset",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="合计资产净值",
+        "total_netasset", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="合计资产净值"
     )
     adj_nav = Column(
-        "adj_nav",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="复权单位净值",
+        "adj_nav", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="复权单位净值"
     )
     update_flag = Column(
-        "update_flag",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="更新标识",
+        "update_flag", String(), nullable=False, default="", server_default=text("''"), comment="更新标识"
     )

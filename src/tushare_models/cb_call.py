@@ -28,20 +28,12 @@ class CbCall(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {
-            "type": "str",
-            "required": False,
-            "description": "转债代码，支持多值输入",
-        },
+        "ts_code": {"type": "str", "required": False, "description": "转债代码，支持多值输入"},
         "ann_date": {"type": "str", "required": False, "description": "公告日期"},
         "start_date": {"type": "str", "required": False, "description": "公告开始日期"},
         "end_date": {"type": "str", "required": False, "description": "公告结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -63,21 +55,9 @@ class CbCall(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="转债代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="转债代码")
     call_type = Column(
-        "call_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="赎回类型：到赎、强赎",
+        "call_type", String(), nullable=False, default="", server_default=text("''"), comment="赎回类型：到赎、强赎"
     )
     is_call = Column(
         "is_call",
@@ -88,28 +68,13 @@ class CbCall(Base):
         comment="是否赎回：公告到期赎回、公告强赎、公告不强赎",
     )
     ann_date = Column(
-        "ann_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="公告日期",
+        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
     )
     call_date = Column(
-        "call_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="赎回日期",
+        "call_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="赎回日期"
     )
     call_price = Column(
-        "call_price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="赎回价格(含税，元/张)",
+        "call_price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="赎回价格(含税，元/张)"
     )
     call_price_tax = Column(
         "call_price_tax",
@@ -120,20 +85,10 @@ class CbCall(Base):
         comment="赎回价格(扣税，元/张)",
     )
     call_vol = Column(
-        "call_vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="赎回债券数量(张)",
+        "call_vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="赎回债券数量(张)"
     )
     call_amount = Column(
-        "call_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="赎回金额(万元)",
+        "call_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="赎回金额(万元)"
     )
     payment_date = Column(
         "payment_date",

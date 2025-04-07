@@ -18,12 +18,7 @@ class ReportRc(Base):
     __api_name__: ClassVar[str] = "report_rc"
     __api_title__: ClassVar[str] = "券商盈利预测数据"
     __api_info_title__: ClassVar[str] = "卖方盈利预测数据"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "特色数据",
-        "券商盈利预测数据",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "特色数据", "券商盈利预测数据"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 291, 292]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -38,11 +33,7 @@ class ReportRc(Base):
         "start_date": {"type": "str", "required": False, "description": "报告开始日期"},
         "end_date": {"type": "str", "required": False, "description": "报告结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -64,22 +55,8 @@ class ReportRc(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票名称",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
     report_date = Column(
         "report_date",
         Date,
@@ -89,157 +66,40 @@ class ReportRc(Base):
         comment="研报日期",
     )
     report_title = Column(
-        "report_title",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="报告标题",
+        "report_title", String(), nullable=False, default="", server_default=text("''"), comment="报告标题"
     )
     report_type = Column(
-        "report_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="报告类型",
+        "report_type", String(), nullable=False, default="", server_default=text("''"), comment="报告类型"
     )
-    classify = Column(
-        "classify",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="报告分类",
-    )
-    org_name = Column(
-        "org_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="机构名称",
-    )
-    author_name = Column(
-        "author_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="作者",
-    )
-    quarter = Column(
-        "quarter",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="预测报告期",
-    )
+    classify = Column("classify", String(), nullable=False, default="", server_default=text("''"), comment="报告分类")
+    org_name = Column("org_name", String(), nullable=False, default="", server_default=text("''"), comment="机构名称")
+    author_name = Column("author_name", String(), nullable=False, default="", server_default=text("''"), comment="作者")
+    quarter = Column("quarter", String(), nullable=False, default="", server_default=text("''"), comment="预测报告期")
     op_rt = Column(
-        "op_rt",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="预测营业收入(万元)",
+        "op_rt", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="预测营业收入(万元)"
     )
     op_pr = Column(
-        "op_pr",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="预测营业利润(万元)",
+        "op_pr", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="预测营业利润(万元)"
     )
-    tp = Column(
-        "tp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="预测利润总额(万元)",
-    )
-    np = Column(
-        "np",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="预测净利润(万元)",
-    )
-    eps = Column(
-        "eps",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="预测每股收益(元)",
-    )
-    pe = Column(
-        "pe",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="预测市盈率(元)",
-    )
-    rd = Column(
-        "rd",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="预测股息率(元)",
-    )
+    tp = Column("tp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="预测利润总额(万元)")
+    np = Column("np", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="预测净利润(万元)")
+    eps = Column("eps", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="预测每股收益(元)")
+    pe = Column("pe", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="预测市盈率(元)")
+    rd = Column("rd", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="预测股息率(元)")
     roe = Column(
-        "roe",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="预测净资产收益率(元)",
+        "roe", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="预测净资产收益率(元)"
     )
     ev_ebitda = Column(
-        "ev_ebitda",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="预测EV/EBITDA",
+        "ev_ebitda", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="预测EV/EBITDA"
     )
-    rating = Column(
-        "rating",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="卖方评级",
-    )
+    rating = Column("rating", String(), nullable=False, default="", server_default=text("''"), comment="卖方评级")
     max_price = Column(
-        "max_price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="预测最高目标价",
+        "max_price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="预测最高目标价"
     )
     min_price = Column(
-        "min_price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="预测最低目标价",
+        "min_price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="预测最低目标价"
     )
-    imp_dg = Column(
-        "imp_dg",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="机构关注度",
-    )
+    imp_dg = Column("imp_dg", String(), nullable=False, default="", server_default=text("''"), comment="机构关注度")
     create_time = Column(
         "create_time",
         DateTime,

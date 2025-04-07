@@ -18,13 +18,7 @@ class CnGdp(Base):
     __api_name__: ClassVar[str] = "cn_gdp"
     __api_title__: ClassVar[str] = "国内生产总值(GDP)"
     __api_info_title__: ClassVar[str] = "GDP"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "宏观经济",
-        "国内宏观",
-        "国民经济",
-        "国内生产总值（GDP）",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国内宏观", "国民经济", "国内生产总值（GDP）"]
     __api_path_ids__: ClassVar[List[int]] = [2, 147, 224, 225, 227]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -38,11 +32,7 @@ class CnGdp(Base):
         "start_q": {"type": "str", "required": False, "description": "开始季度"},
         "end_q": {"type": "str", "required": False, "description": "结束季度"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -64,75 +54,20 @@ class CnGdp(Base):
         },
     )
 
-    quarter = Column(
-        "quarter",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="季度",
-    )
-    gdp = Column(
-        "gdp",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="GDP累计值(亿元)",
-    )
+    quarter = Column("quarter", String(), nullable=False, default="", server_default=text("''"), comment="季度")
+    gdp = Column("gdp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="GDP累计值(亿元)")
     gdp_yoy = Column(
-        "gdp_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="当季同比增速(%)",
+        "gdp_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="当季同比增速(%)"
     )
-    pi = Column(
-        "pi",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="第一产业累计值(亿元)",
-    )
+    pi = Column("pi", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="第一产业累计值(亿元)")
     pi_yoy = Column(
-        "pi_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="第一产业同比增速(%)",
+        "pi_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="第一产业同比增速(%)"
     )
-    si = Column(
-        "si",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="第二产业累计值(亿元)",
-    )
+    si = Column("si", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="第二产业累计值(亿元)")
     si_yoy = Column(
-        "si_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="第二产业同比增速(%)",
+        "si_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="第二产业同比增速(%)"
     )
-    ti = Column(
-        "ti",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="第三产业累计值(亿元)",
-    )
+    ti = Column("ti", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="第三产业累计值(亿元)")
     ti_yoy = Column(
-        "ti_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="第三产业同比增速(%)",
+        "ti_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="第三产业同比增速(%)"
     )

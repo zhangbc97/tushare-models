@@ -18,13 +18,7 @@ class Hibor(Base):
     __api_name__: ClassVar[str] = "hibor"
     __api_title__: ClassVar[str] = "Hibor利率"
     __api_info_title__: ClassVar[str] = "Hibor利率"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "宏观经济",
-        "国内宏观",
-        "利率数据",
-        "Hibor利率",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国内宏观", "利率数据", "Hibor利率"]
     __api_path_ids__: ClassVar[List[int]] = [2, 147, 224, 148, 153]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -38,11 +32,7 @@ class Hibor(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -64,75 +54,12 @@ class Hibor(Base):
         },
     )
 
-    date = Column(
-        "date",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="日期",
-    )
-    on = Column(
-        "on",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="隔夜",
-    )
-    _1w = Column(
-        "1w",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="1周",
-    )
-    _2w = Column(
-        "2w",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="2周",
-    )
-    _1m = Column(
-        "1m",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="1个月",
-    )
-    _2m = Column(
-        "2m",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="2个月",
-    )
-    _3m = Column(
-        "3m",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="3个月",
-    )
-    _6m = Column(
-        "6m",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="6个月",
-    )
-    _12m = Column(
-        "12m",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="12个月",
-    )
+    date = Column("date", String(), nullable=False, default="", server_default=text("''"), comment="日期")
+    on = Column("on", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="隔夜")
+    _1w = Column("1w", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="1周")
+    _2w = Column("2w", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="2周")
+    _1m = Column("1m", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="1个月")
+    _2m = Column("2m", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="2个月")
+    _3m = Column("3m", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="3个月")
+    _6m = Column("6m", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="6个月")
+    _12m = Column("12m", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="12个月")

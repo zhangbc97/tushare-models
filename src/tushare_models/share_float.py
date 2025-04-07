@@ -18,12 +18,7 @@ class ShareFloat(Base):
     __api_name__: ClassVar[str] = "share_float"
     __api_title__: ClassVar[str] = "限售股解禁"
     __api_info_title__: ClassVar[str] = "限售股解禁"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "参考数据",
-        "限售股解禁",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "参考数据", "限售股解禁"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 17, 160]
     __api_points_required__: ClassVar[int] = 3000
     __api_special_permission__: ClassVar[bool] = False
@@ -39,11 +34,7 @@ class ShareFloat(Base):
         "start_date": {"type": "str", "required": False, "description": "解禁开始日期"},
         "end_date": {"type": "str", "required": False, "description": "解禁结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -65,21 +56,9 @@ class ShareFloat(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
     ann_date = Column(
-        "ann_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="公告日期",
+        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
     )
     float_date = Column(
         "float_date",
@@ -90,34 +69,14 @@ class ShareFloat(Base):
         comment="解禁日期",
     )
     float_share = Column(
-        "float_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="流通股份",
+        "float_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流通股份"
     )
     float_ratio = Column(
-        "float_ratio",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="流通股份占总股本比率",
+        "float_ratio", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流通股份占总股本比率"
     )
     holder_name = Column(
-        "holder_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股东名称",
+        "holder_name", String(), nullable=False, default="", server_default=text("''"), comment="股东名称"
     )
     share_type = Column(
-        "share_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股份类型",
+        "share_type", String(), nullable=False, default="", server_default=text("''"), comment="股份类型"
     )

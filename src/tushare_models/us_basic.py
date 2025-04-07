@@ -28,16 +28,8 @@ class UsBasic(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {
-            "type": "str",
-            "required": False,
-            "description": "股票代码（e.g. AAPL）",
-        },
-        "classify": {
-            "type": "str",
-            "required": False,
-            "description": "股票分类（ADR/GDR/EQ）",
-        },
+        "ts_code": {"type": "str", "required": False, "description": "股票代码（e.g. AAPL）"},
+        "classify": {"type": "str", "required": False, "description": "股票分类（ADR/GDR/EQ）"},
         "list_stauts": {"type": "str", "required": False, "description": "上市状态"},
         "offset": {"type": "str", "required": False, "description": "开始行数"},
         "limit": {"type": "str", "required": False, "description": "每页最大行数"},
@@ -62,37 +54,11 @@ class UsBasic(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="美股代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="中文名称",
-    )
-    enname = Column(
-        "enname",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="英文名称",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="美股代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="中文名称")
+    enname = Column("enname", String(), nullable=False, default="", server_default=text("''"), comment="英文名称")
     classify = Column(
-        "classify",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="分类ADR/GDR/EQ",
+        "classify", String(), nullable=False, default="", server_default=text("''"), comment="分类ADR/GDR/EQ"
     )
     list_status = Column(
         "list_status",
@@ -103,12 +69,7 @@ class UsBasic(Base):
         comment="上市状态L上市D退市P暂停上市",
     )
     list_date = Column(
-        "list_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="上市日期",
+        "list_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="上市日期"
     )
     delist_date = Column(
         "delist_date",

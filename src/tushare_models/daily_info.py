@@ -34,11 +34,7 @@ class DailyInfo(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -68,107 +64,28 @@ class DailyInfo(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="市场代码",
-    )
-    ts_name = Column(
-        "ts_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="市场名称",
-    )
-    com_count = Column(
-        "com_count",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="挂牌数",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="市场代码")
+    ts_name = Column("ts_name", String(), nullable=False, default="", server_default=text("''"), comment="市场名称")
+    com_count = Column("com_count", Integer, nullable=False, default=0, server_default=text("'0'"), comment="挂牌数")
     total_share = Column(
-        "total_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="总股本(亿股)",
+        "total_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="总股本(亿股)"
     )
     float_share = Column(
-        "float_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="流通股本(亿股)",
+        "float_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流通股本(亿股)"
     )
     total_mv = Column(
-        "total_mv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="总市值(亿元)",
+        "total_mv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="总市值(亿元)"
     )
     float_mv = Column(
-        "float_mv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="流通市值(亿元)",
+        "float_mv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流通市值(亿元)"
     )
     amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="交易金额(亿元)",
+        "amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="交易金额(亿元)"
     )
-    vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交量(亿股)",
-    )
+    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交量(亿股)")
     trans_count = Column(
-        "trans_count",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="成交笔数(万笔)",
+        "trans_count", Integer, nullable=False, default=0, server_default=text("'0'"), comment="成交笔数(万笔)"
     )
-    pe = Column(
-        "pe",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="平均市盈率",
-    )
-    tr = Column(
-        "tr",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="换手率(％)",
-    )
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所",
-    )
+    pe = Column("pe", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="平均市盈率")
+    tr = Column("tr", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="换手率(％)")
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易所")

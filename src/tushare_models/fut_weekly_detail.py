@@ -56,139 +56,42 @@ class FutWeeklyDetail(Base):
         },
     )
 
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所代码",
-    )
-    prd = Column(
-        "prd",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="期货品种代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="品种名称",
-    )
-    vol = Column(
-        "vol",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="成交量(手)",
-    )
-    vol_yoy = Column(
-        "vol_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="同比增减(%)",
-    )
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易所代码")
+    prd = Column("prd", String(), nullable=False, default="", server_default=text("''"), comment="期货品种代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="品种名称")
+    vol = Column("vol", Integer, nullable=False, default=0, server_default=text("'0'"), comment="成交量(手)")
+    vol_yoy = Column("vol_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="同比增减(%)")
     amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交金额(亿元)",
+        "amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交金额(亿元)"
     )
     amout_yoy = Column(
-        "amout_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="同比增减(%)",
+        "amout_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="同比增减(%)"
     )
     cumvol = Column(
-        "cumvol",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="年累计成交总量(手)",
+        "cumvol", Integer, nullable=False, default=0, server_default=text("'0'"), comment="年累计成交总量(手)"
     )
     cumvol_yoy = Column(
-        "cumvol_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="同比增减(%)",
+        "cumvol_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="同比增减(%)"
     )
     cumamt = Column(
-        "cumamt",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="年累计成交金额(亿元)",
+        "cumamt", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="年累计成交金额(亿元)"
     )
     cumamt_yoy = Column(
-        "cumamt_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="同比增减(%)",
+        "cumamt_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="同比增减(%)"
     )
     open_interest = Column(
-        "open_interest",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="持仓量(手)",
+        "open_interest", Integer, nullable=False, default=0, server_default=text("'0'"), comment="持仓量(手)"
     )
     interest_wow = Column(
-        "interest_wow",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="环比增减(%)",
+        "interest_wow", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="环比增减(%)"
     )
     mc_close = Column(
-        "mc_close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="本周主力合约收盘价",
+        "mc_close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="本周主力合约收盘价"
     )
     close_wow = Column(
-        "close_wow",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="环比涨跌(%)",
+        "close_wow", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="环比涨跌(%)"
     )
-    week = Column(
-        "week",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="周期",
-    )
+    week = Column("week", String(), nullable=False, default="", server_default=text("''"), comment="周期")
     week_date = Column(
-        "week_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="周日期",
+        "week_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="周日期"
     )

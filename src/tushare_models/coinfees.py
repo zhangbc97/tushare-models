@@ -29,17 +29,9 @@ class Coinfees(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "exchange": {"type": "str", "required": True, "description": "交易所"},
-        "asset_type": {
-            "type": "str",
-            "required": False,
-            "description": "交易类别coin币交易 future期货交易",
-        },
+        "asset_type": {"type": "str", "required": False, "description": "交易类别coin币交易 future期货交易"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -61,37 +53,13 @@ class Coinfees(Base):
         },
     )
 
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所",
-    )
-    level = Column(
-        "level",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易级别和类型",
-    )
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易所")
+    level = Column("level", String(), nullable=False, default="", server_default=text("''"), comment="交易级别和类型")
     maker_fee = Column(
-        "maker_fee",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="挂单费率",
+        "maker_fee", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="挂单费率"
     )
     taker_fee = Column(
-        "taker_fee",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="吃单费率",
+        "taker_fee", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="吃单费率"
     )
     asset_type = Column(
         "asset_type",

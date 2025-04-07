@@ -18,13 +18,7 @@ class Libor(Base):
     __api_name__: ClassVar[str] = "libor"
     __api_title__: ClassVar[str] = "Libor利率"
     __api_info_title__: ClassVar[str] = "Libor拆借利率"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "宏观经济",
-        "国内宏观",
-        "利率数据",
-        "Libor利率",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国内宏观", "利率数据", "Libor利率"]
     __api_path_ids__: ClassVar[List[int]] = [2, 147, 224, 148, 152]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -39,11 +33,7 @@ class Libor(Base):
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "curr_type": {"type": "str", "required": False, "description": "货币代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -65,75 +55,12 @@ class Libor(Base):
         },
     )
 
-    date = Column(
-        "date",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="日期",
-    )
-    curr_type = Column(
-        "curr_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="货币",
-    )
-    on = Column(
-        "on",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="隔夜",
-    )
-    _1w = Column(
-        "1w",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="1周",
-    )
-    _1m = Column(
-        "1m",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="1个月",
-    )
-    _2m = Column(
-        "2m",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="2个月",
-    )
-    _3m = Column(
-        "3m",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="3个月",
-    )
-    _6m = Column(
-        "6m",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="6个月",
-    )
-    _12m = Column(
-        "12m",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="12个月",
-    )
+    date = Column("date", String(), nullable=False, default="", server_default=text("''"), comment="日期")
+    curr_type = Column("curr_type", String(), nullable=False, default="", server_default=text("''"), comment="货币")
+    on = Column("on", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="隔夜")
+    _1w = Column("1w", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="1周")
+    _1m = Column("1m", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="1个月")
+    _2m = Column("2m", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="2个月")
+    _3m = Column("3m", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="3个月")
+    _6m = Column("6m", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="6个月")
+    _12m = Column("12m", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="12个月")

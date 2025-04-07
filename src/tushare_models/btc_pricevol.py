@@ -31,11 +31,7 @@ class BtcPricevol(Base):
         "start_date": {"type": "str", "required": True, "description": "开始时间"},
         "end_date": {"type": "str", "required": True, "description": "结束时间"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -57,27 +53,6 @@ class BtcPricevol(Base):
         },
     )
 
-    date = Column(
-        "date",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="日期",
-    )
-    price = Column(
-        "price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="价格",
-    )
-    volume = Column(
-        "volume",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="交易量",
-    )
+    date = Column("date", String(), nullable=False, default="", server_default=text("''"), comment="日期")
+    price = Column("price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="价格")
+    volume = Column("volume", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="交易量")

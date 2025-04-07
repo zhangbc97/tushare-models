@@ -18,11 +18,7 @@ class IrmQaSz(Base):
     __api_name__: ClassVar[str] = "irm_qa_sz"
     __api_title__: ClassVar[str] = "深证易互动问答"
     __api_info_title__: ClassVar[str] = "深证互动易"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "大模型语料专题数据",
-        "深证易互动问答",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "大模型语料专题数据", "深证易互动问答"]
     __api_path_ids__: ClassVar[List[int]] = [2, 142, 367]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -33,11 +29,7 @@ class IrmQaSz(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": False, "description": "股票代码"},
-        "trade_date": {
-            "type": "str",
-            "required": False,
-            "description": "交易日期（格式：YYYYMMDD，下同）",
-        },
+        "trade_date": {"type": "str", "required": False, "description": "交易日期（格式：YYYYMMDD，下同）"},
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "offset": {"type": "str", "required": False, "description": ""},
@@ -63,22 +55,8 @@ class IrmQaSz(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="公司名称",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="公司名称")
     trade_date = Column(
         "trade_date",
         Date,
@@ -87,35 +65,9 @@ class IrmQaSz(Base):
         server_default=text("'1970-01-01'"),
         comment="发布时间",
     )
-    q = Column(
-        "q",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="问题",
-    )
-    a = Column(
-        "a",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="回复",
-    )
-    pub_time = Column(
-        "pub_time",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="答复时间",
-    )
+    q = Column("q", String(), nullable=False, default="", server_default=text("''"), comment="问题")
+    a = Column("a", String(), nullable=False, default="", server_default=text("''"), comment="回复")
+    pub_time = Column("pub_time", String(), nullable=False, default="", server_default=text("''"), comment="答复时间")
     industry = Column(
-        "industry",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="涉及行业 英文逗号隔开",
+        "industry", String(), nullable=False, default="", server_default=text("''"), comment="涉及行业 英文逗号隔开"
     )

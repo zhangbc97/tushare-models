@@ -34,19 +34,11 @@ class CnPpi(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "m": {
-            "type": "str",
-            "required": False,
-            "description": "月份（YYYYMM，下同），支持多个月份同时输入，逗号分隔",
-        },
+        "m": {"type": "str", "required": False, "description": "月份（YYYYMM，下同），支持多个月份同时输入，逗号分隔"},
         "start_m": {"type": "str", "required": False, "description": "开始月份"},
         "end_m": {"type": "str", "required": False, "description": "结束月份"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -68,21 +60,9 @@ class CnPpi(Base):
         },
     )
 
-    month = Column(
-        "month",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="月份YYYYMM",
-    )
+    month = Column("month", String(), nullable=False, default="", server_default=text("''"), comment="月份YYYYMM")
     ppi_yoy = Column(
-        "ppi_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：全部工业品：当月同比",
+        "ppi_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="PPI：全部工业品：当月同比"
     )
     ppi_mp_yoy = Column(
         "ppi_mp_yoy",
@@ -157,20 +137,10 @@ class CnPpi(Base):
         comment="PPI：生活资料：耐用消费品类：当月同比",
     )
     ppi_mom = Column(
-        "ppi_mom",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：全部工业品：环比",
+        "ppi_mom", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="PPI：全部工业品：环比"
     )
     ppi_mp_mom = Column(
-        "ppi_mp_mom",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生产资料：环比",
+        "ppi_mp_mom", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="PPI：生产资料：环比"
     )
     ppi_mp_qm_mom = Column(
         "ppi_mp_qm_mom",
@@ -197,12 +167,7 @@ class CnPpi(Base):
         comment="PPI：生产资料：加工业：环比",
     )
     ppi_cg_mom = Column(
-        "ppi_cg_mom",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生活资料：环比",
+        "ppi_cg_mom", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="PPI：生活资料：环比"
     )
     ppi_cg_f_mom = Column(
         "ppi_cg_f_mom",

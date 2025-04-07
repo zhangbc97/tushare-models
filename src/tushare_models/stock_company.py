@@ -18,12 +18,7 @@ class StockCompany(Base):
     __api_name__: ClassVar[str] = "stock_company"
     __api_title__: ClassVar[str] = "上市公司基本信息"
     __api_info_title__: ClassVar[str] = "上市公司基本信息"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "基础数据",
-        "上市公司基本信息",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "基础数据", "上市公司基本信息"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 24, 112]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -37,11 +32,7 @@ class StockCompany(Base):
         "exchange": {"type": "str", "required": False, "description": "交易所"},
         "status": {"type": "str", "required": False, "description": "状态"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -63,61 +54,16 @@ class StockCompany(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
-    com_name = Column(
-        "com_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="公司全称",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
+    com_name = Column("com_name", String(), nullable=False, default="", server_default=text("''"), comment="公司全称")
     com_id = Column(
-        "com_id",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="统一社会信用代码",
+        "com_id", String(), nullable=False, default="", server_default=text("''"), comment="统一社会信用代码"
     )
-    chairman = Column(
-        "chairman",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="法人代表",
-    )
-    manager = Column(
-        "manager",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="总经理",
-    )
-    secretary = Column(
-        "secretary",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="董秘",
-    )
+    chairman = Column("chairman", String(), nullable=False, default="", server_default=text("''"), comment="法人代表")
+    manager = Column("manager", String(), nullable=False, default="", server_default=text("''"), comment="总经理")
+    secretary = Column("secretary", String(), nullable=False, default="", server_default=text("''"), comment="董秘")
     reg_capital = Column(
-        "reg_capital",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="注册资本",
+        "reg_capital", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="注册资本"
     )
     setup_date = Column(
         "setup_date",
@@ -127,85 +73,23 @@ class StockCompany(Base):
         server_default=text("'1970-01-01'"),
         comment="注册日期",
     )
-    province = Column(
-        "province",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="所在省份",
-    )
-    city = Column(
-        "city",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="所在城市",
-    )
+    province = Column("province", String(), nullable=False, default="", server_default=text("''"), comment="所在省份")
+    city = Column("city", String(), nullable=False, default="", server_default=text("''"), comment="所在城市")
     introduction = Column(
-        "introduction",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="公司介绍",
+        "introduction", String(), nullable=False, default="", server_default=text("''"), comment="公司介绍"
     )
-    website = Column(
-        "website",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="公司主页",
-    )
-    email = Column(
-        "email",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="电子邮件",
-    )
-    office = Column(
-        "office",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="办公室",
-    )
+    website = Column("website", String(), nullable=False, default="", server_default=text("''"), comment="公司主页")
+    email = Column("email", String(), nullable=False, default="", server_default=text("''"), comment="电子邮件")
+    office = Column("office", String(), nullable=False, default="", server_default=text("''"), comment="办公室")
     ann_date = Column(
-        "ann_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="公告日期",
+        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
     )
     business_scope = Column(
-        "business_scope",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="经营范围",
+        "business_scope", String(), nullable=False, default="", server_default=text("''"), comment="经营范围"
     )
-    employees = Column(
-        "employees",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="员工人数",
-    )
+    employees = Column("employees", Integer, nullable=False, default=0, server_default=text("'0'"), comment="员工人数")
     main_business = Column(
-        "main_business",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="主要业务及产品",
+        "main_business", String(), nullable=False, default="", server_default=text("''"), comment="主要业务及产品"
     )
     exchange = Column(
         "exchange",

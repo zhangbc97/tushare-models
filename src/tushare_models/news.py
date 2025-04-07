@@ -30,17 +30,9 @@ class News(Base):
     __api_params__: ClassVar[Dict[str, Any]] = {
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
-        "src": {
-            "type": "str",
-            "required": False,
-            "description": "新闻来源sina新浪财经",
-        },
+        "src": {"type": "str", "required": False, "description": "新闻来源sina新浪财经"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -62,43 +54,8 @@ class News(Base):
         },
     )
 
-    datetime = Column(
-        "datetime",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="时间",
-    )
-    content = Column(
-        "content",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="内容",
-    )
-    title = Column(
-        "title",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="标题",
-    )
-    channels = Column(
-        "channels",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="分类",
-    )
-    score = Column(
-        "score",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="分值",
-    )
+    datetime = Column("datetime", String(), nullable=False, default="", server_default=text("''"), comment="时间")
+    content = Column("content", String(), nullable=False, default="", server_default=text("''"), comment="内容")
+    title = Column("title", String(), nullable=False, default="", server_default=text("''"), comment="标题")
+    channels = Column("channels", String(), nullable=False, default="", server_default=text("''"), comment="分类")
+    score = Column("score", String(), nullable=False, default="", server_default=text("''"), comment="分值")

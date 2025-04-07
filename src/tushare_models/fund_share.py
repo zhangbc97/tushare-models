@@ -35,11 +35,7 @@ class FundShare(Base):
         "market": {"type": "str", "required": False, "description": "市场：SH/SZ"},
         "fund_type": {"type": "str", "required": False, "description": "类型"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -61,14 +57,7 @@ class FundShare(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="基金代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="基金代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -78,34 +67,10 @@ class FundShare(Base):
         comment="交易(变动)日期",
     )
     fd_share = Column(
-        "fd_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="基金份额(万)",
+        "fd_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="基金份额(万)"
     )
     total_share = Column(
-        "total_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="合计份额(万)",
+        "total_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="合计份额(万)"
     )
-    fund_type = Column(
-        "fund_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="基金类型",
-    )
-    market = Column(
-        "market",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="市场",
-    )
+    fund_type = Column("fund_type", String(), nullable=False, default="", server_default=text("''"), comment="基金类型")
+    market = Column("market", String(), nullable=False, default="", server_default=text("''"), comment="市场")

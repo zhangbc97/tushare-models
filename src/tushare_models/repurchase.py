@@ -18,7 +18,7 @@ class Repurchase(Base):
     __api_name__: ClassVar[str] = "repurchase"
     __api_title__: ClassVar[str] = "股票回购"
     __api_info_title__: ClassVar[str] = "股票回购"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "沪深股票", "参考数据", "股票回购"]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "参考数据", "股票回购"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 17, 124]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -33,11 +33,7 @@ class Repurchase(Base):
         "end_date": {"type": "str", "required": False, "description": "公告结束日期"},
         "ts_code": {"type": "str", "required": False, "description": "TS代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -59,91 +55,26 @@ class Repurchase(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
     ann_date = Column(
-        "ann_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="公告日期",
+        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
     )
     end_date = Column(
-        "end_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="截止日期",
+        "end_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="截止日期"
     )
-    proc = Column(
-        "proc",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="进度",
-    )
+    proc = Column("proc", String(), nullable=False, default="", server_default=text("''"), comment="进度")
     exp_date = Column(
-        "exp_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="过期日期",
+        "exp_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="过期日期"
     )
-    vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="回购数量",
-    )
-    amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="回购金额",
-    )
+    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="回购数量")
+    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="回购金额")
     high_limit = Column(
-        "high_limit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="回购最高价",
+        "high_limit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="回购最高价"
     )
     low_limit = Column(
-        "low_limit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="回购最低价",
+        "low_limit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="回购最低价"
     )
-    repo_goal = Column(
-        "repo_goal",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="回购目的",
-    )
+    repo_goal = Column("repo_goal", String(), nullable=False, default="", server_default=text("''"), comment="回购目的")
     update_flag = Column(
-        "update_flag",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="更新标识",
+        "update_flag", String(), nullable=False, default="", server_default=text("''"), comment="更新标识"
     )

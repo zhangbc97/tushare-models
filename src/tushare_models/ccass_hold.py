@@ -18,12 +18,7 @@ class CcassHold(Base):
     __api_name__: ClassVar[str] = "ccass_hold"
     __api_title__: ClassVar[str] = "中央结算系统持股统计"
     __api_info_title__: ClassVar[str] = "中央结算系统持股汇总"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "特色数据",
-        "中央结算系统持股统计",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "特色数据", "中央结算系统持股统计"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 291, 295]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -40,11 +35,7 @@ class CcassHold(Base):
         "type": {"type": "str", "required": False, "description": "类型"},
         "hk_hold": {"type": "str", "required": False, "description": "港交所代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -74,22 +65,8 @@ class CcassHold(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代号",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票名称",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代号")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
     shareholding = Column(
         "shareholding",
         String(),
@@ -99,12 +76,7 @@ class CcassHold(Base):
         comment="于中央结算系统的持股量(股)",
     )
     hold_nums = Column(
-        "hold_nums",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="参与者数目(个)",
+        "hold_nums", String(), nullable=False, default="", server_default=text("''"), comment="参与者数目(个)"
     )
     hold_ratio = Column(
         "hold_ratio",

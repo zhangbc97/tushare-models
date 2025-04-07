@@ -18,12 +18,7 @@ class BrokerRecommend(Base):
     __api_name__: ClassVar[str] = "broker_recommend"
     __api_title__: ClassVar[str] = "券商月度金股"
     __api_info_title__: ClassVar[str] = "券商每月荐股"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "特色数据",
-        "券商月度金股",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "特色数据", "券商月度金股"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 291, 267]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -35,11 +30,7 @@ class BrokerRecommend(Base):
     __api_params__: ClassVar[Dict[str, Any]] = {
         "month": {"type": "str", "required": True, "description": "月度（YYYYMM）"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -61,35 +52,7 @@ class BrokerRecommend(Base):
         },
     )
 
-    month = Column(
-        "month",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="月度",
-    )
-    broker = Column(
-        "broker",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="券商",
-    )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票简称",
-    )
+    month = Column("month", String(), nullable=False, default="", server_default=text("''"), comment="月度")
+    broker = Column("broker", String(), nullable=False, default="", server_default=text("''"), comment="券商")
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票简称")

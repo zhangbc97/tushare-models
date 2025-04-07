@@ -18,12 +18,7 @@ class MarginSecs(Base):
     __api_name__: ClassVar[str] = "margin_secs"
     __api_title__: ClassVar[str] = "融资融券标的(盘前)"
     __api_info_title__: ClassVar[str] = "融资融券标的(新)"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "两融及转融通",
-        "融资融券标的（盘前）",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "两融及转融通", "融资融券标的（盘前）"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 330, 326]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -39,11 +34,7 @@ class MarginSecs(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -73,27 +64,6 @@ class MarginSecs(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票名称",
-    )
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易所")

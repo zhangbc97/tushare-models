@@ -18,13 +18,7 @@ class UsTrltr(Base):
     __api_name__: ClassVar[str] = "us_trltr"
     __api_title__: ClassVar[str] = "国债长期利率平均值"
     __api_info_title__: ClassVar[str] = "国债实际长期利率平均值"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "宏观经济",
-        "国际宏观",
-        "美国利率",
-        "国债长期利率平均值",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国际宏观", "美国利率", "国债长期利率平均值"]
     __api_path_ids__: ClassVar[List[int]] = [2, 147, 217, 218, 223]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -39,11 +33,7 @@ class UsTrltr(Base):
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "fields": {"type": "str", "required": False, "description": "指定字段"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -65,14 +55,7 @@ class UsTrltr(Base):
         },
     )
 
-    date = Column(
-        "date",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="日期",
-    )
+    date = Column("date", String(), nullable=False, default="", server_default=text("''"), comment="日期")
     ltr_avg = Column(
         "ltr_avg",
         Float,

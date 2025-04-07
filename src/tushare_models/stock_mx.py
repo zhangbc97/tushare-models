@@ -33,11 +33,7 @@ class StockMx(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -67,14 +63,7 @@ class StockMx(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
     mx_grade = Column(
         "mx_grade",
         Integer,
@@ -84,12 +73,7 @@ class StockMx(Base):
         comment="动能评级，综合动能指标后分成4个评等，1(高)、2(中)、3(低)、4(弱)",
     )
     com_stock = Column(
-        "com_stock",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="行业轮动指标",
+        "com_stock", String(), nullable=False, default="", server_default=text("''"), comment="行业轮动指标"
     )
     evd_v = Column(
         "evd_v",
@@ -100,12 +84,7 @@ class StockMx(Base):
         comment="速度指标，衡量该个股股价变化的速度",
     )
     zt_sum_z = Column(
-        "zt_sum_z",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="极值，短期均线离差值",
+        "zt_sum_z", String(), nullable=False, default="", server_default=text("''"), comment="极值，短期均线离差值"
     )
     wma250_z = Column(
         "wma250_z",

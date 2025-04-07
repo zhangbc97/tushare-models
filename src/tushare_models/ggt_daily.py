@@ -18,12 +18,7 @@ class GgtDaily(Base):
     __api_name__: ClassVar[str] = "ggt_daily"
     __api_title__: ClassVar[str] = "港股通每日成交统计"
     __api_info_title__: ClassVar[str] = "港股通每日成交统计"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "行情数据",
-        "港股通每日成交统计",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "行情数据", "港股通每日成交统计"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 15, 196]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -37,11 +32,7 @@ class GgtDaily(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -72,34 +63,14 @@ class GgtDaily(Base):
         comment="交易日期",
     )
     buy_amount = Column(
-        "buy_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="买入成交金额(亿元)",
+        "buy_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="买入成交金额(亿元)"
     )
     buy_volume = Column(
-        "buy_volume",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="买入成交笔数(万笔)",
+        "buy_volume", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="买入成交笔数(万笔)"
     )
     sell_amount = Column(
-        "sell_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="卖出成交金额(亿元)",
+        "sell_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="卖出成交金额(亿元)"
     )
     sell_volume = Column(
-        "sell_volume",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="卖出成交笔数(万笔)",
+        "sell_volume", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="卖出成交笔数(万笔)"
     )

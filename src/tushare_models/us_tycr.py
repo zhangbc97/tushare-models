@@ -18,13 +18,7 @@ class UsTycr(Base):
     __api_name__: ClassVar[str] = "us_tycr"
     __api_title__: ClassVar[str] = "国债收益率曲线利率"
     __api_info_title__: ClassVar[str] = "国债收益率曲线利率(日频)"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "宏观经济",
-        "国际宏观",
-        "美国利率",
-        "国债收益率曲线利率",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国际宏观", "美国利率", "国债收益率曲线利率"]
     __api_path_ids__: ClassVar[List[int]] = [2, 147, 217, 218, 219]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -39,11 +33,7 @@ class UsTycr(Base):
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "fields": {"type": "str", "required": False, "description": "指定字段"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -65,107 +55,16 @@ class UsTycr(Base):
         },
     )
 
-    date = Column(
-        "date",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="日期",
-    )
-    m1 = Column(
-        "m1",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="1月期",
-    )
-    m2 = Column(
-        "m2",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="2月期",
-    )
-    m3 = Column(
-        "m3",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="3月期",
-    )
-    m6 = Column(
-        "m6",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="6月期",
-    )
-    y1 = Column(
-        "y1",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="1年期",
-    )
-    y2 = Column(
-        "y2",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="2年期",
-    )
-    y3 = Column(
-        "y3",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="3年期",
-    )
-    y5 = Column(
-        "y5",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="5年期",
-    )
-    y7 = Column(
-        "y7",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="7年期",
-    )
-    y10 = Column(
-        "y10",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="10年期",
-    )
-    y20 = Column(
-        "y20",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="20年期",
-    )
-    y30 = Column(
-        "y30",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="30年期",
-    )
+    date = Column("date", String(), nullable=False, default="", server_default=text("''"), comment="日期")
+    m1 = Column("m1", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="1月期")
+    m2 = Column("m2", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="2月期")
+    m3 = Column("m3", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="3月期")
+    m6 = Column("m6", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="6月期")
+    y1 = Column("y1", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="1年期")
+    y2 = Column("y2", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="2年期")
+    y3 = Column("y3", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="3年期")
+    y5 = Column("y5", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="5年期")
+    y7 = Column("y7", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="7年期")
+    y10 = Column("y10", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="10年期")
+    y20 = Column("y20", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="20年期")
+    y30 = Column("y30", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="30年期")

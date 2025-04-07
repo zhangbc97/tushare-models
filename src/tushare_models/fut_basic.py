@@ -33,11 +33,7 @@ class FutBasic(Base):
         "ts_code": {"type": "str", "required": False, "description": "合约代码"},
         "fut_code": {"type": "str", "required": False, "description": "标准合约代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -59,101 +55,33 @@ class FutBasic(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="",
-    )
-    symbol = Column(
-        "symbol",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易代码",
-    )
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易市场",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="中文简称",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="")
+    symbol = Column("symbol", String(), nullable=False, default="", server_default=text("''"), comment="交易代码")
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易市场")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="中文简称")
     fut_code = Column(
-        "fut_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="合约产品代码",
+        "fut_code", String(), nullable=False, default="", server_default=text("''"), comment="合约产品代码"
     )
     multiplier = Column(
-        "multiplier",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="合约乘数",
+        "multiplier", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="合约乘数"
     )
     trade_unit = Column(
-        "trade_unit",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易计量单位",
+        "trade_unit", String(), nullable=False, default="", server_default=text("''"), comment="交易计量单位"
     )
     per_unit = Column(
-        "per_unit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="交易单位(每手)",
+        "per_unit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="交易单位(每手)"
     )
     quote_unit = Column(
-        "quote_unit",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="报价单位",
+        "quote_unit", String(), nullable=False, default="", server_default=text("''"), comment="报价单位"
     )
     quote_unit_desc = Column(
-        "quote_unit_desc",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="最小报价单位说明",
+        "quote_unit_desc", String(), nullable=False, default="", server_default=text("''"), comment="最小报价单位说明"
     )
     d_mode_desc = Column(
-        "d_mode_desc",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交割方式说明",
+        "d_mode_desc", String(), nullable=False, default="", server_default=text("''"), comment="交割方式说明"
     )
     list_date = Column(
-        "list_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="上市日期",
+        "list_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="上市日期"
     )
     delist_date = Column(
         "delist_date",
@@ -163,27 +91,10 @@ class FutBasic(Base):
         server_default=text("'1970-01-01'"),
         comment="最后交易日期",
     )
-    d_month = Column(
-        "d_month",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交割月份",
-    )
+    d_month = Column("d_month", String(), nullable=False, default="", server_default=text("''"), comment="交割月份")
     last_ddate = Column(
-        "last_ddate",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="最后交割日",
+        "last_ddate", String(), nullable=False, default="", server_default=text("''"), comment="最后交割日"
     )
     trade_time_desc = Column(
-        "trade_time_desc",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易时间说明",
+        "trade_time_desc", String(), nullable=False, default="", server_default=text("''"), comment="交易时间说明"
     )

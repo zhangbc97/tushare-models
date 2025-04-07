@@ -18,12 +18,7 @@ class TopInst(Base):
     __api_name__: ClassVar[str] = "top_inst"
     __api_title__: ClassVar[str] = "龙虎榜机构交易单"
     __api_info_title__: ClassVar[str] = "龙虎榜机构明细"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "打板专题数据",
-        "龙虎榜机构交易单",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据", "龙虎榜机构交易单"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 346, 107]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -33,18 +28,10 @@ class TopInst(Base):
     __start_date__: ClassVar[str | None] = "2005-01-01"
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "trade_date": {
-            "type": "str",
-            "required": True,
-            "description": "交易日期（格式：YYYYMMDD）",
-        },
+        "trade_date": {"type": "str", "required": True, "description": "交易日期（格式：YYYYMMDD）"},
         "ts_code": {"type": "str", "required": False, "description": "TS代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -74,75 +61,18 @@ class TopInst(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
-    exalter = Column(
-        "exalter",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="营业部名称",
-    )
-    buy = Column(
-        "buy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="买入额(万)",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
+    exalter = Column("exalter", String(), nullable=False, default="", server_default=text("''"), comment="营业部名称")
+    buy = Column("buy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="买入额(万)")
     buy_rate = Column(
-        "buy_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="买入占总成交比例",
+        "buy_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="买入占总成交比例"
     )
-    sell = Column(
-        "sell",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="卖出额(万)",
-    )
+    sell = Column("sell", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="卖出额(万)")
     sell_rate = Column(
-        "sell_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="卖出占总成交比例",
+        "sell_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="卖出占总成交比例"
     )
     net_buy = Column(
-        "net_buy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="净成交额(万)",
+        "net_buy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="净成交额(万)"
     )
-    side = Column(
-        "side",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="买卖类型0买入1卖出",
-    )
-    reason = Column(
-        "reason",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="上榜理由",
-    )
+    side = Column("side", String(), nullable=False, default="", server_default=text("''"), comment="买卖类型0买入1卖出")
+    reason = Column("reason", String(), nullable=False, default="", server_default=text("''"), comment="上榜理由")

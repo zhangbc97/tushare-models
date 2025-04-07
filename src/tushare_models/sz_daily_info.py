@@ -33,11 +33,7 @@ class SzDailyInfo(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -60,74 +56,17 @@ class SzDailyInfo(Base):
     )
 
     trade_date = Column(
-        "trade_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="",
+        "trade_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment=""
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="市场类型",
-    )
-    count = Column(
-        "count",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="股票个数",
-    )
-    amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交金额",
-    )
-    vol = Column(
-        "vol",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="成交量",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="市场类型")
+    count = Column("count", Integer, nullable=False, default=0, server_default=text("'0'"), comment="股票个数")
+    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交金额")
+    vol = Column("vol", String(), nullable=False, default="", server_default=text("''"), comment="成交量")
     total_share = Column(
-        "total_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="总股本",
+        "total_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="总股本"
     )
-    total_mv = Column(
-        "total_mv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="总市值",
-    )
+    total_mv = Column("total_mv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="总市值")
     float_share = Column(
-        "float_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="流通股票",
+        "float_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流通股票"
     )
-    float_mv = Column(
-        "float_mv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="流通市值",
-    )
+    float_mv = Column("float_mv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流通市值")

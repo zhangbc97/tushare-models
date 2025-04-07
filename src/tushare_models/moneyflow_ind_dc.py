@@ -18,12 +18,7 @@ class MoneyflowIndDc(Base):
     __api_name__: ClassVar[str] = "moneyflow_ind_dc"
     __api_title__: ClassVar[str] = "板块资金流向(DC)"
     __api_info_title__: ClassVar[str] = "板块资金流向(DC)"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "资金流向数据",
-        "板块资金流向（DC）",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "资金流向数据", "板块资金流向（DC）"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 342, 344]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -34,19 +29,12 @@ class MoneyflowIndDc(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": False, "description": "代码"},
-        "trade_date": {
-            "type": "str",
-            "required": False,
-            "description": "交易日期(格式：YYYYMMDD，下同)",
-        },
+        "trade_date": {"type": "str", "required": False, "description": "交易日期(格式：YYYYMMDD，下同)"},
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
+        "content_type": {"type": "str", "required": False, "description": "资金类型(行业、概念、地域)"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -76,38 +64,15 @@ class MoneyflowIndDc(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
+    content_type = Column(
+        "content_type", String(), nullable=False, default="", server_default=text("''"), comment="数据类型"
     )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票名称",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
     pct_change = Column(
-        "pct_change",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨跌幅(%)",
+        "pct_change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌幅(%)"
     )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最新价(元)",
-    )
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最新价(元)")
     net_amount = Column(
         "net_amount",
         Float,
@@ -196,11 +161,4 @@ class MoneyflowIndDc(Base):
         server_default=text("''"),
         comment="今日主力净流入最大股",
     )
-    rank = Column(
-        "rank",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="序号",
-    )
+    rank = Column("rank", Integer, nullable=False, default=0, server_default=text("'0'"), comment="序号")

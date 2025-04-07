@@ -34,11 +34,7 @@ class FutSettle(Base):
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "exchange": {"type": "str", "required": False, "description": "交易所代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -60,14 +56,7 @@ class FutSettle(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="合约代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="合约代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -76,37 +65,15 @@ class FutSettle(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    settle = Column(
-        "settle",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="结算价",
-    )
+    settle = Column("settle", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="结算价")
     trading_fee_rate = Column(
-        "trading_fee_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="交易手续费率",
+        "trading_fee_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="交易手续费率"
     )
     trading_fee = Column(
-        "trading_fee",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="交易手续费",
+        "trading_fee", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="交易手续费"
     )
     delivery_fee = Column(
-        "delivery_fee",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="交割手续费",
+        "delivery_fee", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="交割手续费"
     )
     b_hedging_margin_rate = Column(
         "b_hedging_margin_rate",
@@ -141,18 +108,6 @@ class FutSettle(Base):
         comment="卖投机交易保证金率",
     )
     offset_today_fee = Column(
-        "offset_today_fee",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="平今仓手续率",
+        "offset_today_fee", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="平今仓手续率"
     )
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所",
-    )
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易所")

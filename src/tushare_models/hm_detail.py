@@ -18,12 +18,7 @@ class HmDetail(Base):
     __api_name__: ClassVar[str] = "hm_detail"
     __api_title__: ClassVar[str] = "游资交易每日明细"
     __api_info_title__: ClassVar[str] = "游资每日明细"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "打板专题数据",
-        "游资交易每日明细",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据", "游资交易每日明细"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 346, 312]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -39,11 +34,7 @@ class HmDetail(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -73,67 +64,17 @@ class HmDetail(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="",
-    )
-    ts_name = Column(
-        "ts_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="")
+    ts_name = Column("ts_name", String(), nullable=False, default="", server_default=text("''"), comment="")
     buy_amount = Column(
-        "buy_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="买入数量(万)",
+        "buy_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="买入数量(万)"
     )
     sell_amount = Column(
-        "sell_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="卖出数量(万)",
+        "sell_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="卖出数量(万)"
     )
     net_amount = Column(
-        "net_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="净买入(买卖和(万))",
+        "net_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="净买入(买卖和(万))"
     )
-    tag = Column(
-        "tag",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="标签",
-    )
-    hm_name = Column(
-        "hm_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="游资名称",
-    )
-    hm_orgs = Column(
-        "hm_orgs",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="关联机构",
-    )
+    tag = Column("tag", String(), nullable=False, default="", server_default=text("''"), comment="标签")
+    hm_name = Column("hm_name", String(), nullable=False, default="", server_default=text("''"), comment="游资名称")
+    hm_orgs = Column("hm_orgs", String(), nullable=False, default="", server_default=text("''"), comment="关联机构")

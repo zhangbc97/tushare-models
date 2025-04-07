@@ -18,12 +18,7 @@ class Margin(Base):
     __api_name__: ClassVar[str] = "margin"
     __api_title__: ClassVar[str] = "融资融券交易汇总"
     __api_info_title__: ClassVar[str] = "融资融券交易汇总"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "两融及转融通",
-        "融资融券交易汇总",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "两融及转融通", "融资融券交易汇总"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 330, 58]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -38,11 +33,7 @@ class Margin(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -80,59 +71,14 @@ class Margin(Base):
         server_default=text("''"),
         comment="交易所代码(SSE上交所SZSE深交所)",
     )
-    rzye = Column(
-        "rzye",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="融资余额(元)",
-    )
-    rzmre = Column(
-        "rzmre",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="融资买入额(元)",
-    )
-    rzche = Column(
-        "rzche",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="融资偿还额(元)",
-    )
-    rqye = Column(
-        "rqye",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="融券余额(元)",
-    )
+    rzye = Column("rzye", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="融资余额(元)")
+    rzmre = Column("rzmre", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="融资买入额(元)")
+    rzche = Column("rzche", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="融资偿还额(元)")
+    rqye = Column("rqye", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="融券余额(元)")
     rqmcl = Column(
-        "rqmcl",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="融券卖出量(股,份,手)",
+        "rqmcl", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="融券卖出量(股,份,手)"
     )
     rzrqye = Column(
-        "rzrqye",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="融资融券余额(元)",
+        "rzrqye", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="融资融券余额(元)"
     )
-    rqyl = Column(
-        "rqyl",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="融券余量",
-    )
+    rqyl = Column("rqyl", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="融券余量")

@@ -32,11 +32,7 @@ class RtFutMin(Base):
         "freq": {"type": "str", "required": True, "description": "分钟类型"},
         "ts_code": {"type": "str", "required": True, "description": "证券代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -58,99 +54,19 @@ class RtFutMin(Base):
         },
     )
 
-    code = Column(
-        "code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="基金代码",
-    )
-    freq = Column(
-        "freq",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="起始交易日期",
-    )
-    time = Column(
-        "time",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="截止交易日期",
-    )
-    open = Column(
-        "open",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="信息比率",
-    )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="信息比率",
-    )
-    high = Column(
-        "high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="信息比率",
-    )
-    low = Column(
-        "low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="信息比率",
-    )
-    volume = Column(
-        "volume",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="信息比率",
-    )
-    amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="信息比率",
-    )
-    oi = Column(
-        "oi",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="信息比率",
-    )
+    code = Column("code", String(), nullable=False, default="", server_default=text("''"), comment="基金代码")
+    freq = Column("freq", String(), nullable=False, default="", server_default=text("''"), comment="起始交易日期")
+    time = Column("time", String(), nullable=False, default="", server_default=text("''"), comment="截止交易日期")
+    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="信息比率")
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="信息比率")
+    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="信息比率")
+    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="信息比率")
+    volume = Column("volume", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="信息比率")
+    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="信息比率")
+    oi = Column("oi", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="信息比率")
     trade_date = Column(
-        "trade_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="结算日",
+        "trade_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="结算日"
     )
     action_date = Column(
-        "action_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="交易日",
+        "action_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="交易日"
     )

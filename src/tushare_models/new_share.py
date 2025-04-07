@@ -18,12 +18,7 @@ class NewShare(Base):
     __api_name__: ClassVar[str] = "new_share"
     __api_title__: ClassVar[str] = "IPO新股上市"
     __api_info_title__: ClassVar[str] = "IPO新股列表"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "基础数据",
-        "IPO新股上市",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "基础数据", "IPO新股上市"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 24, 123]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -36,11 +31,7 @@ class NewShare(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -62,30 +53,9 @@ class NewShare(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS股票代码",
-    )
-    sub_code = Column(
-        "sub_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="申购代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="名称",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS股票代码")
+    sub_code = Column("sub_code", String(), nullable=False, default="", server_default=text("''"), comment="申购代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="名称")
     ipo_date = Column(
         "ipo_date",
         Date,
@@ -103,58 +73,15 @@ class NewShare(Base):
         comment="上市日期",
     )
     amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="发行总量(万股)",
+        "amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="发行总量(万股)"
     )
     market_amount = Column(
-        "market_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="上网发行总量(万股)",
+        "market_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="上网发行总量(万股)"
     )
-    price = Column(
-        "price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="发行价格",
-    )
-    pe = Column(
-        "pe",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="市盈率",
-    )
+    price = Column("price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="发行价格")
+    pe = Column("pe", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="市盈率")
     limit_amount = Column(
-        "limit_amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="个人申购上限(万股)",
+        "limit_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="个人申购上限(万股)"
     )
-    funds = Column(
-        "funds",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="募集资金(亿元)",
-    )
-    ballot = Column(
-        "ballot",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="中签率",
-    )
+    funds = Column("funds", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="募集资金(亿元)")
+    ballot = Column("ballot", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="中签率")

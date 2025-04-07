@@ -18,12 +18,7 @@ class KplConcept(Base):
     __api_name__: ClassVar[str] = "kpl_concept"
     __api_title__: ClassVar[str] = "题材数据(开盘啦)"
     __api_info_title__: ClassVar[str] = "开盘啦题材库"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "打板专题数据",
-        "题材数据（开盘啦）",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据", "题材数据（开盘啦）"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 346, 350]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -34,18 +29,10 @@ class KplConcept(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "trade_date": {"type": "str", "required": False, "description": "交易日期"},
-        "ts_code": {
-            "type": "str",
-            "required": False,
-            "description": "题材代码(xxxxxx.KP格式)",
-        },
+        "ts_code": {"type": "str", "required": False, "description": "题材代码(xxxxxx.KP格式)"},
         "name": {"type": "str", "required": False, "description": "题材名称"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -75,35 +62,7 @@ class KplConcept(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="题材代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="题材名称",
-    )
-    z_t_num = Column(
-        "z_t_num",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="涨停数量",
-    )
-    up_num = Column(
-        "up_num",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="排名上升位数",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="题材代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="题材名称")
+    z_t_num = Column("z_t_num", String(), nullable=False, default="", server_default=text("''"), comment="涨停数量")
+    up_num = Column("up_num", String(), nullable=False, default="", server_default=text("''"), comment="排名上升位数")

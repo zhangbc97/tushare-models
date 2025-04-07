@@ -18,14 +18,7 @@ class CnM(Base):
     __api_name__: ClassVar[str] = "cn_m"
     __api_title__: ClassVar[str] = "货币供应量(月)"
     __api_info_title__: ClassVar[str] = "货币供应量"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "宏观经济",
-        "国内宏观",
-        "金融",
-        "货币供应量",
-        "货币供应量（月）",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国内宏观", "金融", "货币供应量", "货币供应量（月）"]
     __api_path_ids__: ClassVar[List[int]] = [2, 147, 224, 240, 241, 242]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -35,19 +28,11 @@ class CnM(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "m": {
-            "type": "str",
-            "required": False,
-            "description": "月度（202001表示，2020年1月）",
-        },
+        "m": {"type": "str", "required": False, "description": "月度（202001表示，2020年1月）"},
         "start_m": {"type": "str", "required": False, "description": "开始月度"},
         "end_m": {"type": "str", "required": False, "description": "结束月度"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -69,83 +54,13 @@ class CnM(Base):
         },
     )
 
-    month = Column(
-        "month",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="月份YYYYMM",
-    )
-    m0 = Column(
-        "m0",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="M0(亿元)",
-    )
-    m0_yoy = Column(
-        "m0_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="M0同比(%)",
-    )
-    m0_mom = Column(
-        "m0_mom",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="M0环比(%)",
-    )
-    m1 = Column(
-        "m1",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="M1(亿元)",
-    )
-    m1_yoy = Column(
-        "m1_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="M1同比(%)",
-    )
-    m1_mom = Column(
-        "m1_mom",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="M1环比(%)",
-    )
-    m2 = Column(
-        "m2",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="M2(亿元)",
-    )
-    m2_yoy = Column(
-        "m2_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="M2同比(%)",
-    )
-    m2_mom = Column(
-        "m2_mom",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="M2环比(%)",
-    )
+    month = Column("month", String(), nullable=False, default="", server_default=text("''"), comment="月份YYYYMM")
+    m0 = Column("m0", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="M0(亿元)")
+    m0_yoy = Column("m0_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="M0同比(%)")
+    m0_mom = Column("m0_mom", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="M0环比(%)")
+    m1 = Column("m1", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="M1(亿元)")
+    m1_yoy = Column("m1_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="M1同比(%)")
+    m1_mom = Column("m1_mom", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="M1环比(%)")
+    m2 = Column("m2", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="M2(亿元)")
+    m2_yoy = Column("m2_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="M2同比(%)")
+    m2_mom = Column("m2_mom", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="M2环比(%)")

@@ -18,11 +18,7 @@ class AnnsD(Base):
     __api_name__: ClassVar[str] = "anns_d"
     __api_title__: ClassVar[str] = "上市公司公告"
     __api_info_title__: ClassVar[str] = "全量公告"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "大模型语料专题数据",
-        "上市公司公告",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "大模型语料专题数据", "上市公司公告"]
     __api_path_ids__: ClassVar[List[int]] = [2, 142, 176]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = True
@@ -61,45 +57,12 @@ class AnnsD(Base):
     )
 
     ann_date = Column(
-        "ann_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="公告日期",
+        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票名称",
-    )
-    title = Column(
-        "title",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="标题",
-    )
-    url = Column(
-        "url",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="URL",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
+    title = Column("title", String(), nullable=False, default="", server_default=text("''"), comment="标题")
+    url = Column("url", String(), nullable=False, default="", server_default=text("''"), comment="URL")
     rec_time = Column(
         "rec_time",
         DateTime,

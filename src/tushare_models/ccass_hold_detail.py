@@ -18,12 +18,7 @@ class CcassHoldDetail(Base):
     __api_name__: ClassVar[str] = "ccass_hold_detail"
     __api_title__: ClassVar[str] = "中央结算系统持股明细"
     __api_info_title__: ClassVar[str] = "中央结算系统持股明细"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "特色数据",
-        "中央结算系统持股明细",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "特色数据", "中央结算系统持股明细"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 291, 274]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -69,45 +64,16 @@ class CcassHoldDetail(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代号",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票名称",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代号")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
     col_participant_id = Column(
-        "col_participant_id",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="参与者编号",
+        "col_participant_id", String(), nullable=False, default="", server_default=text("''"), comment="参与者编号"
     )
     col_participant_name = Column(
-        "col_participant_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="机构名称",
+        "col_participant_name", String(), nullable=False, default="", server_default=text("''"), comment="机构名称"
     )
     col_shareholding = Column(
-        "col_shareholding",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="持股量(股)",
+        "col_shareholding", String(), nullable=False, default="", server_default=text("''"), comment="持股量(股)"
     )
     col_shareholding_percent = Column(
         "col_shareholding_percent",

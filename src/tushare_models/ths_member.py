@@ -18,12 +18,7 @@ class ThsMember(Base):
     __api_name__: ClassVar[str] = "ths_member"
     __api_title__: ClassVar[str] = "同花顺行业概念成分"
     __api_info_title__: ClassVar[str] = "同花顺概念板块成分"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "打板专题数据",
-        "同花顺行业概念成分",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据", "同花顺行业概念成分"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 346, 261]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -58,59 +53,14 @@ class ThsMember(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="指数代码",
-    )
-    con_code = Column(
-        "con_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
-    con_name = Column(
-        "con_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票名称",
-    )
-    weight = Column(
-        "weight",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="权重",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="指数代码")
+    con_code = Column("con_code", String(), nullable=False, default="", server_default=text("''"), comment="股票代码")
+    con_name = Column("con_name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
+    weight = Column("weight", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="权重")
     in_date = Column(
-        "in_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="纳入日期",
+        "in_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="纳入日期"
     )
     out_date = Column(
-        "out_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="剔除日期",
+        "out_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="剔除日期"
     )
-    is_new = Column(
-        "is_new",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="是否最新Y是N否",
-    )
+    is_new = Column("is_new", String(), nullable=False, default="", server_default=text("''"), comment="是否最新Y是N否")

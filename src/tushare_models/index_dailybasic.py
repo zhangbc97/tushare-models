@@ -33,11 +33,7 @@ class IndexDailybasic(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -59,14 +55,7 @@ class IndexDailybasic(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -76,52 +65,22 @@ class IndexDailybasic(Base):
         comment="交易日期",
     )
     total_mv = Column(
-        "total_mv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="当日总市值",
+        "total_mv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="当日总市值"
     )
     float_mv = Column(
-        "float_mv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="当日流通市值",
+        "float_mv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="当日流通市值"
     )
     total_share = Column(
-        "total_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="当日总股本",
+        "total_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="当日总股本"
     )
     float_share = Column(
-        "float_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="当日流通股本",
+        "float_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="当日流通股本"
     )
     free_share = Column(
-        "free_share",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="当日自由流通股本",
+        "free_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="当日自由流通股本"
     )
     turnover_rate = Column(
-        "turnover_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="换手率",
+        "turnover_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="换手率"
     )
     turnover_rate_f = Column(
         "turnover_rate_f",
@@ -131,27 +90,6 @@ class IndexDailybasic(Base):
         server_default=text("'0.0'"),
         comment="换手率(自由流通股本)",
     )
-    pe = Column(
-        "pe",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="市盈率",
-    )
-    pe_ttm = Column(
-        "pe_ttm",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="市盈率TTM",
-    )
-    pb = Column(
-        "pb",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="市净率",
-    )
+    pe = Column("pe", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="市盈率")
+    pe_ttm = Column("pe_ttm", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="市盈率TTM")
+    pb = Column("pb", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="市净率")

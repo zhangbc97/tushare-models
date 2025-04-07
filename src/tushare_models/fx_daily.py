@@ -29,28 +29,12 @@ class FxDaily(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": False, "description": "TS代码"},
-        "trade_date": {
-            "type": "str",
-            "required": False,
-            "description": "交易日期（GMT）",
-        },
-        "start_date": {
-            "type": "str",
-            "required": False,
-            "description": "开始日期（GMT）",
-        },
-        "end_date": {
-            "type": "str",
-            "required": False,
-            "description": "结束日期（GMT）",
-        },
+        "trade_date": {"type": "str", "required": False, "description": "交易日期（GMT）"},
+        "start_date": {"type": "str", "required": False, "description": "开始日期（GMT）"},
+        "end_date": {"type": "str", "required": False, "description": "结束日期（GMT）"},
         "exchange": {"type": "str", "required": False, "description": "交易商"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -72,14 +56,7 @@ class FxDaily(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="外汇代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="外汇代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -89,82 +66,24 @@ class FxDaily(Base):
         comment="交易日期",
     )
     bid_open = Column(
-        "bid_open",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="买入开盘价",
+        "bid_open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="买入开盘价"
     )
     bid_close = Column(
-        "bid_close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="买入收盘价",
+        "bid_close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="买入收盘价"
     )
     bid_high = Column(
-        "bid_high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="买入最高价",
+        "bid_high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="买入最高价"
     )
-    bid_low = Column(
-        "bid_low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="买入最低价",
-    )
+    bid_low = Column("bid_low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="买入最低价")
     ask_open = Column(
-        "ask_open",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="卖出开盘价",
+        "ask_open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="卖出开盘价"
     )
     ask_close = Column(
-        "ask_close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="卖出收盘价",
+        "ask_close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="卖出收盘价"
     )
     ask_high = Column(
-        "ask_high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="卖出最高价",
+        "ask_high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="卖出最高价"
     )
-    ask_low = Column(
-        "ask_low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="卖出最低价",
-    )
-    tick_qty = Column(
-        "tick_qty",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="报价笔数",
-    )
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易商",
-    )
+    ask_low = Column("ask_low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="卖出最低价")
+    tick_qty = Column("tick_qty", Integer, nullable=False, default=0, server_default=text("'0'"), comment="报价笔数")
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易商")

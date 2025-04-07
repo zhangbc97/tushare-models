@@ -18,12 +18,7 @@ class StkAuctionC(Base):
     __api_name__: ClassVar[str] = "stk_auction_c"
     __api_title__: ClassVar[str] = "股票收盘集合竞价数据"
     __api_info_title__: ClassVar[str] = "股票收盘集合竞价数据"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "特色数据",
-        "股票收盘集合竞价数据",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "特色数据", "股票收盘集合竞价数据"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 291, 354]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -34,27 +29,11 @@ class StkAuctionC(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": False, "description": "股票代码"},
-        "trade_date": {
-            "type": "str",
-            "required": False,
-            "description": "交易日期(YYYYMMDD)",
-        },
-        "start_date": {
-            "type": "str",
-            "required": False,
-            "description": "开始日期(YYYYMMDD)",
-        },
-        "end_date": {
-            "type": "str",
-            "required": False,
-            "description": "结束日期(YYYYMMDD)",
-        },
+        "trade_date": {"type": "str", "required": False, "description": "交易日期(YYYYMMDD)"},
+        "start_date": {"type": "str", "required": False, "description": "开始日期(YYYYMMDD)"},
+        "end_date": {"type": "str", "required": False, "description": "结束日期(YYYYMMDD)"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -76,14 +55,7 @@ class StkAuctionC(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -93,58 +65,17 @@ class StkAuctionC(Base):
         comment="交易日期",
     )
     close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘集合竞价收盘价",
+        "close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘集合竞价收盘价"
     )
     open = Column(
-        "open",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘集合竞价开盘价",
+        "open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘集合竞价开盘价"
     )
     high = Column(
-        "high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘集合竞价最高价",
+        "high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘集合竞价最高价"
     )
-    low = Column(
-        "low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘集合竞价最低价",
-    )
-    vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘集合竞价成交量",
-    )
+    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘集合竞价最低价")
+    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘集合竞价成交量")
     amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘集合竞价成交额",
+        "amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘集合竞价成交额"
     )
-    vwap = Column(
-        "vwap",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘集合竞价均价",
-    )
+    vwap = Column("vwap", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘集合竞价均价")

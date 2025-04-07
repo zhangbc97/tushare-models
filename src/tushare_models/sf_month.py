@@ -18,14 +18,7 @@ class SfMonth(Base):
     __api_name__: ClassVar[str] = "sf_month"
     __api_title__: ClassVar[str] = "社融增量(月度)"
     __api_info_title__: ClassVar[str] = "社融数据(月度)"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "宏观经济",
-        "国内宏观",
-        "金融",
-        "社会融资",
-        "社融增量（月度）",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国内宏观", "金融", "社会融资", "社融增量（月度）"]
     __api_path_ids__: ClassVar[List[int]] = [2, 147, 224, 240, 309, 310]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -35,19 +28,11 @@ class SfMonth(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "m": {
-            "type": "str",
-            "required": False,
-            "description": "月份（YYYYMM，下同），支持多个月份同时输入，逗号分隔",
-        },
+        "m": {"type": "str", "required": False, "description": "月份（YYYYMM，下同），支持多个月份同时输入，逗号分隔"},
         "start_m": {"type": "str", "required": False, "description": "开始月份"},
         "end_m": {"type": "str", "required": False, "description": "结束月份"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -69,35 +54,13 @@ class SfMonth(Base):
         },
     )
 
-    month = Column(
-        "month",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="月度",
-    )
+    month = Column("month", String(), nullable=False, default="", server_default=text("''"), comment="月度")
     inc_month = Column(
-        "inc_month",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="社融增量当月值(亿元)",
+        "inc_month", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="社融增量当月值(亿元)"
     )
     inc_cumval = Column(
-        "inc_cumval",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="社融增量累计值(亿元)",
+        "inc_cumval", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="社融增量累计值(亿元)"
     )
     stk_endval = Column(
-        "stk_endval",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="社融存量期末值(万亿元)",
+        "stk_endval", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="社融存量期末值(万亿元)"
     )

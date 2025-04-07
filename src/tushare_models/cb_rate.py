@@ -28,17 +28,9 @@ class CbRate(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {
-            "type": "str",
-            "required": False,
-            "description": "转债代码，支持多值输入",
-        },
+        "ts_code": {"type": "str", "required": False, "description": "转债代码，支持多值输入"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -60,21 +52,9 @@ class CbRate(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="转债代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="转债代码")
     rate_freq = Column(
-        "rate_freq",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="付息频率(次/年)",
+        "rate_freq", Integer, nullable=False, default=0, server_default=text("'0'"), comment="付息频率(次/年)"
     )
     rate_start_date = Column(
         "rate_start_date",
@@ -93,10 +73,5 @@ class CbRate(Base):
         comment="纯债溢价率(%)",
     )
     coupon_rate = Column(
-        "coupon_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="票面利率(%)",
+        "coupon_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="票面利率(%)"
     )

@@ -34,11 +34,7 @@ class IndexMemberAll(Base):
         "is_new": {"type": "str", "required": False, "description": "是否最新"},
         "ts_code": {"type": "str", "required": False, "description": "股票代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -60,91 +56,20 @@ class IndexMemberAll(Base):
         },
     )
 
-    l1_code = Column(
-        "l1_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="L1代码",
-    )
-    l1_name = Column(
-        "l1_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="L1名称",
-    )
-    l2_code = Column(
-        "l2_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="L2代码",
-    )
-    l2_name = Column(
-        "l2_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="L2名称",
-    )
-    l3_code = Column(
-        "l3_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="L3代码",
-    )
-    l3_name = Column(
-        "l3_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="L3名称",
-    )
+    l1_code = Column("l1_code", String(), nullable=False, default="", server_default=text("''"), comment="L1代码")
+    l1_name = Column("l1_name", String(), nullable=False, default="", server_default=text("''"), comment="L1名称")
+    l2_code = Column("l2_code", String(), nullable=False, default="", server_default=text("''"), comment="L2代码")
+    l2_name = Column("l2_name", String(), nullable=False, default="", server_default=text("''"), comment="L2名称")
+    l3_code = Column("l3_code", String(), nullable=False, default="", server_default=text("''"), comment="L3代码")
+    l3_name = Column("l3_name", String(), nullable=False, default="", server_default=text("''"), comment="L3名称")
     ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="成分股票代码",
+        "ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="成分股票代码"
     )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="成分股票名称",
-    )
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="成分股票名称")
     in_date = Column(
-        "in_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="纳入日期",
+        "in_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="纳入日期"
     )
     out_date = Column(
-        "out_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="剔除日期",
+        "out_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="剔除日期"
     )
-    is_new = Column(
-        "is_new",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="是否最新Y是N否",
-    )
+    is_new = Column("is_new", String(), nullable=False, default="", server_default=text("''"), comment="是否最新Y是N否")

@@ -18,12 +18,7 @@ class FinaMainbz(Base):
     __api_name__: ClassVar[str] = "fina_mainbz"
     __api_title__: ClassVar[str] = "主营业务构成"
     __api_info_title__: ClassVar[str] = "主营业务构成"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "财务数据",
-        "主营业务构成",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "财务数据", "主营业务构成"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 16, 81]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -35,24 +30,12 @@ class FinaMainbz(Base):
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": True, "description": "股票代码"},
         "period": {"type": "str", "required": False, "description": "报告期"},
-        "type": {
-            "type": "str",
-            "required": False,
-            "description": "类型：P按产品 D按地区",
-        },
-        "start_date": {
-            "type": "str",
-            "required": False,
-            "description": "报告期开始日期",
-        },
+        "type": {"type": "str", "required": False, "description": "类型：P按产品 D按地区"},
+        "start_date": {"type": "str", "required": False, "description": "报告期开始日期"},
         "end_date": {"type": "str", "required": False, "description": "报告期结束日期"},
         "is_publish": {"type": "str", "required": False, "description": ""},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -74,75 +57,22 @@ class FinaMainbz(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
     end_date = Column(
-        "end_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="报告期",
+        "end_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="报告期"
     )
-    bz_item = Column(
-        "bz_item",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="主营业务项目",
-    )
-    bz_code = Column(
-        "bz_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="项目代码",
-    )
+    bz_item = Column("bz_item", String(), nullable=False, default="", server_default=text("''"), comment="主营业务项目")
+    bz_code = Column("bz_code", String(), nullable=False, default="", server_default=text("''"), comment="项目代码")
     bz_sales = Column(
-        "bz_sales",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="主营业务收入(元)",
+        "bz_sales", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="主营业务收入(元)"
     )
     bz_profit = Column(
-        "bz_profit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="主营业务利润(元)",
+        "bz_profit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="主营业务利润(元)"
     )
     bz_cost = Column(
-        "bz_cost",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="主营业务成本(元)",
+        "bz_cost", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="主营业务成本(元)"
     )
-    curr_type = Column(
-        "curr_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="货币代码",
-    )
+    curr_type = Column("curr_type", String(), nullable=False, default="", server_default=text("''"), comment="货币代码")
     update_flag = Column(
-        "update_flag",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="是否更新",
+        "update_flag", String(), nullable=False, default="", server_default=text("''"), comment="是否更新"
     )

@@ -34,11 +34,7 @@ class FutHolding(Base):
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "exchange": {"type": "str", "required": False, "description": "交易所代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -68,75 +64,18 @@ class FutHolding(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    symbol = Column(
-        "symbol",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="合约代码或类型",
-    )
+    symbol = Column("symbol", String(), nullable=False, default="", server_default=text("''"), comment="合约代码或类型")
     broker = Column(
-        "broker",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="期货公司会员简称",
+        "broker", String(), nullable=False, default="", server_default=text("''"), comment="期货公司会员简称"
     )
-    vol = Column(
-        "vol",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="成交量",
-    )
-    vol_chg = Column(
-        "vol_chg",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="成交量变化",
-    )
-    long_hld = Column(
-        "long_hld",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="持买仓量",
-    )
+    vol = Column("vol", Integer, nullable=False, default=0, server_default=text("'0'"), comment="成交量")
+    vol_chg = Column("vol_chg", Integer, nullable=False, default=0, server_default=text("'0'"), comment="成交量变化")
+    long_hld = Column("long_hld", Integer, nullable=False, default=0, server_default=text("'0'"), comment="持买仓量")
     long_chg = Column(
-        "long_chg",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="持买仓量变化",
+        "long_chg", Integer, nullable=False, default=0, server_default=text("'0'"), comment="持买仓量变化"
     )
-    short_hld = Column(
-        "short_hld",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="持卖仓量",
-    )
+    short_hld = Column("short_hld", Integer, nullable=False, default=0, server_default=text("'0'"), comment="持卖仓量")
     short_chg = Column(
-        "short_chg",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="持卖仓量变化",
+        "short_chg", Integer, nullable=False, default=0, server_default=text("'0'"), comment="持卖仓量变化"
     )
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所",
-    )
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易所")

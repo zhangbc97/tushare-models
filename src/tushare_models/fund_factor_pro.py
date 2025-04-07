@@ -18,11 +18,7 @@ class FundFactorPro(Base):
     __api_name__: ClassVar[str] = "fund_factor_pro"
     __api_title__: ClassVar[str] = "基金技术面因子(专业版)"
     __api_info_title__: ClassVar[str] = "场内基金技术因子(专业版)"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "公募基金",
-        "基金技术面因子(专业版)",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "公募基金", "基金技术面因子(专业版)"]
     __api_path_ids__: ClassVar[List[int]] = [2, 18, 359]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -37,11 +33,7 @@ class FundFactorPro(Base):
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "trade_date": {"type": "str", "required": False, "description": "交易日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -63,14 +55,7 @@ class FundFactorPro(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="基金代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="基金代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -80,61 +65,14 @@ class FundFactorPro(Base):
         comment="交易日期",
     )
     trade_date_doris = Column(
-        "trade_date_doris",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="日期",
+        "trade_date_doris", String(), nullable=False, default="", server_default=text("''"), comment="日期"
     )
-    open = Column(
-        "open",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="开盘价",
-    )
-    high = Column(
-        "high",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最高价",
-    )
-    low = Column(
-        "low",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最低价",
-    )
-    close = Column(
-        "close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="收盘价",
-    )
-    pre_close = Column(
-        "pre_close",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="昨收价",
-    )
-    change = Column(
-        "change",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨跌额",
-    )
+    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="开盘价")
+    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最高价")
+    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最低价")
+    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘价")
+    pre_close = Column("pre_close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="昨收价")
+    change = Column("change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌额")
     pct_change = Column(
         "pct_change",
         Float,
@@ -143,22 +81,8 @@ class FundFactorPro(Base):
         server_default=text("'0.0'"),
         comment="涨跌幅 (未复权，如果是复权请用 通用行情接口 )",
     )
-    vol = Column(
-        "vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交量 (手)",
-    )
-    amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="成交额 (千元)",
-    )
+    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交量 (手)")
+    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交额 (千元)")
     asi_bfq = Column(
         "asi_bfq",
         Float,
@@ -319,22 +243,8 @@ class FundFactorPro(Base):
         server_default=text("'0.0'"),
         comment=" 动向指标-CLOSE, HIGH, LOW, M1=14, M2=6",
     )
-    downdays = Column(
-        "downdays",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="连跌天数",
-    )
-    updays = Column(
-        "updays",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="连涨天数",
-    )
+    downdays = Column("downdays", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="连跌天数")
+    updays = Column("updays", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="连涨天数")
     dpo_bfq = Column(
         "dpo_bfq",
         Float,
@@ -352,60 +262,25 @@ class FundFactorPro(Base):
         comment="区间震荡线-CLOSE, M1=20, M2=10, M3=6",
     )
     ema_bfq_10 = Column(
-        "ema_bfq_10",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=10",
+        "ema_bfq_10", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=10"
     )
     ema_bfq_20 = Column(
-        "ema_bfq_20",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=20",
+        "ema_bfq_20", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=20"
     )
     ema_bfq_250 = Column(
-        "ema_bfq_250",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=250",
+        "ema_bfq_250", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=250"
     )
     ema_bfq_30 = Column(
-        "ema_bfq_30",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=30",
+        "ema_bfq_30", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=30"
     )
     ema_bfq_5 = Column(
-        "ema_bfq_5",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=5",
+        "ema_bfq_5", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=5"
     )
     ema_bfq_60 = Column(
-        "ema_bfq_60",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=60",
+        "ema_bfq_60", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=60"
     )
     ema_bfq_90 = Column(
-        "ema_bfq_90",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数移动平均-N=90",
+        "ema_bfq_90", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数移动平均-N=90"
     )
     emv_bfq = Column(
         "emv_bfq",
@@ -504,60 +379,25 @@ class FundFactorPro(Base):
         comment="TOPRANGE(HIGH)表示当前最高价是近多少周期内最高价的最大值",
     )
     ma_bfq_10 = Column(
-        "ma_bfq_10",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=10",
+        "ma_bfq_10", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=10"
     )
     ma_bfq_20 = Column(
-        "ma_bfq_20",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=20",
+        "ma_bfq_20", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=20"
     )
     ma_bfq_250 = Column(
-        "ma_bfq_250",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=250",
+        "ma_bfq_250", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=250"
     )
     ma_bfq_30 = Column(
-        "ma_bfq_30",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=30",
+        "ma_bfq_30", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=30"
     )
     ma_bfq_5 = Column(
-        "ma_bfq_5",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=5",
+        "ma_bfq_5", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=5"
     )
     ma_bfq_60 = Column(
-        "ma_bfq_60",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=60",
+        "ma_bfq_60", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=60"
     )
     ma_bfq_90 = Column(
-        "ma_bfq_90",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="简单移动平均-N=90",
+        "ma_bfq_90", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="简单移动平均-N=90"
     )
     macd_bfq = Column(
         "macd_bfq",
@@ -608,12 +448,7 @@ class FundFactorPro(Base):
         comment="MFI指标是成交量的RSI指标-CLOSE, HIGH, LOW, VOL, N=14",
     )
     mtm_bfq = Column(
-        "mtm_bfq",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="动量指标-CLOSE, N=12, M=6",
+        "mtm_bfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="动量指标-CLOSE, N=12, M=6"
     )
     mtmma_bfq = Column(
         "mtmma_bfq",
@@ -624,12 +459,7 @@ class FundFactorPro(Base):
         comment="动量指标-CLOSE, N=12, M=6",
     )
     obv_bfq = Column(
-        "obv_bfq",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="能量潮指标-CLOSE, VOL",
+        "obv_bfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="能量潮指标-CLOSE, VOL"
     )
     psy_bfq = Column(
         "psy_bfq",
@@ -664,28 +494,13 @@ class FundFactorPro(Base):
         comment="变动率指标-CLOSE, N=12, M=6",
     )
     rsi_bfq_12 = Column(
-        "rsi_bfq_12",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="RSI指标-CLOSE, N=12",
+        "rsi_bfq_12", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="RSI指标-CLOSE, N=12"
     )
     rsi_bfq_24 = Column(
-        "rsi_bfq_24",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="RSI指标-CLOSE, N=24",
+        "rsi_bfq_24", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="RSI指标-CLOSE, N=24"
     )
     rsi_bfq_6 = Column(
-        "rsi_bfq_6",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="RSI指标-CLOSE, N=6",
+        "rsi_bfq_6", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="RSI指标-CLOSE, N=6"
     )
     taq_down_bfq = Column(
         "taq_down_bfq",

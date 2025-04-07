@@ -28,18 +28,10 @@ class CbShare(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {
-            "type": "str",
-            "required": False,
-            "description": "转债代码，支持多值输入",
-        },
+        "ts_code": {"type": "str", "required": False, "description": "转债代码，支持多值输入"},
         "ann_date": {"type": "str", "required": False, "description": "公告日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -61,21 +53,9 @@ class CbShare(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="债券代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="债券代码")
     bond_short_name = Column(
-        "bond_short_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="债券简称",
+        "bond_short_name", String(), nullable=False, default="", server_default=text("''"), comment="债券简称"
     )
     publish_date = Column(
         "publish_date",
@@ -94,12 +74,7 @@ class CbShare(Base):
         comment="统计截止日期",
     )
     issue_size = Column(
-        "issue_size",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="可转债发行总额",
+        "issue_size", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="可转债发行总额"
     )
     convert_price_initial = Column(
         "convert_price_initial",
@@ -110,74 +85,29 @@ class CbShare(Base):
         comment="初始转换价格",
     )
     convert_price = Column(
-        "convert_price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="本次转换价格",
+        "convert_price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="本次转换价格"
     )
     convert_val = Column(
-        "convert_val",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="本次转股金额",
+        "convert_val", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="本次转股金额"
     )
     convert_vol = Column(
-        "convert_vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="本次转股数量",
+        "convert_vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="本次转股数量"
     )
     convert_ratio = Column(
-        "convert_ratio",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="本次转股比例",
+        "convert_ratio", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="本次转股比例"
     )
     acc_convert_val = Column(
-        "acc_convert_val",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="累计转股金额",
+        "acc_convert_val", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="累计转股金额"
     )
     acc_convert_vol = Column(
-        "acc_convert_vol",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="累计转股数量",
+        "acc_convert_vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="累计转股数量"
     )
     acc_convert_ratio = Column(
-        "acc_convert_ratio",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="累计转股比例",
+        "acc_convert_ratio", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="累计转股比例"
     )
     remain_size = Column(
-        "remain_size",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="可转债剩余金额",
+        "remain_size", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="可转债剩余金额"
     )
     total_shares = Column(
-        "total_shares",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="转股后总股本",
+        "total_shares", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="转股后总股本"
     )

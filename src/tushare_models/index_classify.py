@@ -29,19 +29,11 @@ class IndexClassify(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "index_code": {"type": "str", "required": False, "description": "指数代码"},
-        "level": {
-            "type": "str",
-            "required": False,
-            "description": "行业分级（L1/L2/L3）",
-        },
+        "level": {"type": "str", "required": False, "description": "行业分级（L1/L2/L3）"},
         "src": {"type": "str", "required": False, "description": "指数来源（SW申万）"},
         "parent_code": {"type": "str", "required": False, "description": "父级代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -64,58 +56,17 @@ class IndexClassify(Base):
     )
 
     index_code = Column(
-        "index_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="指数代码",
+        "index_code", String(), nullable=False, default="", server_default=text("''"), comment="指数代码"
     )
     industry_name = Column(
-        "industry_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="行业名称",
+        "industry_name", String(), nullable=False, default="", server_default=text("''"), comment="行业名称"
     )
-    level = Column(
-        "level",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="行业名称",
-    )
+    level = Column("level", String(), nullable=False, default="", server_default=text("''"), comment="行业名称")
     industry_code = Column(
-        "industry_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="行业代码",
+        "industry_code", String(), nullable=False, default="", server_default=text("''"), comment="行业代码"
     )
-    is_pub = Column(
-        "is_pub",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="是否发布指数",
-    )
+    is_pub = Column("is_pub", String(), nullable=False, default="", server_default=text("''"), comment="是否发布指数")
     parent_code = Column(
-        "parent_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="父级代码",
+        "parent_code", String(), nullable=False, default="", server_default=text("''"), comment="父级代码"
     )
-    src = Column(
-        "src",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="行业分类(SW申万)",
-    )
+    src = Column("src", String(), nullable=False, default="", server_default=text("''"), comment="行业分类(SW申万)")

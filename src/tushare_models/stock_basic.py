@@ -18,7 +18,7 @@ class StockBasic(Base):
     __api_name__: ClassVar[str] = "stock_basic"
     __api_title__: ClassVar[str] = "股票列表"
     __api_info_title__: ClassVar[str] = "基础信息"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "沪深股票", "基础数据", "股票列表"]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "基础数据", "股票列表"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 24, 25]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -30,28 +30,12 @@ class StockBasic(Base):
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": False, "description": "TS股票代码"},
         "name": {"type": "str", "required": False, "description": "名称"},
-        "exchange": {
-            "type": "str",
-            "required": False,
-            "description": "交易所 SSE上交所 SZSE深交所 HKEX港交所",
-        },
+        "exchange": {"type": "str", "required": False, "description": "交易所 SSE上交所 SZSE深交所 HKEX港交所"},
         "market": {"type": "str", "required": False, "description": "市场类别"},
-        "is_hs": {
-            "type": "str",
-            "required": False,
-            "description": "是否沪深港通标的，N否 H沪股通 S深股通",
-        },
-        "list_status": {
-            "type": "str",
-            "required": False,
-            "description": "上市状态 L上市 D退市 P暂停上市",
-        },
+        "is_hs": {"type": "str", "required": False, "description": "是否沪深港通标的，N否 H沪股通 S深股通"},
+        "list_status": {"type": "str", "required": False, "description": "上市状态 L上市 D退市 P暂停上市"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -73,94 +57,17 @@ class StockBasic(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS代码",
-    )
-    symbol = Column(
-        "symbol",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票名称",
-    )
-    area = Column(
-        "area",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="地域",
-    )
-    industry = Column(
-        "industry",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="所属行业",
-    )
-    fullname = Column(
-        "fullname",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票全称",
-    )
-    enname = Column(
-        "enname",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="英文全称",
-    )
-    cnspell = Column(
-        "cnspell",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="拼音缩写",
-    )
-    market = Column(
-        "market",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="市场类型",
-    )
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所代码",
-    )
-    curr_type = Column(
-        "curr_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易货币",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
+    symbol = Column("symbol", String(), nullable=False, default="", server_default=text("''"), comment="股票代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
+    area = Column("area", String(), nullable=False, default="", server_default=text("''"), comment="地域")
+    industry = Column("industry", String(), nullable=False, default="", server_default=text("''"), comment="所属行业")
+    fullname = Column("fullname", String(), nullable=False, default="", server_default=text("''"), comment="股票全称")
+    enname = Column("enname", String(), nullable=False, default="", server_default=text("''"), comment="英文全称")
+    cnspell = Column("cnspell", String(), nullable=False, default="", server_default=text("''"), comment="拼音缩写")
+    market = Column("market", String(), nullable=False, default="", server_default=text("''"), comment="市场类型")
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易所代码")
+    curr_type = Column("curr_type", String(), nullable=False, default="", server_default=text("''"), comment="交易货币")
     list_status = Column(
         "list_status",
         String(),
@@ -170,12 +77,7 @@ class StockBasic(Base):
         comment="上市状态 L上市 D退市 P暂停上市",
     )
     list_date = Column(
-        "list_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="上市日期",
+        "list_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="上市日期"
     )
     delist_date = Column(
         "delist_date",
@@ -193,19 +95,7 @@ class StockBasic(Base):
         server_default=text("''"),
         comment="是否沪深港通标的，N否 H沪股通 S深股通",
     )
-    act_name = Column(
-        "act_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="实控人名称",
-    )
+    act_name = Column("act_name", String(), nullable=False, default="", server_default=text("''"), comment="实控人名称")
     act_ent_type = Column(
-        "act_ent_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="实控人企业性质",
+        "act_ent_type", String(), nullable=False, default="", server_default=text("''"), comment="实控人企业性质"
     )

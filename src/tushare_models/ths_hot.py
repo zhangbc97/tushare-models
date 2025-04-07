@@ -18,31 +18,17 @@ class ThsHot(Base):
     __api_name__: ClassVar[str] = "ths_hot"
     __api_title__: ClassVar[str] = "同花顺App热榜数"
     __api_info_title__: ClassVar[str] = "同花顺热板"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "打板专题数据",
-        "同花顺App热榜数",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据", "同花顺App热榜数"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 346, 320]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = ["trade_cal"]
-    __primary_key__: ClassVar[List[str]] = [
-        "trade_date",
-        "data_type",
-        "ts_code",
-        "rank_time",
-    ]
+    __primary_key__: ClassVar[List[str]] = ["trade_date", "data_type", "ts_code", "rank_time"]
     __start_date__: ClassVar[str | None] = "2020-01-01"
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "trade_date": {
-            "type": "str",
-            "required": False,
-            "description": "交易日期(格式：YYYYMMDD，下同)",
-        },
+        "trade_date": {"type": "str", "required": False, "description": "交易日期(格式：YYYYMMDD，下同)"},
         "ts_code": {"type": "str", "required": False, "description": "TS代码"},
         "market": {
             "type": "str",
@@ -51,11 +37,7 @@ class ThsHot(Base):
         },
         "is_new": {"type": "str", "required": False, "description": "是否最新"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -85,83 +67,21 @@ class ThsHot(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    data_type = Column(
-        "data_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="数据类型",
-    )
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票代码",
-    )
-    ts_name = Column(
-        "ts_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="股票名称",
-    )
-    rank = Column(
-        "rank",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="排行或者热度",
-    )
+    data_type = Column("data_type", String(), nullable=False, default="", server_default=text("''"), comment="数据类型")
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
+    ts_name = Column("ts_name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
+    rank = Column("rank", Integer, nullable=False, default=0, server_default=text("'0'"), comment="排行或者热度")
     pct_change = Column(
-        "pct_change",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨跌幅%",
+        "pct_change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌幅%"
     )
     current_price = Column(
-        "current_price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="当前价格",
+        "current_price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="当前价格"
     )
-    hot = Column(
-        "hot",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="热度",
-    )
-    concept = Column(
-        "concept",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="标签",
-    )
+    hot = Column("hot", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="热度")
+    concept = Column("concept", String(), nullable=False, default="", server_default=text("''"), comment="标签")
     rank_time = Column(
-        "rank_time",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="排行榜获取时间",
+        "rank_time", String(), nullable=False, default="", server_default=text("''"), comment="排行榜获取时间"
     )
     rank_reason = Column(
-        "rank_reason",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="上榜解读",
+        "rank_reason", String(), nullable=False, default="", server_default=text("''"), comment="上榜解读"
     )

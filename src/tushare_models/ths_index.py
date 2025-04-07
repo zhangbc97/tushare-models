@@ -18,12 +18,7 @@ class ThsIndex(Base):
     __api_name__: ClassVar[str] = "ths_index"
     __api_title__: ClassVar[str] = "同花顺行业概念板块"
     __api_info_title__: ClassVar[str] = "同花顺板块指数"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "打板专题数据",
-        "同花顺行业概念板块",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据", "同花顺行业概念板块"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 346, 259]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -34,23 +29,11 @@ class ThsIndex(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "str", "required": False, "description": "指数代码"},
-        "exchange": {
-            "type": "str",
-            "required": False,
-            "description": "市场类型A-a股票 HK-港股 US-美股",
-        },
-        "type": {
-            "type": "str",
-            "required": False,
-            "description": "指数类型 N-板块指数 S-同花顺特色指数",
-        },
+        "exchange": {"type": "str", "required": False, "description": "市场类型A-a股票 HK-港股 US-美股"},
+        "type": {"type": "str", "required": False, "description": "指数类型 N-板块指数 S-同花顺特色指数"},
         "name": {"type": "str", "required": False, "description": ""},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -72,51 +55,11 @@ class ThsIndex(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="名称",
-    )
-    count = Column(
-        "count",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="成分个数",
-    )
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易所",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="名称")
+    count = Column("count", Integer, nullable=False, default=0, server_default=text("'0'"), comment="成分个数")
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易所")
     list_date = Column(
-        "list_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="上市日期",
+        "list_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="上市日期"
     )
-    type = Column(
-        "type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="N概念指数S特色指数",
-    )
+    type = Column("type", String(), nullable=False, default="", server_default=text("''"), comment="N概念指数S特色指数")

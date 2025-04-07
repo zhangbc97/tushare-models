@@ -32,11 +32,7 @@ class FxObasic(Base):
         "classify": {"type": "str", "required": False, "description": "分类"},
         "ts_code": {"type": "str", "required": False, "description": "TS代码"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -58,77 +54,20 @@ class FxObasic(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="外汇代码",
-    )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="名称",
-    )
-    classify = Column(
-        "classify",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="分类",
-    )
-    exchange = Column(
-        "exchange",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="FXCM/CFETS",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="外汇代码")
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="名称")
+    classify = Column("classify", String(), nullable=False, default="", server_default=text("''"), comment="分类")
+    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="FXCM/CFETS")
     min_unit = Column(
-        "min_unit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最小交易单位",
+        "min_unit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最小交易单位"
     )
     max_unit = Column(
-        "max_unit",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最大交易单位",
+        "max_unit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最大交易单位"
     )
-    pip = Column(
-        "pip",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最大交易单位",
-    )
-    pip_cost = Column(
-        "pip_cost",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="点值",
-    )
+    pip = Column("pip", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最大交易单位")
+    pip_cost = Column("pip_cost", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="点值")
     traget_spread = Column(
-        "traget_spread",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="目标差价",
+        "traget_spread", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="目标差价"
     )
     min_stop_distance = Column(
         "min_stop_distance",
@@ -139,18 +78,8 @@ class FxObasic(Base):
         comment="最小止损距离(点子)",
     )
     trading_hours = Column(
-        "trading_hours",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="交易时间",
+        "trading_hours", String(), nullable=False, default="", server_default=text("''"), comment="交易时间"
     )
     break_time = Column(
-        "break_time",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="休市时间",
+        "break_time", String(), nullable=False, default="", server_default=text("''"), comment="休市时间"
     )

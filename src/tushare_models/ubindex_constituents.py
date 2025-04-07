@@ -29,22 +29,10 @@ class UbindexConstituents(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "index_name": {"type": "str", "required": True, "description": "指数名称"},
-        "start_date": {
-            "type": "str",
-            "required": True,
-            "description": "开始日期，格式：yyyymmdd",
-        },
-        "end_date": {
-            "type": "str",
-            "required": True,
-            "description": "结束日期，格式：yyyymmdd",
-        },
+        "start_date": {"type": "str", "required": True, "description": "开始日期，格式：yyyymmdd"},
+        "end_date": {"type": "str", "required": True, "description": "结束日期，格式：yyyymmdd"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -67,29 +55,12 @@ class UbindexConstituents(Base):
     )
 
     trade_date = Column(
-        "trade_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="日期",
+        "trade_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="日期"
     )
     index_name = Column(
-        "index_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="指数名称",
+        "index_name", String(), nullable=False, default="", server_default=text("''"), comment="指数名称"
     )
-    symbol = Column(
-        "symbol",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="成分货币简称",
-    )
+    symbol = Column("symbol", String(), nullable=False, default="", server_default=text("''"), comment="成分货币简称")
     circulated_cap = Column(
         "circulated_cap",
         Float,
@@ -107,21 +78,9 @@ class UbindexConstituents(Base):
         comment="计算周期内日流动市值均值平方根",
     )
     weight = Column(
-        "weight",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="计算周期内权重",
+        "weight", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="计算周期内权重"
     )
-    price = Column(
-        "price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="指数日价格",
-    )
+    price = Column("price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="指数日价格")
     create_time = Column(
         "create_time",
         DateTime,

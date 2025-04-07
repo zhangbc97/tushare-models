@@ -18,13 +18,7 @@ class CnPmi(Base):
     __api_name__: ClassVar[str] = "cn_pmi"
     __api_title__: ClassVar[str] = "采购经理指数(PMI)"
     __api_info_title__: ClassVar[str] = "采购经理人指数"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "宏观经济",
-        "国内宏观",
-        "景气度",
-        "采购经理指数（PMI）",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国内宏观", "景气度", "采购经理指数（PMI）"]
     __api_path_ids__: ClassVar[List[int]] = [2, 147, 224, 324, 325]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -34,19 +28,11 @@ class CnPmi(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "m": {
-            "type": "str",
-            "required": False,
-            "description": "月度（202401表示，2024年1月）",
-        },
+        "m": {"type": "str", "required": False, "description": "月度（202401表示，2024年1月）"},
         "start_m": {"type": "str", "required": False, "description": "开始月度"},
         "end_m": {"type": "str", "required": False, "description": "结束月度"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -68,21 +54,9 @@ class CnPmi(Base):
         },
     )
 
-    month = Column(
-        "month",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="月份YYYYMM",
-    )
+    month = Column("month", String(), nullable=False, default="", server_default=text("''"), comment="月份YYYYMM")
     pmi010000 = Column(
-        "pmi010000",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="制造业PMI",
+        "pmi010000", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="制造业PMI"
     )
     pmi010100 = Column(
         "pmi010100",
@@ -277,20 +251,10 @@ class CnPmi(Base):
         comment="制造业PMI:其他/新出口订单",
     )
     pmi011000 = Column(
-        "pmi011000",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="制造业PMI:其他/进口",
+        "pmi011000", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="制造业PMI:其他/进口"
     )
     pmi011100 = Column(
-        "pmi011100",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="制造业PMI:其他/采购量",
+        "pmi011100", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="制造业PMI:其他/采购量"
     )
     pmi011200 = Column(
         "pmi011200",
@@ -301,12 +265,7 @@ class CnPmi(Base):
         comment="制造业PMI:其他/主要原材料购进价格",
     )
     pmi011300 = Column(
-        "pmi011300",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="制造业PMI:其他/出厂价格",
+        "pmi011300", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="制造业PMI:其他/出厂价格"
     )
     pmi011400 = Column(
         "pmi011400",
@@ -317,12 +276,7 @@ class CnPmi(Base):
         comment="制造业PMI:其他/产成品库存",
     )
     pmi011500 = Column(
-        "pmi011500",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="制造业PMI:其他/在手订单",
+        "pmi011500", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="制造业PMI:其他/在手订单"
     )
     pmi011600 = Column(
         "pmi011600",
@@ -365,12 +319,7 @@ class CnPmi(Base):
         comment="制造业PMI:分行业/消费品制造业",
     )
     pmi020100 = Column(
-        "pmi020100",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="非制造业PMI:商务活动",
+        "pmi020100", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="非制造业PMI:商务活动"
     )
     pmi020101 = Column(
         "pmi020101",
@@ -389,12 +338,7 @@ class CnPmi(Base):
         comment="非制造业PMI:商务活动:分行业/服务业业",
     )
     pmi020200 = Column(
-        "pmi020200",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="非制造业PMI:新订单指数",
+        "pmi020200", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="非制造业PMI:新订单指数"
     )
     pmi020201 = Column(
         "pmi020201",
@@ -509,28 +453,13 @@ class CnPmi(Base):
         comment="非制造业PMI:业务活动预期指数:分行业/服务业",
     )
     pmi020700 = Column(
-        "pmi020700",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="非制造业PMI:新出口订单",
+        "pmi020700", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="非制造业PMI:新出口订单"
     )
     pmi020800 = Column(
-        "pmi020800",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="非制造业PMI:在手订单",
+        "pmi020800", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="非制造业PMI:在手订单"
     )
     pmi020900 = Column(
-        "pmi020900",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="非制造业PMI:存货",
+        "pmi020900", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="非制造业PMI:存货"
     )
     pmi021000 = Column(
         "pmi021000",
@@ -541,10 +470,5 @@ class CnPmi(Base):
         comment="非制造业PMI:供应商配送时间",
     )
     pmi030000 = Column(
-        "pmi030000",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="中国综合PMI:产出指数",
+        "pmi030000", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="中国综合PMI:产出指数"
     )

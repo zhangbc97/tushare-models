@@ -18,12 +18,7 @@ class DcIndex(Base):
     __api_name__: ClassVar[str] = "dc_index"
     __api_title__: ClassVar[str] = "东方财富概念板块"
     __api_info_title__: ClassVar[str] = "东方财富概念板块"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "打板专题数据",
-        "东方财富概念板块",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据", "东方财富概念板块"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 346, 362]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -33,29 +28,13 @@ class DcIndex(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {
-            "type": "str",
-            "required": False,
-            "description": "指数代码（支持多个代码同时输入，用逗号分隔）",
-        },
-        "name": {
-            "type": "str",
-            "required": False,
-            "description": "板块名称（例如：人形机器人）",
-        },
-        "trade_date": {
-            "type": "str",
-            "required": False,
-            "description": "交易日期（YYYYMMDD格式，下同）",
-        },
+        "ts_code": {"type": "str", "required": False, "description": "指数代码（支持多个代码同时输入，用逗号分隔）"},
+        "name": {"type": "str", "required": False, "description": "板块名称（例如：人形机器人）"},
+        "trade_date": {"type": "str", "required": False, "description": "交易日期（YYYYMMDD格式，下同）"},
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -77,14 +56,7 @@ class DcIndex(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="概念代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="概念代码")
     trade_date = Column(
         "trade_date",
         Date,
@@ -93,75 +65,22 @@ class DcIndex(Base):
         server_default=text("'1970-01-01'"),
         comment="交易日期",
     )
-    name = Column(
-        "name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="概念名称",
-    )
-    leading = Column(
-        "leading",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="领涨股票名称",
-    )
+    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="概念名称")
+    leading = Column("leading", String(), nullable=False, default="", server_default=text("''"), comment="领涨股票名称")
     leading_code = Column(
-        "leading_code",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="领涨股票代码",
+        "leading_code", String(), nullable=False, default="", server_default=text("''"), comment="领涨股票代码"
     )
     pct_change = Column(
-        "pct_change",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="涨跌幅",
+        "pct_change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌幅"
     )
     leading_pct = Column(
-        "leading_pct",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="领涨股票涨跌幅",
+        "leading_pct", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="领涨股票涨跌幅"
     )
     total_mv = Column(
-        "total_mv",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="总市值(万元)",
+        "total_mv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="总市值(万元)"
     )
     turnover_rate = Column(
-        "turnover_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="换手率",
+        "turnover_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="换手率"
     )
-    up_num = Column(
-        "up_num",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="上涨家数",
-    )
-    down_num = Column(
-        "down_num",
-        Integer,
-        nullable=False,
-        default=0,
-        server_default=text("'0'"),
-        comment="下降家数",
-    )
+    up_num = Column("up_num", Integer, nullable=False, default=0, server_default=text("'0'"), comment="上涨家数")
+    down_num = Column("down_num", Integer, nullable=False, default=0, server_default=text("'0'"), comment="下降家数")

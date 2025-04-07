@@ -18,12 +18,7 @@ class FinaAudit(Base):
     __api_name__: ClassVar[str] = "fina_audit"
     __api_title__: ClassVar[str] = "财务审计意见"
     __api_info_title__: ClassVar[str] = "财务审计意见"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "沪深股票",
-        "财务数据",
-        "财务审计意见",
-    ]
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "财务数据", "财务审计意见"]
     __api_path_ids__: ClassVar[List[int]] = [2, 14, 16, 80]
     __api_points_required__: ClassVar[int] = 2000
     __api_special_permission__: ClassVar[bool] = False
@@ -39,11 +34,7 @@ class FinaAudit(Base):
         "end_date": {"type": "str", "required": False, "description": "公告结束日期"},
         "period": {"type": "str", "required": False, "description": "报告期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -65,59 +56,22 @@ class FinaAudit(Base):
         },
     )
 
-    ts_code = Column(
-        "ts_code",
-        String(16),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="TS股票代码",
-    )
+    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS股票代码")
     ann_date = Column(
-        "ann_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="公告日期",
+        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
     )
     end_date = Column(
-        "end_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="报告期",
+        "end_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="报告期"
     )
     audit_result = Column(
-        "audit_result",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="审计结果",
+        "audit_result", String(), nullable=False, default="", server_default=text("''"), comment="审计结果"
     )
     audit_fees = Column(
-        "audit_fees",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="审计总费用(元)",
+        "audit_fees", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="审计总费用(元)"
     )
     audit_agency = Column(
-        "audit_agency",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="会计事务所",
+        "audit_agency", String(), nullable=False, default="", server_default=text("''"), comment="会计事务所"
     )
     audit_sign = Column(
-        "audit_sign",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="签字会计师",
+        "audit_sign", String(), nullable=False, default="", server_default=text("''"), comment="签字会计师"
     )

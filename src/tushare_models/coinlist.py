@@ -32,11 +32,7 @@ class Coinlist(Base):
         "start_date": {"type": "str", "required": False, "description": "开始日期"},
         "end_date": {"type": "str", "required": False, "description": "结束日期"},
         "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {
-            "type": "int",
-            "required": False,
-            "description": "请求数据的开始位移量",
-        },
+        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
@@ -58,30 +54,9 @@ class Coinlist(Base):
         },
     )
 
-    coin = Column(
-        "coin",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="货币代码",
-    )
-    en_name = Column(
-        "en_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="英文名称",
-    )
-    cn_name = Column(
-        "cn_name",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="中文名称",
-    )
+    coin = Column("coin", String(), nullable=False, default="", server_default=text("''"), comment="货币代码")
+    en_name = Column("en_name", String(), nullable=False, default="", server_default=text("''"), comment="英文名称")
+    cn_name = Column("cn_name", String(), nullable=False, default="", server_default=text("''"), comment="中文名称")
     issue_date = Column(
         "issue_date",
         Date,
@@ -91,58 +66,11 @@ class Coinlist(Base):
         comment="发行日期",
     )
     issue_price = Column(
-        "issue_price",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="发行价格(美元)",
+        "issue_price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="发行价格(美元)"
     )
-    amount = Column(
-        "amount",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="发行总量",
-    )
-    supply = Column(
-        "supply",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="流通总量",
-    )
-    algo = Column(
-        "algo",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="算法原理",
-    )
-    area = Column(
-        "area",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="发行地区",
-    )
-    desc = Column(
-        "desc",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="描述",
-    )
-    labels = Column(
-        "labels",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="标签分类",
-    )
+    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="发行总量")
+    supply = Column("supply", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流通总量")
+    algo = Column("algo", String(), nullable=False, default="", server_default=text("''"), comment="算法原理")
+    area = Column("area", String(), nullable=False, default="", server_default=text("''"), comment="发行地区")
+    desc = Column("desc", String(), nullable=False, default="", server_default=text("''"), comment="描述")
+    labels = Column("labels", String(), nullable=False, default="", server_default=text("''"), comment="标签分类")

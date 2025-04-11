@@ -26,7 +26,7 @@ class SlbSecDetail(Base):
     __dependencies__: ClassVar[List[str]] = ["trade_cal"]
     __primary_key__: ClassVar[List[str]] = ["ts_code", "trade_date"]
     __start_date__: ClassVar[str | None] = "2019-07-22"
-    __end_date__: ClassVar[str | None] = None
+    __end_date__: ClassVar[str | None] = '2024-07-10'
     __api_params__: ClassVar[Dict[str, Any]] = {
         "trade_date": {"type": "str", "required": False, "description": "交易日期（YYYYMMDD格式，下同）"},
         "ts_code": {"type": "str", "required": False, "description": "股票代码"},

@@ -25,7 +25,7 @@ class Margin(Base):
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = ["trade_cal"]
     __primary_key__: ClassVar[List[str]] = ["trade_date", "exchange_id"]
-    __start_date__: ClassVar[str | None] = "2010-01-01"
+    __start_date__: ClassVar[str | None] = "2010-03-31"
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "trade_date": {"type": "str", "required": False, "description": "交易日期"},

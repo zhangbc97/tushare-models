@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -17,59 +16,92 @@ class IndexMemberAll(Base):
     __api_id__: ClassVar[int] = 335
     __api_name__: ClassVar[str] = "index_member_all"
     __api_title__: ClassVar[str] = "申万行业成分(分级)"
-    __api_info_title__: ClassVar[str] = "申万行业成分构成"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "指数专题", "申万行业成分（分级）"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 93, 335]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_info_title__: ClassVar[str] = "申万行业成分(分级)"
+    __api_path__: ClassVar[List[str]] = ["数据接口", "指数专题"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 12]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
-    __dependencies__: ClassVar[List[str]] = []
-    __primary_key__: ClassVar[List[str]] = ["l1_code", "l2_code", "l3_code", "ts_code"]
+    __dependencies__: ClassVar[List[str]] = ["index_classify"]
+    __primary_key__: ClassVar[List[str]] = ["l3_code", "ts_code", "in_date"]
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "l1_code": {"type": "str", "required": False, "description": "一级代码"},
-        "l2_code": {"type": "str", "required": False, "description": "二级代码"},
-        "l3_code": {"type": "str", "required": False, "description": "三级代码"},
-        "is_new": {"type": "str", "required": False, "description": "是否最新"},
-        "ts_code": {"type": "str", "required": False, "description": "股票代码"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "l1_code": {"type": "String", "required": False, "description": "一级代码"},
+        "l2_code": {"type": "String", "required": False, "description": "二级代码"},
+        "l3_code": {"type": "String", "required": False, "description": "三级代码"},
+        "is_new": {"type": "String", "required": False, "description": "是否最新"},
+        "ts_code": {"type": "String", "required": False, "description": "股票代码"},
+        "src": {"type": "String", "required": False, "description": "来源"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "申万行业成分(分级)",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    l1_code = Column("l1_code", String(), nullable=False, default="", server_default=text("''"), comment="L1代码")
-    l1_name = Column("l1_name", String(), nullable=False, default="", server_default=text("''"), comment="L1名称")
-    l2_code = Column("l2_code", String(), nullable=False, default="", server_default=text("''"), comment="L2代码")
-    l2_name = Column("l2_name", String(), nullable=False, default="", server_default=text("''"), comment="L2名称")
-    l3_code = Column("l3_code", String(), nullable=False, default="", server_default=text("''"), comment="L3代码")
-    l3_name = Column("l3_name", String(), nullable=False, default="", server_default=text("''"), comment="L3名称")
-    ts_code = Column(
-        "ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="成分股票代码"
+    l1_code = Column("l1_code", String(), nullable=True, comment="L1代码")
+    l1_name = Column("l1_name", String(), nullable=True, comment="L1名称")
+    l2_code = Column("l2_code", String(), nullable=True, comment="L2代码")
+    l2_name = Column("l2_name", String(), nullable=True, comment="L2名称")
+    l3_code = Column("l3_code", String(), nullable=False, comment="L3代码")
+    l3_name = Column("l3_name", String(), nullable=True, comment="L3名称")
+    ts_code = Column("ts_code", String(16), nullable=False, comment="成分股票代码")
+    name = Column("name", String(), nullable=True, comment="成分股票名称")
+    in_date = Column("in_date", Date, nullable=False, comment="纳入日期")
+    out_date = Column("out_date", Date, nullable=True, comment="剔除日期")
+    is_new = Column("is_new", String(), nullable=True, comment="是否最新Y是N否")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(IndexMemberAll.__table__, "engine", engines.ReplacingMergeTree(order_by=IndexMemberAll.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    IndexMemberAll.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(IndexMemberAll.__primary_key__),
+            "order_by": ",".join(IndexMemberAll.__primary_key__),
+        }
     )
-    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="成分股票名称")
-    in_date = Column(
-        "in_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="纳入日期"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    IndexMemberAll.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": IndexMemberAll.__primary_key__,
+        }
     )
-    out_date = Column(
-        "out_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="剔除日期"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    IndexMemberAll.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": IndexMemberAll.__primary_key__,
+        }
     )
-    is_new = Column("is_new", String(), nullable=False, default="", server_default=text("''"), comment="是否最新Y是N否")
+except Exception:
+    pass

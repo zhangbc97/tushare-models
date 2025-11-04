@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -18,9 +17,9 @@ class UsTrycr(Base):
     __api_name__: ClassVar[str] = "us_trycr"
     __api_title__: ClassVar[str] = "国债实际收益率曲线利率"
     __api_info_title__: ClassVar[str] = "国债实际收益率曲线利率"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国际宏观", "美国利率", "国债实际收益率曲线利率"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 147, 217, 218, 220]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国际宏观", "美国利率"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 23, 32, 33]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = []
@@ -28,36 +27,74 @@ class UsTrycr(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "date": {"type": "str", "required": False, "description": "日期"},
-        "start_date": {"type": "str", "required": False, "description": "开始日期"},
-        "end_date": {"type": "str", "required": False, "description": "结束日期"},
-        "fields": {"type": "str", "required": False, "description": "指定字段"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "date": {"type": "String", "required": False, "description": "日期"},
+        "start_date": {"type": "String", "required": False, "description": "开始日期"},
+        "end_date": {"type": "String", "required": False, "description": "结束日期"},
+        "fields": {"type": "String", "required": False, "description": "指定字段"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "国债实际收益率曲线利率",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    date = Column("date", String(), nullable=False, default="", server_default=text("''"), comment="日期")
-    y5 = Column("y5", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="5年期")
-    y7 = Column("y7", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="7年期")
-    y10 = Column("y10", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="10年期")
-    y20 = Column("y20", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="20年期")
-    y30 = Column("y30", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="30年期")
+    date = Column("date", Date, nullable=False, comment="日期")
+    y5 = Column("y5", Float, nullable=True, comment="5年期")
+    y7 = Column("y7", Float, nullable=True, comment="7年期")
+    y10 = Column("y10", Float, nullable=True, comment="10年期")
+    y20 = Column("y20", Float, nullable=True, comment="20年期")
+    y30 = Column("y30", Float, nullable=True, comment="30年期")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(UsTrycr.__table__, "engine", engines.ReplacingMergeTree(order_by=UsTrycr.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    UsTrycr.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(UsTrycr.__primary_key__),
+            "order_by": ",".join(UsTrycr.__primary_key__),
+        }
+    )
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    UsTrycr.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": UsTrycr.__primary_key__,
+        }
+    )
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    UsTrycr.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": UsTrycr.__primary_key__,
+        }
+    )
+except Exception:
+    pass

@@ -1,15 +1,10 @@
 [project]
 name = "tushare-models"
-version = "0.0.3"
+version = "0.1.0"
 description = "Tushare SQLAlchemy Models"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = [
-"clickhouse-sqlalchemy>=0.3.2",
-"sqlalchemy>=2.0.38",
-"starrocks>=1.2.1",
-"databend-sqlalchemy>=0.5.0",
-]
+dependencies = ["sqlalchemy>=2.0.38"]
 authors = [{ name = "zhangbingchen", email = "1731259685@qq.com" }]
 license = { text = "MIT" }
 classifiers = [
@@ -18,9 +13,18 @@ classifiers = [
 "Operating System :: OS Independent",
 ]
 
+[project.optional-dependencies]
+clickhouse = ["clickhouse-sqlalchemy>=0.3.2"]
+starrocks = ["starrocks>=1.2.1"]
+databend = ["databend-sqlalchemy>=0.5.0"]
+all = [
+"clickhouse-sqlalchemy>=0.3.2",
+"starrocks>=1.2.1",
+"databend-sqlalchemy>=0.5.0",
+]
+
 [tool.black]
 line-length = 120
-skip-string-normalization = true
 
 [tool.isort]
 multi_line_output = 3
@@ -28,3 +32,6 @@ include_trailing_comma = true
 force_grid_wrap = 0
 line_length = 120
 profile = "black"
+
+[dependency-groups]
+dev = ["black>=25.9.0", "isort>=7.0.0"]

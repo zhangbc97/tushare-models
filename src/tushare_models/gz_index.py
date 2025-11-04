@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -18,9 +17,9 @@ class GzIndex(Base):
     __api_name__: ClassVar[str] = "gz_index"
     __api_title__: ClassVar[str] = "广州民间借贷利率"
     __api_info_title__: ClassVar[str] = "广州民间借贷利率"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国内宏观", "利率数据", "广州民间借贷利率"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 147, 224, 148, 174]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国内宏观", "利率数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 23, 24, 25]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = []
@@ -28,73 +27,74 @@ class GzIndex(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "date": {"type": "str", "required": False, "description": "日期"},
-        "start_date": {"type": "str", "required": False, "description": "开始日期"},
-        "end_date": {"type": "str", "required": False, "description": "结束日期"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "date": {"type": "String", "required": False, "description": "日期"},
+        "start_date": {"type": "String", "required": False, "description": "开始日期"},
+        "end_date": {"type": "String", "required": False, "description": "结束日期"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "广州民间借贷利率",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    date = Column("date", String(), nullable=False, default="", server_default=text("''"), comment="日期")
-    d10_rate = Column(
-        "d10_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="小额贷市场平均利率(十天)"
+    date = Column("date", Date, nullable=False, comment="日期")
+    d10_rate = Column("d10_rate", Float, nullable=True, comment="小额贷市场平均利率(十天)")
+    m1_rate = Column("m1_rate", Float, nullable=True, comment="小额贷市场平均利率(一月期)")
+    m3_rate = Column("m3_rate", Float, nullable=True, comment="小额贷市场平均利率(三月期)")
+    m6_rate = Column("m6_rate", Float, nullable=True, comment="小额贷市场平均利率(六月期)")
+    m12_rate = Column("m12_rate", Float, nullable=True, comment="小额贷市场平均利率(一年期)")
+    long_rate = Column("long_rate", Float, nullable=True, comment="小额贷市场平均利率(长期)")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(GzIndex.__table__, "engine", engines.ReplacingMergeTree(order_by=GzIndex.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    GzIndex.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(GzIndex.__primary_key__),
+            "order_by": ",".join(GzIndex.__primary_key__),
+        }
     )
-    m1_rate = Column(
-        "m1_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="小额贷市场平均利率(一月期)",
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    GzIndex.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": GzIndex.__primary_key__,
+        }
     )
-    m3_rate = Column(
-        "m3_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="小额贷市场平均利率(三月期)",
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    GzIndex.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": GzIndex.__primary_key__,
+        }
     )
-    m6_rate = Column(
-        "m6_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="小额贷市场平均利率(六月期)",
-    )
-    m12_rate = Column(
-        "m12_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="小额贷市场平均利率(一年期)",
-    )
-    long_rate = Column(
-        "long_rate",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="小额贷市场平均利率(长期)",
-    )
+except Exception:
+    pass

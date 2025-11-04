@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -18,9 +17,9 @@ class OptBasic(Base):
     __api_name__: ClassVar[str] = "opt_basic"
     __api_title__: ClassVar[str] = "期权合约信息"
     __api_info_title__: ClassVar[str] = "期权合约信息"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "期权数据", "期权合约信息"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 157, 158]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_path__: ClassVar[List[str]] = ["数据接口", "期权数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 16]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = []
@@ -28,86 +27,87 @@ class OptBasic(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {"type": "str", "required": False, "description": "TSCODE"},
-        "exchange": {"type": "str", "required": False, "description": "交易所代码"},
-        "opt_code": {"type": "str", "required": False, "description": "标准合约代码"},
-        "call_put": {"type": "str", "required": False, "description": "期权类型"},
-        "name": {"type": "str", "required": False, "description": "合约名称"},
-        "offset": {"type": "int", "required": False, "description": ""},
-        "limit": {"type": "int", "required": False, "description": ""},
+        "ts_code": {"type": "String", "required": False, "description": "TSCODE"},
+        "exchange": {"type": "String", "required": False, "description": "交易所代码"},
+        "opt_code": {"type": "String", "required": False, "description": "标准合约代码"},
+        "call_put": {"type": "String", "required": False, "description": "期权类型"},
+        "name": {"type": "String", "required": False, "description": "合约名称"},
+        "offset": {"type": "Int64", "required": False, "description": ""},
+        "limit": {"type": "Int64", "required": False, "description": ""},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "期权合约信息",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
-    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易市场")
-    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="合约名称")
-    per_unit = Column("per_unit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="合约单位")
-    opt_code = Column(
-        "opt_code", String(), nullable=False, default="", server_default=text("''"), comment="标准合约代码"
+    ts_code = Column("ts_code", String(16), nullable=False, comment="TS代码")
+    exchange = Column("exchange", String(), nullable=True, comment="交易市场")
+    name = Column("name", String(), nullable=True, comment="合约名称")
+    per_unit = Column("per_unit", Float, nullable=True, comment="合约单位")
+    opt_code = Column("opt_code", String(), nullable=True, comment="标准合约代码")
+    opt_type = Column("opt_type", String(), nullable=True, comment="合约类型")
+    call_put = Column("call_put", String(), nullable=True, comment="期权类型")
+    exercise_type = Column("exercise_type", String(), nullable=True, comment="行权方式")
+    exercise_price = Column("exercise_price", Float, nullable=True, comment="行权价格")
+    s_month = Column("s_month", String(), nullable=True, comment="结算月")
+    maturity_date = Column("maturity_date", Date, nullable=True, comment="到期日")
+    list_price = Column("list_price", Float, nullable=True, comment="挂牌基准价")
+    list_date = Column("list_date", Date, nullable=True, comment="开始交易日期")
+    delist_date = Column("delist_date", Date, nullable=True, comment="最后交易日期")
+    last_edate = Column("last_edate", Date, nullable=True, comment="最后行权日期")
+    last_ddate = Column("last_ddate", Date, nullable=True, comment="最后交割日期")
+    quote_unit = Column("quote_unit", String(), nullable=True, comment="报价单位")
+    min_price_chg = Column("min_price_chg", String(), nullable=True, comment="最小价格波幅")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(OptBasic.__table__, "engine", engines.ReplacingMergeTree(order_by=OptBasic.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    OptBasic.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(OptBasic.__primary_key__),
+            "order_by": ",".join(OptBasic.__primary_key__),
+        }
     )
-    opt_type = Column("opt_type", String(), nullable=False, default="", server_default=text("''"), comment="合约类型")
-    call_put = Column("call_put", String(), nullable=False, default="", server_default=text("''"), comment="期权类型")
-    exercise_type = Column(
-        "exercise_type", String(), nullable=False, default="", server_default=text("''"), comment="行权方式"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    OptBasic.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": OptBasic.__primary_key__,
+        }
     )
-    exercise_price = Column(
-        "exercise_price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="行权价格"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    OptBasic.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": OptBasic.__primary_key__,
+        }
     )
-    s_month = Column("s_month", String(), nullable=False, default="", server_default=text("''"), comment="结算月")
-    maturity_date = Column(
-        "maturity_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="到期日",
-    )
-    list_price = Column(
-        "list_price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="挂牌基准价"
-    )
-    list_date = Column(
-        "list_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="开始交易日期",
-    )
-    delist_date = Column(
-        "delist_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="最后交易日期",
-    )
-    last_edate = Column(
-        "last_edate", String(), nullable=False, default="", server_default=text("''"), comment="最后行权日期"
-    )
-    last_ddate = Column(
-        "last_ddate", String(), nullable=False, default="", server_default=text("''"), comment="最后交割日期"
-    )
-    quote_unit = Column(
-        "quote_unit", String(), nullable=False, default="", server_default=text("''"), comment="报价单位"
-    )
-    min_price_chg = Column(
-        "min_price_chg", String(), nullable=False, default="", server_default=text("''"), comment="最小价格波幅"
-    )
+except Exception:
+    pass

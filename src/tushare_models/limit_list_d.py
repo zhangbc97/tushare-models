@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -17,10 +16,10 @@ class LimitListD(Base):
     __api_id__: ClassVar[int] = 298
     __api_name__: ClassVar[str] = "limit_list_d"
     __api_title__: ClassVar[str] = "涨跌停和炸板数据"
-    __api_info_title__: ClassVar[str] = "涨跌停列表(新)"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据", "涨跌停和炸板数据"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 14, 346, 298]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_info_title__: ClassVar[str] = "涨跌停和炸板数据"
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 2, 10]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = ["trade_cal"]
@@ -28,72 +27,89 @@ class LimitListD(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "trade_date": {"type": "str", "required": False, "description": "交易日期"},
-        "ts_code": {"type": "str", "required": False, "description": "股票代码"},
-        "limit_type": {"type": "str", "required": False, "description": "涨跌停类型U涨停D跌停Z炸板"},
-        "exchange": {"type": "str", "required": False, "description": "交易所（SH上交所SZ深交所BJ北交所）"},
-        "start_date": {"type": "str", "required": False, "description": "开始日期"},
-        "end_date": {"type": "str", "required": False, "description": "结束日期"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "trade_date": {"type": "String", "required": False, "description": "交易日期"},
+        "ts_code": {"type": "String", "required": False, "description": "股票代码"},
+        "limit_type": {"type": "String", "required": False, "description": "涨跌停类型U涨停D跌停Z炸板"},
+        "exchange": {"type": "String", "required": False, "description": "交易所（SH上交所SZ深交所BJ北交所）"},
+        "start_date": {"type": "String", "required": False, "description": "开始日期"},
+        "end_date": {"type": "String", "required": False, "description": "结束日期"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "涨跌停和炸板数据",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    trade_date = Column(
-        "trade_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="交易日期",
+    trade_date = Column("trade_date", Date, nullable=False, comment="交易日期")
+    ts_code = Column("ts_code", String(16), nullable=False, comment="股票代码")
+    industry = Column("industry", String(), nullable=True, comment="所属行业")
+    name = Column("name", String(), nullable=True, comment="股票名称")
+    close = Column("close", Float, nullable=True, comment="收盘价")
+    pct_chg = Column("pct_chg", Float, nullable=True, comment="涨跌幅")
+    swing = Column("swing", Float, nullable=True, comment="振幅")
+    amount = Column("amount", Float, nullable=True, comment="成交额")
+    limit_amount = Column("limit_amount", Float, nullable=True, comment="板上成交金额")
+    float_mv = Column("float_mv", Float, nullable=True, comment="流通市值")
+    total_mv = Column("total_mv", Float, nullable=True, comment="总市值")
+    turnover_ratio = Column("turnover_ratio", Float, nullable=True, comment="换手率")
+    fd_amount = Column("fd_amount", Float, nullable=True, comment="封单金额")
+    first_time = Column("first_time", String(), nullable=True, comment="首次封板时间")
+    last_time = Column("last_time", String(), nullable=True, comment="最后封板时间")
+    open_times = Column("open_times", Integer, nullable=True, comment="炸板次数")
+    up_stat = Column("up_stat", String(), nullable=True, comment="涨停统计")
+    limit_times = Column("limit_times", Integer, nullable=True, comment="连板数")
+    limit = Column("limit", String(), nullable=True, comment="D跌停U涨停Z炸板")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(LimitListD.__table__, "engine", engines.ReplacingMergeTree(order_by=LimitListD.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    LimitListD.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(LimitListD.__primary_key__),
+            "order_by": ",".join(LimitListD.__primary_key__),
+        }
     )
-    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
-    industry = Column("industry", String(), nullable=False, default="", server_default=text("''"), comment="所属行业")
-    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
-    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘价")
-    pct_chg = Column("pct_chg", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌幅")
-    swing = Column("swing", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="振幅")
-    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交额")
-    limit_amount = Column(
-        "limit_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="板上成交金额"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    LimitListD.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": LimitListD.__primary_key__,
+        }
     )
-    float_mv = Column("float_mv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流通市值")
-    total_mv = Column("total_mv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="总市值")
-    turnover_ratio = Column(
-        "turnover_ratio", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="换手率"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    LimitListD.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": LimitListD.__primary_key__,
+        }
     )
-    fd_amount = Column(
-        "fd_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="封单金额"
-    )
-    first_time = Column(
-        "first_time", String(), nullable=False, default="", server_default=text("''"), comment="首次封板时间"
-    )
-    last_time = Column(
-        "last_time", String(), nullable=False, default="", server_default=text("''"), comment="最后封板时间"
-    )
-    open_times = Column(
-        "open_times", Integer, nullable=False, default=0, server_default=text("'0'"), comment="炸板次数"
-    )
-    up_stat = Column("up_stat", String(), nullable=False, default="", server_default=text("''"), comment="涨停统计")
-    limit_times = Column(
-        "limit_times", Integer, nullable=False, default=0, server_default=text("'0'"), comment="连板数"
-    )
-    limit = Column("limit", String(), nullable=False, default="", server_default=text("''"), comment="D跌停U涨停Z炸板")
+except Exception:
+    pass

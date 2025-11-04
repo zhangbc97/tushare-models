@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -17,10 +16,10 @@ class CnM(Base):
     __api_id__: ClassVar[int] = 242
     __api_name__: ClassVar[str] = "cn_m"
     __api_title__: ClassVar[str] = "货币供应量(月)"
-    __api_info_title__: ClassVar[str] = "货币供应量"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国内宏观", "金融", "货币供应量", "货币供应量（月）"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 147, 224, 240, 241, 242]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_info_title__: ClassVar[str] = "货币供应量(月)"
+    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国内宏观", "金融", "货币供应量"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 23, 24, 28, 29]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = []
@@ -28,39 +27,77 @@ class CnM(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "m": {"type": "str", "required": False, "description": "月度（202001表示，2020年1月）"},
-        "start_m": {"type": "str", "required": False, "description": "开始月度"},
-        "end_m": {"type": "str", "required": False, "description": "结束月度"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "m": {"type": "String", "required": False, "description": "月度（202001表示，2020年1月）"},
+        "start_m": {"type": "String", "required": False, "description": "开始月度"},
+        "end_m": {"type": "String", "required": False, "description": "结束月度"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "货币供应量(月)",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    month = Column("month", String(), nullable=False, default="", server_default=text("''"), comment="月份YYYYMM")
-    m0 = Column("m0", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="M0(亿元)")
-    m0_yoy = Column("m0_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="M0同比(%)")
-    m0_mom = Column("m0_mom", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="M0环比(%)")
-    m1 = Column("m1", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="M1(亿元)")
-    m1_yoy = Column("m1_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="M1同比(%)")
-    m1_mom = Column("m1_mom", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="M1环比(%)")
-    m2 = Column("m2", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="M2(亿元)")
-    m2_yoy = Column("m2_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="M2同比(%)")
-    m2_mom = Column("m2_mom", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="M2环比(%)")
+    month = Column("month", String(), nullable=False, comment="月份YYYYMM")
+    m0 = Column("m0", Float, nullable=True, comment="M0(亿元)")
+    m0_yoy = Column("m0_yoy", Float, nullable=True, comment="M0同比(%)")
+    m0_mom = Column("m0_mom", Float, nullable=True, comment="M0环比(%)")
+    m1 = Column("m1", Float, nullable=True, comment="M1(亿元)")
+    m1_yoy = Column("m1_yoy", Float, nullable=True, comment="M1同比(%)")
+    m1_mom = Column("m1_mom", Float, nullable=True, comment="M1环比(%)")
+    m2 = Column("m2", Float, nullable=True, comment="M2(亿元)")
+    m2_yoy = Column("m2_yoy", Float, nullable=True, comment="M2同比(%)")
+    m2_mom = Column("m2_mom", Float, nullable=True, comment="M2环比(%)")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(CnM.__table__, "engine", engines.ReplacingMergeTree(order_by=CnM.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    CnM.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(CnM.__primary_key__),
+            "order_by": ",".join(CnM.__primary_key__),
+        }
+    )
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    CnM.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": CnM.__primary_key__,
+        }
+    )
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    CnM.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": CnM.__primary_key__,
+        }
+    )
+except Exception:
+    pass

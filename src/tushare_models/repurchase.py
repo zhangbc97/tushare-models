@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -18,63 +17,89 @@ class Repurchase(Base):
     __api_name__: ClassVar[str] = "repurchase"
     __api_title__: ClassVar[str] = "股票回购"
     __api_info_title__: ClassVar[str] = "股票回购"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "参考数据", "股票回购"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 14, 17, 124]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "参考数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 2, 6]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
-    __dependencies__: ClassVar[List[str]] = ["stock_basic"]
-    __primary_key__: ClassVar[List[str]] = ["ts_code", "ann_date", "update_flag"]
+    __dependencies__: ClassVar[List[str]] = []
+    __primary_key__: ClassVar[List[str]] = ["ts_code", "ann_date", "end_date"]
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ann_date": {"type": "str", "required": False, "description": "公告日期"},
-        "start_date": {"type": "str", "required": False, "description": "公告开始日期"},
-        "end_date": {"type": "str", "required": False, "description": "公告结束日期"},
-        "ts_code": {"type": "str", "required": False, "description": "TS代码"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "ann_date": {"type": "String", "required": False, "description": "公告日期"},
+        "start_date": {"type": "String", "required": False, "description": "公告开始日期"},
+        "end_date": {"type": "String", "required": False, "description": "公告结束日期"},
+        "ts_code": {"type": "String", "required": False, "description": "TS代码"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "股票回购",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
-    ann_date = Column(
-        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
+    ts_code = Column("ts_code", String(16), nullable=False, comment="TS代码")
+    ann_date = Column("ann_date", Date, nullable=False, comment="公告日期")
+    end_date = Column("end_date", Date, nullable=False, comment="截止日期")
+    proc = Column("proc", String(), nullable=True, comment="进度")
+    exp_date = Column("exp_date", Date, nullable=True, comment="过期日期")
+    vol = Column("vol", Float, nullable=True, comment="回购数量")
+    amount = Column("amount", Float, nullable=True, comment="回购金额")
+    high_limit = Column("high_limit", Float, nullable=True, comment="回购最高价")
+    low_limit = Column("low_limit", Float, nullable=True, comment="回购最低价")
+    repo_goal = Column("repo_goal", String(), nullable=True, comment="回购目的")
+    update_flag = Column("update_flag", Date, nullable=True, comment="更新标识")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(Repurchase.__table__, "engine", engines.ReplacingMergeTree(order_by=Repurchase.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    Repurchase.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(Repurchase.__primary_key__),
+            "order_by": ",".join(Repurchase.__primary_key__),
+        }
     )
-    end_date = Column(
-        "end_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="截止日期"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    Repurchase.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": Repurchase.__primary_key__,
+        }
     )
-    proc = Column("proc", String(), nullable=False, default="", server_default=text("''"), comment="进度")
-    exp_date = Column(
-        "exp_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="过期日期"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    Repurchase.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": Repurchase.__primary_key__,
+        }
     )
-    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="回购数量")
-    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="回购金额")
-    high_limit = Column(
-        "high_limit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="回购最高价"
-    )
-    low_limit = Column(
-        "low_limit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="回购最低价"
-    )
-    repo_goal = Column("repo_goal", String(), nullable=False, default="", server_default=text("''"), comment="回购目的")
-    update_flag = Column(
-        "update_flag", String(), nullable=False, default="", server_default=text("''"), comment="更新标识"
-    )
+except Exception:
+    pass

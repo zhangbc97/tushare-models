@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -18,9 +17,9 @@ class FxObasic(Base):
     __api_name__: ClassVar[str] = "fx_obasic"
     __api_title__: ClassVar[str] = "外汇基础信息(海外)"
     __api_info_title__: ClassVar[str] = "外汇基础信息(海外)"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "外汇数据", "外汇基础信息（海外）"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 177, 178]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_path__: ClassVar[List[str]] = ["数据接口", "外汇数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 18]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = []
@@ -28,58 +27,79 @@ class FxObasic(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "exchange": {"type": "str", "required": False, "description": "交易商"},
-        "classify": {"type": "str", "required": False, "description": "分类"},
-        "ts_code": {"type": "str", "required": False, "description": "TS代码"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "exchange": {"type": "String", "required": False, "description": "交易商"},
+        "classify": {"type": "String", "required": False, "description": "分类"},
+        "ts_code": {"type": "String", "required": False, "description": "TS代码"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "外汇基础信息(海外)",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="外汇代码")
-    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="名称")
-    classify = Column("classify", String(), nullable=False, default="", server_default=text("''"), comment="分类")
-    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="FXCM/CFETS")
-    min_unit = Column(
-        "min_unit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最小交易单位"
+    ts_code = Column("ts_code", String(16), nullable=False, comment="外汇代码")
+    name = Column("name", String(), nullable=True, comment="名称")
+    classify = Column("classify", String(), nullable=True, comment="分类")
+    exchange = Column("exchange", String(), nullable=True, comment="FXCM/CFETS")
+    min_unit = Column("min_unit", Float, nullable=True, comment="最小交易单位")
+    max_unit = Column("max_unit", Float, nullable=True, comment="最大交易单位")
+    pip = Column("pip", Float, nullable=True, comment="最大交易单位")
+    pip_cost = Column("pip_cost", Float, nullable=True, comment="点值")
+    traget_spread = Column("traget_spread", Float, nullable=True, comment="目标差价")
+    min_stop_distance = Column("min_stop_distance", Float, nullable=True, comment="最小止损距离(点子)")
+    trading_hours = Column("trading_hours", String(), nullable=True, comment="交易时间")
+    break_time = Column("break_time", String(), nullable=True, comment="休市时间")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(FxObasic.__table__, "engine", engines.ReplacingMergeTree(order_by=FxObasic.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    FxObasic.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(FxObasic.__primary_key__),
+            "order_by": ",".join(FxObasic.__primary_key__),
+        }
     )
-    max_unit = Column(
-        "max_unit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最大交易单位"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    FxObasic.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": FxObasic.__primary_key__,
+        }
     )
-    pip = Column("pip", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最大交易单位")
-    pip_cost = Column("pip_cost", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="点值")
-    traget_spread = Column(
-        "traget_spread", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="目标差价"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    FxObasic.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": FxObasic.__primary_key__,
+        }
     )
-    min_stop_distance = Column(
-        "min_stop_distance",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="最小止损距离(点子)",
-    )
-    trading_hours = Column(
-        "trading_hours", String(), nullable=False, default="", server_default=text("''"), comment="交易时间"
-    )
-    break_time = Column(
-        "break_time", String(), nullable=False, default="", server_default=text("''"), comment="休市时间"
-    )
+except Exception:
+    pass

@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -18,63 +17,86 @@ class FilmRecord(Base):
     __api_name__: ClassVar[str] = "film_record"
     __api_title__: ClassVar[str] = "全国电影剧本备案数据"
     __api_info_title__: ClassVar[str] = "全国电影剧本备案数据"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "行业经济", "TMT行业", "全国电影剧本备案数据"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 82, 83, 156]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_path__: ClassVar[List[str]] = ["数据接口", "行业经济", "TMT行业"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 21, 22]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = []
-    __primary_key__: ClassVar[List[str]] = ["film_name", "ann_date"]
+    __primary_key__: ClassVar[List[str]] = ["rec_no"]
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ann_date": {"type": "str", "required": False, "description": "公布日期"},
-        "start_date": {"type": "str", "required": False, "description": "开始日期"},
-        "end_date": {"type": "str", "required": False, "description": "结束日期"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "ann_date": {"type": "String", "required": False, "description": "公布日期"},
+        "start_date": {"type": "String", "required": False, "description": "开始日期"},
+        "end_date": {"type": "String", "required": False, "description": "结束日期"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "全国电影剧本备案数据",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    rec_no = Column("rec_no", String(), nullable=False, default="", server_default=text("''"), comment="备案号")
-    film_name = Column("film_name", String(), nullable=False, default="", server_default=text("''"), comment="影片名称")
-    rec_org = Column("rec_org", String(), nullable=False, default="", server_default=text("''"), comment="备案单位")
-    script_writer = Column(
-        "script_writer", String(), nullable=False, default="", server_default=text("''"), comment="编剧"
+    rec_no = Column("rec_no", String(), nullable=False, comment="备案号")
+    film_name = Column("film_name", String(), nullable=True, comment="影片名称")
+    rec_org = Column("rec_org", String(), nullable=True, comment="备案单位")
+    script_writer = Column("script_writer", String(), nullable=True, comment="编剧")
+    rec_result = Column("rec_result", String(), nullable=True, comment="备案结果")
+    rec_area = Column("rec_area", String(), nullable=True, comment="备案地")
+    classified = Column("classified", String(), nullable=True, comment="影片分类")
+    date_range = Column("date_range", Date, nullable=True, comment="备案日期")
+    ann_date = Column("ann_date", Date, nullable=True, comment="备案结果发布时间")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(FilmRecord.__table__, "engine", engines.ReplacingMergeTree(order_by=FilmRecord.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    FilmRecord.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(FilmRecord.__primary_key__),
+            "order_by": ",".join(FilmRecord.__primary_key__),
+        }
     )
-    rec_result = Column(
-        "rec_result", String(), nullable=False, default="", server_default=text("''"), comment="备案结果"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    FilmRecord.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": FilmRecord.__primary_key__,
+        }
     )
-    rec_area = Column("rec_area", String(), nullable=False, default="", server_default=text("''"), comment="备案地")
-    classified = Column(
-        "classified", String(), nullable=False, default="", server_default=text("''"), comment="影片分类"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    FilmRecord.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": FilmRecord.__primary_key__,
+        }
     )
-    date_range = Column(
-        "date_range", String(), nullable=False, default="", server_default=text("''"), comment="备案日期"
-    )
-    ann_date = Column(
-        "ann_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="备案结果发布时间",
-    )
+except Exception:
+    pass

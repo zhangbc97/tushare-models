@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -17,10 +16,10 @@ class SgeBasic(Base):
     __api_id__: ClassVar[int] = 284
     __api_name__: ClassVar[str] = "sge_basic"
     __api_title__: ClassVar[str] = "上海黄金基础信息"
-    __api_info_title__: ClassVar[str] = "黄金现货基础信息"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "现货数据", "上海黄金基础信息"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 283, 284]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_info_title__: ClassVar[str] = "上海黄金基础信息"
+    __api_path__: ClassVar[List[str]] = ["数据接口", "现货数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 15]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = []
@@ -28,63 +27,79 @@ class SgeBasic(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {"type": "str", "required": False, "description": "合约代码"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "ts_code": {"type": "String", "required": False, "description": "合约代码"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "上海黄金基础信息",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="品种代码")
-    ts_name = Column("ts_name", String(), nullable=False, default="", server_default=text("''"), comment="品种名称")
-    trade_type = Column(
-        "trade_type", String(), nullable=False, default="", server_default=text("''"), comment="交易类型"
+    ts_code = Column("ts_code", String(16), nullable=False, comment="品种代码")
+    ts_name = Column("ts_name", String(), nullable=True, comment="品种名称")
+    trade_type = Column("trade_type", String(), nullable=True, comment="交易类型")
+    t_unit = Column("t_unit", Float, nullable=True, comment="交易单位(克/手)")
+    p_unit = Column("p_unit", Float, nullable=True, comment="报价单位")
+    min_change = Column("min_change", Float, nullable=True, comment="最小变动价位")
+    price_limit = Column("price_limit", Float, nullable=True, comment="每日价格最大波动限制")
+    min_vol = Column("min_vol", Integer, nullable=True, comment="最小单笔报价量(手)")
+    max_vol = Column("max_vol", Integer, nullable=True, comment="最大单笔报价量(手)")
+    trade_mode = Column("trade_mode", String(), nullable=True, comment="交易期限")
+    margin_rate = Column("margin_rate", Float, nullable=True, comment="保证金比例")
+    liq_rate = Column("liq_rate", Float, nullable=True, comment="违约金比例(%)")
+    trade_time = Column("trade_time", String(), nullable=True, comment="交易时间")
+    list_date = Column("list_date", Date, nullable=True, comment="上市日期	")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(SgeBasic.__table__, "engine", engines.ReplacingMergeTree(order_by=SgeBasic.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    SgeBasic.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(SgeBasic.__primary_key__),
+            "order_by": ",".join(SgeBasic.__primary_key__),
+        }
     )
-    t_unit = Column(
-        "t_unit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="交易单位(克/手)"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    SgeBasic.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": SgeBasic.__primary_key__,
+        }
     )
-    p_unit = Column("p_unit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="报价单位")
-    min_change = Column(
-        "min_change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最小变动价位"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    SgeBasic.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": SgeBasic.__primary_key__,
+        }
     )
-    price_limit = Column(
-        "price_limit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="每日价格最大波动限制"
-    )
-    min_vol = Column(
-        "min_vol", Integer, nullable=False, default=0, server_default=text("'0'"), comment="最小单笔报价量(手)"
-    )
-    max_vol = Column(
-        "max_vol", Integer, nullable=False, default=0, server_default=text("'0'"), comment="最大单笔报价量(手)"
-    )
-    trade_mode = Column(
-        "trade_mode", String(), nullable=False, default="", server_default=text("''"), comment="交易期限"
-    )
-    margin_rate = Column(
-        "margin_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="保证金比例"
-    )
-    liq_rate = Column(
-        "liq_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="违约金比例(%)"
-    )
-    trade_time = Column(
-        "trade_time", String(), nullable=False, default="", server_default=text("''"), comment="交易时间"
-    )
-    list_date = Column(
-        "list_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="上市日期	"
-    )
+except Exception:
+    pass

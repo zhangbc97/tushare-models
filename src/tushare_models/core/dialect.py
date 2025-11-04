@@ -88,8 +88,8 @@ try:
                 for k, v in table.kwargs.items()
                 if k.startswith("%s_" % self.dialect.name)
             )
-            if 'PRIMARY_KEY' in opts:
-                pk_cols = [col.strip() for col in opts['PRIMARY_KEY'].split(',')]
+            if "PRIMARY_KEY" in opts:
+                pk_cols = [col.strip() for col in opts["PRIMARY_KEY"].split(",")]
 
             # Sort columns list while preserving primary key order
             sorted_columns = []
@@ -145,28 +145,28 @@ try:
             if table.comment is not None:
                 opts["COMMENT"] = table.comment
 
-            if 'ENGINE' in opts:
+            if "ENGINE" in opts:
                 table_opts.append(f'ENGINE={opts["ENGINE"]}')
 
-            if 'PRIMARY_KEY' in opts:
+            if "PRIMARY_KEY" in opts:
                 table_opts.append(f'PRIMARY KEY({opts["PRIMARY_KEY"]})')
 
             if "COMMENT" in opts:
                 comment = self.sql_compiler.render_literal_value(opts["COMMENT"], sqltypes.String())
                 table_opts.append(f"COMMENT {comment}")
 
-            if 'DISTRIBUTED_BY' in opts:
+            if "DISTRIBUTED_BY" in opts:
                 table_opts.append(f'DISTRIBUTED BY HASH({opts["DISTRIBUTED_BY"]})')
 
-            if 'PARTITION_BY' in opts:
-                partition_type = opts.get('PARTITION_TYPE', 'RANGE')  # Default to RANGE partition
+            if "PARTITION_BY" in opts:
+                partition_type = opts.get("PARTITION_TYPE", "RANGE")  # Default to RANGE partition
                 table_opts.append(f'PARTITION BY {partition_type}({opts["PARTITION_BY"]})')
 
                 # Handle partition definitions if provided
-                if 'PARTITION_DESC' in opts:
+                if "PARTITION_DESC" in opts:
                     table_opts.append(opts["PARTITION_DESC"])
 
-            if 'ORDER_BY' in opts:
+            if "ORDER_BY" in opts:
                 table_opts.append(f'ORDER BY ({opts["ORDER_BY"]})')
 
             if "PROPERTIES" in opts:

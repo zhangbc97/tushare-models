@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -17,16 +16,10 @@ class CnPpi(Base):
     __api_id__: ClassVar[int] = 245
     __api_name__: ClassVar[str] = "cn_ppi"
     __api_title__: ClassVar[str] = "工业生产者出厂价格指数(PPI)"
-    __api_info_title__: ClassVar[str] = "工业生产者出厂价格指数"
-    __api_path__: ClassVar[List[str]] = [
-        "数据接口",
-        "宏观经济",
-        "国内宏观",
-        "价格指数",
-        "工业生产者出厂价格指数（PPI）",
-    ]
-    __api_path_ids__: ClassVar[List[int]] = [2, 147, 224, 226, 245]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_info_title__: ClassVar[str] = "工业生产者出厂价格指数(PPI)"
+    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国内宏观", "价格指数"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 23, 24, 27]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = []
@@ -34,250 +27,102 @@ class CnPpi(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "m": {"type": "str", "required": False, "description": "月份（YYYYMM，下同），支持多个月份同时输入，逗号分隔"},
-        "start_m": {"type": "str", "required": False, "description": "开始月份"},
-        "end_m": {"type": "str", "required": False, "description": "结束月份"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "m": {
+            "type": "String",
+            "required": False,
+            "description": "月份（YYYYMM，下同），支持多个月份同时输入，逗号分隔",
+        },
+        "start_m": {"type": "String", "required": False, "description": "开始月份"},
+        "end_m": {"type": "String", "required": False, "description": "结束月份"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "工业生产者出厂价格指数(PPI)",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    month = Column("month", String(), nullable=False, default="", server_default=text("''"), comment="月份YYYYMM")
-    ppi_yoy = Column(
-        "ppi_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="PPI：全部工业品：当月同比"
+    month = Column("month", String(), nullable=False, comment="月份YYYYMM")
+    ppi_yoy = Column("ppi_yoy", Float, nullable=True, comment="PPI：全部工业品：当月同比")
+    ppi_mp_yoy = Column("ppi_mp_yoy", Float, nullable=True, comment="PPI：生产资料：当月同比")
+    ppi_mp_qm_yoy = Column("ppi_mp_qm_yoy", Float, nullable=True, comment="PPI：生产资料：采掘业：当月同比")
+    ppi_mp_rm_yoy = Column("ppi_mp_rm_yoy", Float, nullable=True, comment="PPI：生产资料：原料业：当月同比")
+    ppi_mp_p_yoy = Column("ppi_mp_p_yoy", Float, nullable=True, comment="PPI：生产资料：加工业：当月同比")
+    ppi_cg_yoy = Column("ppi_cg_yoy", Float, nullable=True, comment="PPI：生活资料：当月同比")
+    ppi_cg_f_yoy = Column("ppi_cg_f_yoy", Float, nullable=True, comment="PPI：生活资料：食品类：当月同比")
+    ppi_cg_c_yoy = Column("ppi_cg_c_yoy", Float, nullable=True, comment="PPI：生活资料：衣着类：当月同比")
+    ppi_cg_adu_yoy = Column("ppi_cg_adu_yoy", Float, nullable=True, comment="PPI：生活资料：一般日用品类：当月同比")
+    ppi_cg_dcg_yoy = Column("ppi_cg_dcg_yoy", Float, nullable=True, comment="PPI：生活资料：耐用消费品类：当月同比")
+    ppi_mom = Column("ppi_mom", Float, nullable=True, comment="PPI：全部工业品：环比")
+    ppi_mp_mom = Column("ppi_mp_mom", Float, nullable=True, comment="PPI：生产资料：环比")
+    ppi_mp_qm_mom = Column("ppi_mp_qm_mom", Float, nullable=True, comment="PPI：生产资料：采掘业：环比")
+    ppi_mp_rm_mom = Column("ppi_mp_rm_mom", Float, nullable=True, comment="PPI：生产资料：原料业：环比")
+    ppi_mp_p_mom = Column("ppi_mp_p_mom", Float, nullable=True, comment="PPI：生产资料：加工业：环比")
+    ppi_cg_mom = Column("ppi_cg_mom", Float, nullable=True, comment="PPI：生活资料：环比")
+    ppi_cg_f_mom = Column("ppi_cg_f_mom", Float, nullable=True, comment="PPI：生活资料：食品类：环比")
+    ppi_cg_c_mom = Column("ppi_cg_c_mom", Float, nullable=True, comment="PPI：生活资料：衣着类：环比")
+    ppi_cg_adu_mom = Column("ppi_cg_adu_mom", Float, nullable=True, comment="PPI：生活资料：一般日用品类：环比")
+    ppi_cg_dcg_mom = Column("ppi_cg_dcg_mom", Float, nullable=True, comment="PPI：生活资料：耐用消费品类：环比")
+    ppi_accu = Column("ppi_accu", Float, nullable=True, comment="PPI：全部工业品：累计同比")
+    ppi_mp_accu = Column("ppi_mp_accu", Float, nullable=True, comment="PPI：生产资料：累计同比")
+    ppi_mp_qm_accu = Column("ppi_mp_qm_accu", Float, nullable=True, comment="PPI：生产资料：采掘业：累计同比")
+    ppi_mp_rm_accu = Column("ppi_mp_rm_accu", Float, nullable=True, comment="PPI：生产资料：原料业：累计同比")
+    ppi_mp_p_accu = Column("ppi_mp_p_accu", Float, nullable=True, comment="PPI：生产资料：加工业：累计同比")
+    ppi_cg_accu = Column("ppi_cg_accu", Float, nullable=True, comment="PPI：生活资料：累计同比")
+    ppi_cg_f_accu = Column("ppi_cg_f_accu", Float, nullable=True, comment="PPI：生活资料：食品类：累计同比")
+    ppi_cg_c_accu = Column("ppi_cg_c_accu", Float, nullable=True, comment="PPI：生活资料：衣着类：累计同比")
+    ppi_cg_adu_accu = Column("ppi_cg_adu_accu", Float, nullable=True, comment="PPI：生活资料：一般日用品类：累计同比")
+    ppi_cg_dcg_accu = Column("ppi_cg_dcg_accu", Float, nullable=True, comment="PPI：生活资料：耐用消费品类：累计同比")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(CnPpi.__table__, "engine", engines.ReplacingMergeTree(order_by=CnPpi.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    CnPpi.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(CnPpi.__primary_key__),
+            "order_by": ",".join(CnPpi.__primary_key__),
+        }
     )
-    ppi_mp_yoy = Column(
-        "ppi_mp_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生产资料：当月同比",
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    CnPpi.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": CnPpi.__primary_key__,
+        }
     )
-    ppi_mp_qm_yoy = Column(
-        "ppi_mp_qm_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生产资料：采掘业：当月同比",
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    CnPpi.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": CnPpi.__primary_key__,
+        }
     )
-    ppi_mp_rm_yoy = Column(
-        "ppi_mp_rm_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生产资料：原料业：当月同比",
-    )
-    ppi_mp_p_yoy = Column(
-        "ppi_mp_p_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生产资料：加工业：当月同比",
-    )
-    ppi_cg_yoy = Column(
-        "ppi_cg_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生活资料：当月同比",
-    )
-    ppi_cg_f_yoy = Column(
-        "ppi_cg_f_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生活资料：食品类：当月同比",
-    )
-    ppi_cg_c_yoy = Column(
-        "ppi_cg_c_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生活资料：衣着类：当月同比",
-    )
-    ppi_cg_adu_yoy = Column(
-        "ppi_cg_adu_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生活资料：一般日用品类：当月同比",
-    )
-    ppi_cg_dcg_yoy = Column(
-        "ppi_cg_dcg_yoy",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生活资料：耐用消费品类：当月同比",
-    )
-    ppi_mom = Column(
-        "ppi_mom", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="PPI：全部工业品：环比"
-    )
-    ppi_mp_mom = Column(
-        "ppi_mp_mom", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="PPI：生产资料：环比"
-    )
-    ppi_mp_qm_mom = Column(
-        "ppi_mp_qm_mom",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生产资料：采掘业：环比",
-    )
-    ppi_mp_rm_mom = Column(
-        "ppi_mp_rm_mom",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生产资料：原料业：环比",
-    )
-    ppi_mp_p_mom = Column(
-        "ppi_mp_p_mom",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生产资料：加工业：环比",
-    )
-    ppi_cg_mom = Column(
-        "ppi_cg_mom", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="PPI：生活资料：环比"
-    )
-    ppi_cg_f_mom = Column(
-        "ppi_cg_f_mom",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生活资料：食品类：环比",
-    )
-    ppi_cg_c_mom = Column(
-        "ppi_cg_c_mom",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生活资料：衣着类：环比",
-    )
-    ppi_cg_adu_mom = Column(
-        "ppi_cg_adu_mom",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生活资料：一般日用品类：环比",
-    )
-    ppi_cg_dcg_mom = Column(
-        "ppi_cg_dcg_mom",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生活资料：耐用消费品类：环比",
-    )
-    ppi_accu = Column(
-        "ppi_accu",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：全部工业品：累计同比",
-    )
-    ppi_mp_accu = Column(
-        "ppi_mp_accu",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生产资料：累计同比",
-    )
-    ppi_mp_qm_accu = Column(
-        "ppi_mp_qm_accu",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生产资料：采掘业：累计同比",
-    )
-    ppi_mp_rm_accu = Column(
-        "ppi_mp_rm_accu",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生产资料：原料业：累计同比",
-    )
-    ppi_mp_p_accu = Column(
-        "ppi_mp_p_accu",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生产资料：加工业：累计同比",
-    )
-    ppi_cg_accu = Column(
-        "ppi_cg_accu",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生活资料：累计同比",
-    )
-    ppi_cg_f_accu = Column(
-        "ppi_cg_f_accu",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生活资料：食品类：累计同比",
-    )
-    ppi_cg_c_accu = Column(
-        "ppi_cg_c_accu",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生活资料：衣着类：累计同比",
-    )
-    ppi_cg_adu_accu = Column(
-        "ppi_cg_adu_accu",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生活资料：一般日用品类：累计同比",
-    )
-    ppi_cg_dcg_accu = Column(
-        "ppi_cg_dcg_accu",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="PPI：生活资料：耐用消费品类：累计同比",
-    )
+except Exception:
+    pass

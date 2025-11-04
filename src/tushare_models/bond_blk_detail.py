@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -18,59 +17,86 @@ class BondBlkDetail(Base):
     __api_name__: ClassVar[str] = "bond_blk_detail"
     __api_title__: ClassVar[str] = "大宗交易明细"
     __api_info_title__: ClassVar[str] = "大宗交易明细"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "债券专题", "大宗交易明细"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 184, 272]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_path__: ClassVar[List[str]] = ["数据接口", "债券专题"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 17]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
-    __dependencies__: ClassVar[List[str]] = []
+    __dependencies__: ClassVar[List[str]] = ["trade_cal"]
     __primary_key__: ClassVar[List[str]] = ["ts_code", "trade_date"]
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {"type": "str", "required": False, "description": "债券代码"},
-        "trade_date": {"type": "str", "required": False, "description": "交易日期"},
-        "start_date": {"type": "str", "required": False, "description": "开始日期"},
-        "end_date": {"type": "str", "required": False, "description": "结束日期"},
-        "offset": {"type": "str", "required": False, "description": ""},
-        "limit": {"type": "str", "required": False, "description": ""},
+        "ts_code": {"type": "String", "required": False, "description": "债券代码"},
+        "trade_date": {"type": "String", "required": False, "description": "交易日期"},
+        "start_date": {"type": "String", "required": False, "description": "开始日期"},
+        "end_date": {"type": "String", "required": False, "description": "结束日期"},
+        "offset": {"type": "String", "required": False, "description": ""},
+        "limit": {"type": "String", "required": False, "description": ""},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "大宗交易明细",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    trade_date = Column(
-        "trade_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="交易日期",
+    trade_date = Column("trade_date", Date, nullable=False, comment="交易日期")
+    ts_code = Column("ts_code", String(16), nullable=False, comment="债券代码")
+    name = Column("name", String(), nullable=True, comment="债券名称")
+    price = Column("price", Float, nullable=True, comment="成交价(元)")
+    vol = Column("vol", Float, nullable=True, comment="成交数量(万股/万份/万张/万手)")
+    amount = Column("amount", Float, nullable=True, comment="成交金额(万元)")
+    buy_dp = Column("buy_dp", String(), nullable=True, comment="买方营业部")
+    sell_dp = Column("sell_dp", String(), nullable=True, comment="卖方营业部")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(BondBlkDetail.__table__, "engine", engines.ReplacingMergeTree(order_by=BondBlkDetail.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    BondBlkDetail.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(BondBlkDetail.__primary_key__),
+            "order_by": ",".join(BondBlkDetail.__primary_key__),
+        }
     )
-    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="债券代码")
-    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="债券名称")
-    price = Column("price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交价(元)")
-    vol = Column(
-        "vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交数量(万股/万份/万张/万手)"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    BondBlkDetail.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": BondBlkDetail.__primary_key__,
+        }
     )
-    amount = Column(
-        "amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交金额(万元)"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    BondBlkDetail.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": BondBlkDetail.__primary_key__,
+        }
     )
-    buy_dp = Column("buy_dp", String(), nullable=False, default="", server_default=text("''"), comment="买方营业部")
-    sell_dp = Column("sell_dp", String(), nullable=False, default="", server_default=text("''"), comment="卖方营业部")
+except Exception:
+    pass

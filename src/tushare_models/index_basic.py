@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -18,9 +17,9 @@ class IndexBasic(Base):
     __api_name__: ClassVar[str] = "index_basic"
     __api_title__: ClassVar[str] = "指数基本信息"
     __api_info_title__: ClassVar[str] = "指数基本信息"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "指数专题", "指数基本信息"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 93, 94]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_path__: ClassVar[List[str]] = ["数据接口", "指数专题"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 12]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = []
@@ -28,54 +27,82 @@ class IndexBasic(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {"type": "str", "required": False, "description": "指数代码"},
-        "market": {"type": "str", "required": False, "description": "交易所或服务商"},
-        "publisher": {"type": "str", "required": False, "description": "发布商"},
-        "category": {"type": "str", "required": False, "description": "指数类别"},
-        "name": {"type": "str", "required": False, "description": "指数名称"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "ts_code": {"type": "String", "required": False, "description": "指数代码"},
+        "market": {"type": "String", "required": False, "description": "交易所或服务商"},
+        "publisher": {"type": "String", "required": False, "description": "发布商"},
+        "category": {"type": "String", "required": False, "description": "指数类别"},
+        "name": {"type": "String", "required": False, "description": "指数名称"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "指数基本信息",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS代码")
-    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="简称")
-    fullname = Column("fullname", String(), nullable=False, default="", server_default=text("''"), comment="指数全称")
-    market = Column("market", String(), nullable=False, default="", server_default=text("''"), comment="市场")
-    publisher = Column("publisher", String(), nullable=False, default="", server_default=text("''"), comment="发布方")
-    index_type = Column(
-        "index_type", String(), nullable=False, default="", server_default=text("''"), comment="指数风格"
+    ts_code = Column("ts_code", String(16), nullable=False, comment="TS代码")
+    name = Column("name", String(), nullable=True, comment="简称")
+    fullname = Column("fullname", String(), nullable=True, comment="指数全称")
+    market = Column("market", String(), nullable=True, comment="市场")
+    publisher = Column("publisher", String(), nullable=True, comment="发布方")
+    index_type = Column("index_type", String(), nullable=True, comment="指数风格")
+    category = Column("category", String(), nullable=True, comment="指数类别")
+    base_date = Column("base_date", Date, nullable=True, comment="基期")
+    base_point = Column("base_point", Float, nullable=True, comment="基点")
+    list_date = Column("list_date", Date, nullable=True, comment="发布日期")
+    weight_rule = Column("weight_rule", String(), nullable=True, comment="加权方式")
+    desc = Column("desc", String(), nullable=True, comment="描述")
+    exp_date = Column("exp_date", Date, nullable=True, comment="终止日期")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(IndexBasic.__table__, "engine", engines.ReplacingMergeTree(order_by=IndexBasic.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    IndexBasic.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(IndexBasic.__primary_key__),
+            "order_by": ",".join(IndexBasic.__primary_key__),
+        }
     )
-    category = Column("category", String(), nullable=False, default="", server_default=text("''"), comment="指数类别")
-    base_date = Column(
-        "base_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="基期"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    IndexBasic.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": IndexBasic.__primary_key__,
+        }
     )
-    base_point = Column("base_point", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="基点")
-    list_date = Column(
-        "list_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="发布日期"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    IndexBasic.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": IndexBasic.__primary_key__,
+        }
     )
-    weight_rule = Column(
-        "weight_rule", String(), nullable=False, default="", server_default=text("''"), comment="加权方式"
-    )
-    desc = Column("desc", String(), nullable=False, default="", server_default=text("''"), comment="描述")
-    exp_date = Column(
-        "exp_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="终止日期"
-    )
+except Exception:
+    pass

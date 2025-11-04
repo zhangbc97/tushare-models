@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -17,10 +16,10 @@ class CnGdp(Base):
     __api_id__: ClassVar[int] = 227
     __api_name__: ClassVar[str] = "cn_gdp"
     __api_title__: ClassVar[str] = "国内生产总值(GDP)"
-    __api_info_title__: ClassVar[str] = "GDP"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国内宏观", "国民经济", "国内生产总值（GDP）"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 147, 224, 225, 227]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_info_title__: ClassVar[str] = "国内生产总值(GDP)"
+    __api_path__: ClassVar[List[str]] = ["数据接口", "宏观经济", "国内宏观", "国民经济"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 23, 24, 26]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = []
@@ -28,46 +27,76 @@ class CnGdp(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "q": {"type": "str", "required": False, "description": "季度"},
-        "start_q": {"type": "str", "required": False, "description": "开始季度"},
-        "end_q": {"type": "str", "required": False, "description": "结束季度"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "q": {"type": "String", "required": False, "description": "季度"},
+        "start_q": {"type": "String", "required": False, "description": "开始季度"},
+        "end_q": {"type": "String", "required": False, "description": "结束季度"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "国内生产总值(GDP)",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    quarter = Column("quarter", String(), nullable=False, default="", server_default=text("''"), comment="季度")
-    gdp = Column("gdp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="GDP累计值(亿元)")
-    gdp_yoy = Column(
-        "gdp_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="当季同比增速(%)"
+    quarter = Column("quarter", String(), nullable=False, comment="季度")
+    gdp = Column("gdp", Float, nullable=True, comment="GDP累计值(亿元)")
+    gdp_yoy = Column("gdp_yoy", Float, nullable=True, comment="当季同比增速(%)")
+    pi = Column("pi", Float, nullable=True, comment="第一产业累计值(亿元)")
+    pi_yoy = Column("pi_yoy", Float, nullable=True, comment="第一产业同比增速(%)")
+    si = Column("si", Float, nullable=True, comment="第二产业累计值(亿元)")
+    si_yoy = Column("si_yoy", Float, nullable=True, comment="第二产业同比增速(%)")
+    ti = Column("ti", Float, nullable=True, comment="第三产业累计值(亿元)")
+    ti_yoy = Column("ti_yoy", Float, nullable=True, comment="第三产业同比增速(%)")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(CnGdp.__table__, "engine", engines.ReplacingMergeTree(order_by=CnGdp.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    CnGdp.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(CnGdp.__primary_key__),
+            "order_by": ",".join(CnGdp.__primary_key__),
+        }
     )
-    pi = Column("pi", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="第一产业累计值(亿元)")
-    pi_yoy = Column(
-        "pi_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="第一产业同比增速(%)"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    CnGdp.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": CnGdp.__primary_key__,
+        }
     )
-    si = Column("si", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="第二产业累计值(亿元)")
-    si_yoy = Column(
-        "si_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="第二产业同比增速(%)"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    CnGdp.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": CnGdp.__primary_key__,
+        }
     )
-    ti = Column("ti", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="第三产业累计值(亿元)")
-    ti_yoy = Column(
-        "ti_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="第三产业同比增速(%)"
-    )
+except Exception:
+    pass

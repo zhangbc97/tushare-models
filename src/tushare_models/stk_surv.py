@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -17,61 +16,89 @@ class StkSurv(Base):
     __api_id__: ClassVar[int] = 275
     __api_name__: ClassVar[str] = "stk_surv"
     __api_title__: ClassVar[str] = "机构调研数据"
-    __api_info_title__: ClassVar[str] = "机构调研表"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "特色数据", "机构调研数据"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 14, 291, 275]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_info_title__: ClassVar[str] = "机构调研数据"
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "特色数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 2, 7]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = ["stock_basic"]
-    __primary_key__: ClassVar[List[str]] = ["ts_code", "surv_date"]
+    __primary_key__: ClassVar[List[str]] = ["ts_code", "surv_date", "rece_org"]
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {"type": "str", "required": False, "description": "股票代码"},
-        "trade_date": {"type": "str", "required": False, "description": "调研日期"},
-        "start_date": {"type": "str", "required": False, "description": "调研开始日期"},
-        "end_date": {"type": "str", "required": False, "description": "调研结束日期"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "ts_code": {"type": "String", "required": False, "description": "股票代码"},
+        "trade_date": {"type": "String", "required": False, "description": "调研日期"},
+        "start_date": {"type": "String", "required": False, "description": "调研开始日期"},
+        "end_date": {"type": "String", "required": False, "description": "调研结束日期"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "机构调研数据",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
-    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
-    surv_date = Column(
-        "surv_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="调研日期"
+    ts_code = Column("ts_code", String(16), nullable=False, comment="股票代码")
+    name = Column("name", String(), nullable=True, comment="股票名称")
+    surv_date = Column("surv_date", Date, nullable=False, comment="调研日期")
+    fund_visitors = Column("fund_visitors", String(), nullable=True, comment="机构参与人员")
+    rece_place = Column("rece_place", String(), nullable=True, comment="接待地点")
+    rece_mode = Column("rece_mode", String(), nullable=True, comment="接待方式")
+    rece_org = Column("rece_org", String(), nullable=False, comment="接待的公司")
+    org_type = Column("org_type", String(), nullable=True, comment="接待公司类型")
+    comp_rece = Column("comp_rece", String(), nullable=True, comment="上市公司接待人员")
+    content = Column("content", String(), nullable=True, comment="调研内容")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(StkSurv.__table__, "engine", engines.ReplacingMergeTree(order_by=StkSurv.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    StkSurv.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(StkSurv.__primary_key__),
+            "order_by": ",".join(StkSurv.__primary_key__),
+        }
     )
-    fund_visitors = Column(
-        "fund_visitors", String(), nullable=False, default="", server_default=text("''"), comment="机构参与人员"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    StkSurv.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": StkSurv.__primary_key__,
+        }
     )
-    rece_place = Column(
-        "rece_place", String(), nullable=False, default="", server_default=text("''"), comment="接待地点"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    StkSurv.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": StkSurv.__primary_key__,
+        }
     )
-    rece_mode = Column("rece_mode", String(), nullable=False, default="", server_default=text("''"), comment="接待方式")
-    rece_org = Column("rece_org", String(), nullable=False, default="", server_default=text("''"), comment="接待的公司")
-    org_type = Column(
-        "org_type", String(), nullable=False, default="", server_default=text("''"), comment="接待公司类型"
-    )
-    comp_rece = Column(
-        "comp_rece", String(), nullable=False, default="", server_default=text("''"), comment="上市公司接待人员"
-    )
-    content = Column("content", String(), nullable=False, default="", server_default=text("''"), comment="调研内容")
+except Exception:
+    pass

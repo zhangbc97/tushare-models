@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -18,56 +17,83 @@ class StkLimit(Base):
     __api_name__: ClassVar[str] = "stk_limit"
     __api_title__: ClassVar[str] = "每日涨跌停价格"
     __api_info_title__: ClassVar[str] = "每日涨跌停价格"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "行情数据", "每日涨跌停价格"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 14, 15, 183]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "行情数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 2, 4]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
-    __dependencies__: ClassVar[List[str]] = ["stock_basic", "trade_cal"]
+    __dependencies__: ClassVar[List[str]] = ["trade_cal"]
     __primary_key__: ClassVar[List[str]] = ["ts_code", "trade_date"]
-    __start_date__: ClassVar[str | None] = "2007-01-01"
+    __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {"type": "str", "required": False, "description": "股票代码"},
-        "trade_date": {"type": "str", "required": False, "description": "交易日期"},
-        "start_date": {"type": "str", "required": False, "description": "开始日期"},
-        "end_date": {"type": "str", "required": False, "description": "结束日期"},
-        "offset": {"type": "int", "required": False, "description": "开始行数"},
-        "limit": {"type": "int", "required": False, "description": "每页最大条数"},
+        "ts_code": {"type": "String", "required": False, "description": "股票代码"},
+        "trade_date": {"type": "String", "required": False, "description": "交易日期"},
+        "start_date": {"type": "String", "required": False, "description": "开始日期"},
+        "end_date": {"type": "String", "required": False, "description": "结束日期"},
+        "offset": {"type": "Int64", "required": False, "description": "开始行数"},
+        "limit": {"type": "Int64", "required": False, "description": "每页最大条数"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "每日涨跌停价格",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    trade_date = Column(
-        "trade_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="交易日期",
+    trade_date = Column("trade_date", Date, nullable=False, comment="交易日期")
+    ts_code = Column("ts_code", String(16), nullable=False, comment="TS股票代码")
+    pre_close = Column("pre_close", Float, nullable=True, comment="昨日收盘价")
+    up_limit = Column("up_limit", Float, nullable=True, comment="涨停价")
+    down_limit = Column("down_limit", Float, nullable=True, comment="跌停价")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(StkLimit.__table__, "engine", engines.ReplacingMergeTree(order_by=StkLimit.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    StkLimit.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(StkLimit.__primary_key__),
+            "order_by": ",".join(StkLimit.__primary_key__),
+        }
     )
-    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS股票代码")
-    pre_close = Column(
-        "pre_close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="昨日收盘价"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    StkLimit.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": StkLimit.__primary_key__,
+        }
     )
-    up_limit = Column("up_limit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨停价")
-    down_limit = Column(
-        "down_limit", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="跌停价"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    StkLimit.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": StkLimit.__primary_key__,
+        }
     )
+except Exception:
+    pass

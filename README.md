@@ -4,6 +4,66 @@
 
 tushare-models 是一个使用 SQLAlchemy ORM 定义的 Tushare 数据接口模型集合。该项目提供了与 Tushare 金融数据服务 API 交互所需的数据模型定义，便于数据的查询、存储和分析。
 
+## 安装
+
+### 使用 pip 安装
+
+#### 基础安装
+
+```bash
+pip install tushare-models
+```
+
+#### 可选数据库支持
+
+根据您的数据库需求选择安装相应的扩展：
+
+```bash
+# ClickHouse 支持
+pip install tushare-models[clickhouse]
+
+# StarRocks 支持
+pip install tushare-models[starrocks]
+
+# Databend 支持
+pip install tushare-models[databend]
+
+# 安装所有数据库支持
+pip install tushare-models[all]
+```
+
+### 使用 uv 安装
+
+如果您使用 uv 包管理器，可以使用以下命令：
+
+#### 基础安装
+
+```bash
+uv add tushare-models
+```
+
+#### 可选数据库支持
+
+```bash
+# ClickHouse 支持
+uv add tushare-models[clickhouse]
+
+# StarRocks 支持
+uv add tushare-models[starrocks]
+
+# Databend 支持
+uv add tushare-models[databend]
+
+# 安装所有数据库支持
+uv add tushare-models[all]
+```
+
+#### 开发依赖
+
+```bash
+uv add --dev black isort
+```
+
 ## 核心组件
 
 ### 基础架构 (core/)
@@ -46,15 +106,18 @@ tushare-models 是一个使用 SQLAlchemy ORM 定义的 Tushare 数据接口模�
 
 该项目支持多种数据库系统，使用 SQLAlchemy 的方言机制进行适配：
 
+- **MySQL**: 传统的关系型数据库
 - **ClickHouse**: 面向列的高性能分析型数据库
 - **Databend**: 云原生分析型数据库
 - **StarRocks**: 分布式 MPP 数据库
-- **MySQL**: 传统的关系型数据库
 - **DuckDB**: 嵌入式分析型数据库
  
 每种数据库都有专门的适配器，可根据实际需求选择合适的数据库后端。使用方法示例：
 
 ```python
+# MySQL 连接
+engine = create_engine('mysql+pymysql://username:password@host:port/database')
+
 # ClickHouse 连接
 engine = create_engine('clickhouse+http://username:password@host:port/database')
 
@@ -63,9 +126,6 @@ engine = create_engine('databend://username:password@host:port/database')
 
 # StarRocks 连接
 engine = create_engine('starrocks://username:password@host:port/database')
-
-# MySQL 连接
-engine = create_engine('mysql+pymysql://username:password@host:port/database')
 
 # DuckDB 连接
 engine = create_engine('duckdb:///path/to/database.db')

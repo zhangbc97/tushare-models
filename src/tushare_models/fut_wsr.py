@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -18,65 +17,96 @@ class FutWsr(Base):
     __api_name__: ClassVar[str] = "fut_wsr"
     __api_title__: ClassVar[str] = "仓单日报"
     __api_info_title__: ClassVar[str] = "仓单日报"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "期货数据", "仓单日报"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 134, 140]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_path__: ClassVar[List[str]] = ["数据接口", "期货数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 14]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
-    __dependencies__: ClassVar[List[str]] = []
-    __primary_key__: ClassVar[List[str]] = ["symbol", "trade_date"]
-    __start_date__: ClassVar[str | None] = "2006-01-06"
+    __dependencies__: ClassVar[List[str]] = ["trade_cal"]
+    __primary_key__: ClassVar[List[str]] = ["trade_date", "symbol", "warehouse", "wh_id"]
+    __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "trade_date": {"type": "str", "required": False, "description": "交易日期"},
-        "symbol": {"type": "str", "required": False, "description": "产品代码"},
-        "start_date": {"type": "str", "required": False, "description": "开始日期"},
-        "end_date": {"type": "str", "required": False, "description": "结束日期"},
-        "exchange": {"type": "str", "required": False, "description": "交易所代码"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "trade_date": {"type": "String", "required": False, "description": "交易日期"},
+        "symbol": {"type": "String", "required": False, "description": "产品代码"},
+        "start_date": {"type": "String", "required": False, "description": "开始日期"},
+        "end_date": {"type": "String", "required": False, "description": "结束日期"},
+        "exchange": {"type": "String", "required": False, "description": "交易所代码"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "仓单日报",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    trade_date = Column(
-        "trade_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="交易日期",
+    trade_date = Column("trade_date", Date, nullable=False, comment="交易日期")
+    symbol = Column("symbol", String(), nullable=False, comment="产品代码")
+    fut_name = Column("fut_name", String(), nullable=True, comment="产品名称")
+    warehouse = Column("warehouse", String(), nullable=False, comment="仓库名称")
+    wh_id = Column("wh_id", String(), nullable=False, comment="仓库编号")
+    pre_vol = Column("pre_vol", Integer, nullable=True, comment="昨日仓单量")
+    vol = Column("vol", Integer, nullable=True, comment="今日仓单量")
+    vol_chg = Column("vol_chg", Integer, nullable=True, comment="增减量")
+    area = Column("area", String(), nullable=True, comment="地区")
+    year = Column("year", String(), nullable=True, comment="年度")
+    grade = Column("grade", String(), nullable=True, comment="等级")
+    brand = Column("brand", String(), nullable=True, comment="品牌")
+    place = Column("place", String(), nullable=True, comment="产地")
+    pd = Column("pd", Integer, nullable=True, comment="升贴水")
+    is_ct = Column("is_ct", String(), nullable=True, comment="是否折算仓单")
+    unit = Column("unit", String(), nullable=True, comment="单位")
+    exchange = Column("exchange", String(), nullable=True, comment="交易所")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(FutWsr.__table__, "engine", engines.ReplacingMergeTree(order_by=FutWsr.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    FutWsr.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(FutWsr.__primary_key__),
+            "order_by": ",".join(FutWsr.__primary_key__),
+        }
     )
-    symbol = Column("symbol", String(), nullable=False, default="", server_default=text("''"), comment="产品代码")
-    fut_name = Column("fut_name", String(), nullable=False, default="", server_default=text("''"), comment="产品名称")
-    warehouse = Column("warehouse", String(), nullable=False, default="", server_default=text("''"), comment="仓库名称")
-    wh_id = Column("wh_id", String(), nullable=False, default="", server_default=text("''"), comment="仓库编号")
-    pre_vol = Column("pre_vol", Integer, nullable=False, default=0, server_default=text("'0'"), comment="昨日仓单量")
-    vol = Column("vol", Integer, nullable=False, default=0, server_default=text("'0'"), comment="今日仓单量")
-    vol_chg = Column("vol_chg", Integer, nullable=False, default=0, server_default=text("'0'"), comment="增减量")
-    area = Column("area", String(), nullable=False, default="", server_default=text("''"), comment="地区")
-    year = Column("year", String(), nullable=False, default="", server_default=text("''"), comment="年度")
-    grade = Column("grade", String(), nullable=False, default="", server_default=text("''"), comment="等级")
-    brand = Column("brand", String(), nullable=False, default="", server_default=text("''"), comment="品牌")
-    place = Column("place", String(), nullable=False, default="", server_default=text("''"), comment="产地")
-    pd = Column("pd", Integer, nullable=False, default=0, server_default=text("'0'"), comment="升贴水")
-    is_ct = Column("is_ct", String(), nullable=False, default="", server_default=text("''"), comment="是否折算仓单")
-    unit = Column("unit", String(), nullable=False, default="", server_default=text("''"), comment="单位")
-    exchange = Column("exchange", String(), nullable=False, default="", server_default=text("''"), comment="交易所")
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    FutWsr.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": FutWsr.__primary_key__,
+        }
+    )
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    FutWsr.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": FutWsr.__primary_key__,
+        }
+    )
+except Exception:
+    pass

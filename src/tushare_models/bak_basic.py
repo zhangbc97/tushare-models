@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -17,90 +16,101 @@ class BakBasic(Base):
     __api_id__: ClassVar[int] = 262
     __api_name__: ClassVar[str] = "bak_basic"
     __api_title__: ClassVar[str] = "股票历史列表"
-    __api_info_title__: ClassVar[str] = "备用列表"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "基础数据", "股票历史列表"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 14, 24, 262]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_info_title__: ClassVar[str] = "股票历史列表"
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "基础数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 2, 3]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
-    __dependencies__: ClassVar[List[str]] = ["stock_basic", "trade_cal"]
+    __dependencies__: ClassVar[List[str]] = ["trade_cal"]
     __primary_key__: ClassVar[List[str]] = ["ts_code", "trade_date"]
-    __start_date__: ClassVar[str | None] = "2016-08-01"
+    __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "trade_date": {"type": "str", "required": False, "description": "交易日期"},
-        "ts_code": {"type": "str", "required": False, "description": "股票代码"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "trade_date": {"type": "String", "required": False, "description": "交易日期"},
+        "ts_code": {"type": "String", "required": False, "description": "股票代码"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "股票历史列表",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    trade_date = Column(
-        "trade_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="交易日期",
+    trade_date = Column("trade_date", Date, nullable=False, comment="交易日期")
+    ts_code = Column("ts_code", String(16), nullable=False, comment="TS股票代码")
+    name = Column("name", String(), nullable=True, comment="股票名称")
+    industry = Column("industry", String(), nullable=True, comment="行业")
+    area = Column("area", String(), nullable=True, comment="地域")
+    pe = Column("pe", Float, nullable=True, comment="市盈率(动)")
+    float_share = Column("float_share", Float, nullable=True, comment="流通股本(亿)")
+    total_share = Column("total_share", Float, nullable=True, comment="总股本(亿)")
+    total_assets = Column("total_assets", Float, nullable=True, comment="总资产(亿)")
+    liquid_assets = Column("liquid_assets", Float, nullable=True, comment="流动资产(亿)")
+    fixed_assets = Column("fixed_assets", Float, nullable=True, comment="固定资产(亿)")
+    reserved = Column("reserved", Float, nullable=True, comment="公积金")
+    reserved_pershare = Column("reserved_pershare", Float, nullable=True, comment="每股公积金")
+    eps = Column("eps", Float, nullable=True, comment="每股收益")
+    bvps = Column("bvps", Float, nullable=True, comment="每股净资产")
+    pb = Column("pb", Float, nullable=True, comment="市净率")
+    list_date = Column("list_date", Date, nullable=True, comment="上市日期")
+    undp = Column("undp", Float, nullable=True, comment="未分配利润")
+    per_undp = Column("per_undp", Float, nullable=True, comment="每股未分配利润")
+    rev_yoy = Column("rev_yoy", Float, nullable=True, comment="收入同比(%)")
+    profit_yoy = Column("profit_yoy", Float, nullable=True, comment="利润同比(%)")
+    gpr = Column("gpr", Float, nullable=True, comment="毛利率(%)")
+    npr = Column("npr", Float, nullable=True, comment="净利润率(%)")
+    holder_num = Column("holder_num", Integer, nullable=True, comment="股东人数")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(BakBasic.__table__, "engine", engines.ReplacingMergeTree(order_by=BakBasic.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    BakBasic.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(BakBasic.__primary_key__),
+            "order_by": ",".join(BakBasic.__primary_key__),
+        }
     )
-    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="TS股票代码")
-    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
-    industry = Column("industry", String(), nullable=False, default="", server_default=text("''"), comment="行业")
-    area = Column("area", String(), nullable=False, default="", server_default=text("''"), comment="地域")
-    pe = Column("pe", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="市盈率(动)")
-    float_share = Column(
-        "float_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流通股本(亿)"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    BakBasic.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": BakBasic.__primary_key__,
+        }
     )
-    total_share = Column(
-        "total_share", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="总股本(亿)"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    BakBasic.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": BakBasic.__primary_key__,
+        }
     )
-    total_assets = Column(
-        "total_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="总资产(亿)"
-    )
-    liquid_assets = Column(
-        "liquid_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="流动资产(亿)"
-    )
-    fixed_assets = Column(
-        "fixed_assets", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="固定资产(亿)"
-    )
-    reserved = Column("reserved", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="公积金")
-    reserved_pershare = Column(
-        "reserved_pershare", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="每股公积金"
-    )
-    eps = Column("eps", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="每股收益")
-    bvps = Column("bvps", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="每股净资产")
-    pb = Column("pb", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="市净率")
-    list_date = Column(
-        "list_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="上市日期"
-    )
-    undp = Column("undp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="未分配利润")
-    per_undp = Column(
-        "per_undp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="每股未分配利润"
-    )
-    rev_yoy = Column("rev_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收入同比(%)")
-    profit_yoy = Column(
-        "profit_yoy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="利润同比(%)"
-    )
-    gpr = Column("gpr", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="毛利率(%)")
-    npr = Column("npr", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="净利润率(%)")
-    holder_num = Column(
-        "holder_num", Integer, nullable=False, default=0, server_default=text("'0'"), comment="股东人数"
-    )
+except Exception:
+    pass

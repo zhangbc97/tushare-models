@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -18,9 +17,9 @@ class FundSalesRatio(Base):
     __api_name__: ClassVar[str] = "fund_sales_ratio"
     __api_title__: ClassVar[str] = "各渠道公募基金销售保有规模占比"
     __api_info_title__: ClassVar[str] = "各渠道公募基金销售保有规模占比"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "财富管理", "基金销售行业数据", "各渠道公募基金销售保有规模占比"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 263, 264, 265]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_path__: ClassVar[List[str]] = ["数据接口", "财富管理", "基金销售行业数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 34, 35]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = []
@@ -28,39 +27,71 @@ class FundSalesRatio(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "年份": {"type": "str", "required": False, "description": "年度"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "年份": {"type": "String", "required": False, "description": "年度"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "各渠道公募基金销售保有规模占比",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    year = Column("year", Integer, nullable=False, default=0, server_default=text("'0'"), comment="年度")
-    bank = Column("bank", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="商业银行(%)")
-    sec_comp = Column(
-        "sec_comp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="证券公司(%)"
+    year = Column("year", Integer, nullable=False, comment="年度")
+    bank = Column("bank", Float, nullable=True, comment="商业银行(%)")
+    sec_comp = Column("sec_comp", Float, nullable=True, comment="证券公司(%)")
+    fund_comp = Column("fund_comp", Float, nullable=True, comment="基金公司直销(%)")
+    indep_comp = Column("indep_comp", Float, nullable=True, comment="独立基金销售机构(%)")
+    rests = Column("rests", Float, nullable=True, comment="其他(%)")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(FundSalesRatio.__table__, "engine", engines.ReplacingMergeTree(order_by=FundSalesRatio.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    FundSalesRatio.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(FundSalesRatio.__primary_key__),
+            "order_by": ",".join(FundSalesRatio.__primary_key__),
+        }
     )
-    fund_comp = Column(
-        "fund_comp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="基金公司直销(%)"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    FundSalesRatio.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": FundSalesRatio.__primary_key__,
+        }
     )
-    indep_comp = Column(
-        "indep_comp", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="独立基金销售机构(%)"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    FundSalesRatio.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": FundSalesRatio.__primary_key__,
+        }
     )
-    rests = Column("rests", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="其他(%)")
+except Exception:
+    pass

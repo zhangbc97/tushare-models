@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -18,86 +17,96 @@ class GgtTop10(Base):
     __api_name__: ClassVar[str] = "ggt_top10"
     __api_title__: ClassVar[str] = "港股通十大成交股"
     __api_info_title__: ClassVar[str] = "港股通十大成交股"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "行情数据", "港股通十大成交股"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 14, 15, 49]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "行情数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 2, 4]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = ["trade_cal"]
     __primary_key__: ClassVar[List[str]] = ["ts_code", "trade_date"]
-    __start_date__: ClassVar[str | None] = "2014-11-17"
+    __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {"type": "str", "required": False, "description": "股票代码"},
-        "trade_date": {"type": "str", "required": False, "description": "交易日期"},
-        "start_date": {"type": "str", "required": False, "description": "开始日期"},
-        "end_date": {"type": "str", "required": False, "description": "结束日期"},
-        "market_type": {"type": "str", "required": False, "description": "市场类型 2：港股通（沪） 4：港股通（深）"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "ts_code": {"type": "String", "required": False, "description": "股票代码"},
+        "trade_date": {"type": "String", "required": False, "description": "交易日期"},
+        "start_date": {"type": "String", "required": False, "description": "开始日期"},
+        "end_date": {"type": "String", "required": False, "description": "结束日期"},
+        "market_type": {"type": "String", "required": False, "description": "市场类型 2：港股通（沪） 4：港股通（深）"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "港股通十大成交股",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    trade_date = Column(
-        "trade_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="交易日期",
+    trade_date = Column("trade_date", Date, nullable=False, comment="交易日期")
+    ts_code = Column("ts_code", String(16), nullable=False, comment="股票代码")
+    name = Column("name", String(), nullable=True, comment="股票名称")
+    close = Column("close", Float, nullable=True, comment="收盘价")
+    p_change = Column("p_change", Float, nullable=True, comment="涨跌幅")
+    rank = Column("rank", String(), nullable=True, comment="资金排名")
+    market_type = Column("market_type", String(), nullable=True, comment="市场类型 2：港股通(沪) 4：港股通(深)")
+    amount = Column("amount", Float, nullable=True, comment="累计成交金额")
+    net_amount = Column("net_amount", Float, nullable=True, comment="净买入金额")
+    sh_amount = Column("sh_amount", Float, nullable=True, comment="沪市成交金额")
+    sh_net_amount = Column("sh_net_amount", Float, nullable=True, comment="沪市净买入金额")
+    sh_buy = Column("sh_buy", Float, nullable=True, comment="沪市买入金额")
+    sh_sell = Column("sh_sell", Float, nullable=True, comment="沪市卖出金额")
+    sz_amount = Column("sz_amount", Float, nullable=True, comment="深市成交金额")
+    sz_net_amount = Column("sz_net_amount", Float, nullable=True, comment="深市净买入金额")
+    sz_buy = Column("sz_buy", Float, nullable=True, comment="深市买入金额")
+    sz_sell = Column("sz_sell", Float, nullable=True, comment="深市卖出金额")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(GgtTop10.__table__, "engine", engines.ReplacingMergeTree(order_by=GgtTop10.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    GgtTop10.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(GgtTop10.__primary_key__),
+            "order_by": ",".join(GgtTop10.__primary_key__),
+        }
     )
-    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
-    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
-    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘价")
-    p_change = Column("p_change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌幅")
-    rank = Column("rank", String(), nullable=False, default="", server_default=text("''"), comment="资金排名")
-    market_type = Column(
-        "market_type",
-        String(),
-        nullable=False,
-        default="",
-        server_default=text("''"),
-        comment="市场类型 2：港股通(沪) 4：港股通(深)",
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    GgtTop10.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": GgtTop10.__primary_key__,
+        }
     )
-    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="累计成交金额")
-    net_amount = Column(
-        "net_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="净买入金额"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    GgtTop10.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": GgtTop10.__primary_key__,
+        }
     )
-    sh_amount = Column(
-        "sh_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="沪市成交金额"
-    )
-    sh_net_amount = Column(
-        "sh_net_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="沪市净买入金额"
-    )
-    sh_buy = Column("sh_buy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="沪市买入金额")
-    sh_sell = Column(
-        "sh_sell", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="沪市卖出金额"
-    )
-    sz_amount = Column(
-        "sz_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="深市成交金额"
-    )
-    sz_net_amount = Column(
-        "sz_net_amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="深市净买入金额"
-    )
-    sz_buy = Column("sz_buy", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="深市买入金额")
-    sz_sell = Column(
-        "sz_sell", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="深市卖出金额"
-    )
+except Exception:
+    pass

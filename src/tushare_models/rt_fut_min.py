@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -17,56 +16,90 @@ class RtFutMin(Base):
     __api_id__: ClassVar[int] = 340
     __api_name__: ClassVar[str] = "rt_fut_min"
     __api_title__: ClassVar[str] = "实时分钟行情"
-    __api_info_title__: ClassVar[str] = "最新行情-期货-分钟"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "期货数据", "实时分钟行情"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 134, 340]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_info_title__: ClassVar[str] = "实时分钟行情"
+    __api_path__: ClassVar[List[str]] = ["数据接口", "期货数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 14]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
-    __dependencies__: ClassVar[List[str]] = []
-    __primary_key__: ClassVar[List[str]] = ["code", "time", "freq"]
+    __dependencies__: ClassVar[List[str]] = ["fut_basic"]
+    __primary_key__: ClassVar[List[str]] = ["code", "freq", "time"]
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "topic": {"type": "str", "required": False, "description": "主题"},
-        "freq": {"type": "str", "required": True, "description": "分钟类型"},
-        "ts_code": {"type": "str", "required": True, "description": "证券代码"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "topic": {"type": "String", "required": False, "description": "主题"},
+        "freq": {"type": "String", "required": True, "description": "分钟类型"},
+        "ts_code": {"type": "String", "required": True, "description": "证券代码"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "实时分钟行情",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    code = Column("code", String(), nullable=False, default="", server_default=text("''"), comment="基金代码")
-    freq = Column("freq", String(), nullable=False, default="", server_default=text("''"), comment="起始交易日期")
-    time = Column("time", String(), nullable=False, default="", server_default=text("''"), comment="截止交易日期")
-    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="信息比率")
-    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="信息比率")
-    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="信息比率")
-    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="信息比率")
-    volume = Column("volume", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="信息比率")
-    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="信息比率")
-    oi = Column("oi", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="信息比率")
-    trade_date = Column(
-        "trade_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="结算日"
+    code = Column("code", String(), nullable=False, comment="基金代码")
+    freq = Column("freq", String(), nullable=False, comment="起始交易日期")
+    time = Column("time", String(), nullable=False, comment="截止交易日期")
+    open = Column("open", Float, nullable=True, comment="信息比率")
+    close = Column("close", Float, nullable=True, comment="信息比率")
+    high = Column("high", Float, nullable=True, comment="信息比率")
+    low = Column("low", Float, nullable=True, comment="信息比率")
+    vol = Column("vol", Float, nullable=True, comment="信息比率")
+    amount = Column("amount", Float, nullable=True, comment="信息比率")
+    oi = Column("oi", Float, nullable=True, comment="信息比率")
+    trade_date = Column("trade_date", Date, nullable=True, comment="结算日")
+    action_date = Column("action_date", Date, nullable=True, comment="交易日")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(RtFutMin.__table__, "engine", engines.ReplacingMergeTree(order_by=RtFutMin.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    RtFutMin.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(RtFutMin.__primary_key__),
+            "order_by": ",".join(RtFutMin.__primary_key__),
+        }
     )
-    action_date = Column(
-        "action_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="交易日"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    RtFutMin.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": RtFutMin.__primary_key__,
+        }
     )
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    RtFutMin.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": RtFutMin.__primary_key__,
+        }
+    )
+except Exception:
+    pass

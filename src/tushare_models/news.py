@@ -4,58 +4,95 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
 
 
 class News(Base):
-    """新闻快讯"""
+    """新闻快讯(短讯)"""
 
     __tablename__: str = "news"
     __api_id__: ClassVar[int] = 143
     __api_name__: ClassVar[str] = "news"
-    __api_title__: ClassVar[str] = "新闻快讯"
-    __api_info_title__: ClassVar[str] = "新闻资讯"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "大模型语料专题数据", "新闻快讯"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 142, 143]
-    __api_points_required__: ClassVar[int] = 2000
-    __api_special_permission__: ClassVar[bool] = True
+    __api_title__: ClassVar[str] = "新闻快讯(短讯)"
+    __api_info_title__: ClassVar[str] = "新闻快讯(短讯)"
+    __api_path__: ClassVar[List[str]] = ["数据接口", "大模型语料专题数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 36]
+    __api_points_required__: ClassVar[int] = 0
+    __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = []
     __primary_key__: ClassVar[List[str]] = ["datetime", "title"]
-    __start_date__: ClassVar[str | None] = "2018-10-08 00:00:00"
+    __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "start_date": {"type": "str", "required": False, "description": "开始日期"},
-        "end_date": {"type": "str", "required": False, "description": "结束日期"},
-        "src": {"type": "str", "required": False, "description": "新闻来源sina新浪财经"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "start_date": {"type": "String", "required": False, "description": "开始日期"},
+        "end_date": {"type": "String", "required": False, "description": "结束日期"},
+        "src": {"type": "String", "required": False, "description": "新闻来源sina新浪财经"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
-            "comment": "新闻快讯",
+            "comment": "新闻快讯(短讯)",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    datetime = Column("datetime", String(), nullable=False, default="", server_default=text("''"), comment="时间")
-    content = Column("content", String(), nullable=False, default="", server_default=text("''"), comment="内容")
-    title = Column("title", String(), nullable=False, default="", server_default=text("''"), comment="标题")
-    channels = Column("channels", String(), nullable=False, default="", server_default=text("''"), comment="分类")
-    score = Column("score", String(), nullable=False, default="", server_default=text("''"), comment="分值")
+    datetime = Column("datetime", Date, nullable=False, comment="时间")
+    content = Column("content", String(), nullable=True, comment="内容")
+    title = Column("title", String(), nullable=False, comment="标题")
+    channels = Column("channels", String(), nullable=True, comment="分类")
+    score = Column("score", String(), nullable=True, comment="分值")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(News.__table__, "engine", engines.ReplacingMergeTree(order_by=News.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    News.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(News.__primary_key__),
+            "order_by": ",".join(News.__primary_key__),
+        }
+    )
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    News.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": News.__primary_key__,
+        }
+    )
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    News.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": News.__primary_key__,
+        }
+    )
+except Exception:
+    pass

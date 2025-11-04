@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -17,67 +16,93 @@ class SgeDaily(Base):
     __api_id__: ClassVar[int] = 285
     __api_name__: ClassVar[str] = "sge_daily"
     __api_title__: ClassVar[str] = "上海黄金现货日行情"
-    __api_info_title__: ClassVar[str] = "现货黄金日行情"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "现货数据", "上海黄金现货日行情"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 283, 285]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_info_title__: ClassVar[str] = "上海黄金现货日行情"
+    __api_path__: ClassVar[List[str]] = ["数据接口", "现货数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 15]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
-    __dependencies__: ClassVar[List[str]] = []
+    __dependencies__: ClassVar[List[str]] = ["trade_cal", "sge_basic"]
     __primary_key__: ClassVar[List[str]] = ["ts_code", "trade_date"]
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {"type": "str", "required": False, "description": "合约代码"},
-        "trade_date": {"type": "str", "required": False, "description": "交易日期"},
-        "start_date": {"type": "str", "required": False, "description": "开始日期"},
-        "end_date": {"type": "str", "required": False, "description": "结束日期"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "ts_code": {"type": "String", "required": False, "description": "合约代码"},
+        "trade_date": {"type": "String", "required": False, "description": "交易日期"},
+        "start_date": {"type": "String", "required": False, "description": "开始日期"},
+        "end_date": {"type": "String", "required": False, "description": "结束日期"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "上海黄金现货日行情",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    ts_code = Column(
-        "ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="现货合约代码"
+    ts_code = Column("ts_code", String(16), nullable=False, comment="现货合约代码")
+    trade_date = Column("trade_date", Date, nullable=False, comment="交易日")
+    close = Column("close", Float, nullable=True, comment="收盘点位")
+    open = Column("open", Float, nullable=True, comment="开盘点位")
+    high = Column("high", Float, nullable=True, comment="最高点位")
+    low = Column("low", Float, nullable=True, comment="最低点位")
+    price_avg = Column("price_avg", Float, nullable=True, comment="昨日收盘点")
+    change = Column("change", Float, nullable=True, comment="涨跌点位")
+    pct_change = Column("pct_change", Float, nullable=True, comment="涨跌幅")
+    vol = Column("vol", Float, nullable=True, comment="成交量")
+    amount = Column("amount", Float, nullable=True, comment="成交金额")
+    oi = Column("oi", Float, nullable=True, comment="持仓量")
+    settle_vol = Column("settle_vol", Float, nullable=True, comment="交收量")
+    settle_dire = Column("settle_dire", String(), nullable=True, comment="持仓方向")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(SgeDaily.__table__, "engine", engines.ReplacingMergeTree(order_by=SgeDaily.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    SgeDaily.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(SgeDaily.__primary_key__),
+            "order_by": ",".join(SgeDaily.__primary_key__),
+        }
     )
-    trade_date = Column(
-        "trade_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="交易日"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    SgeDaily.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": SgeDaily.__primary_key__,
+        }
     )
-    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘点位")
-    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="开盘点位")
-    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最高点位")
-    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最低点位")
-    price_avg = Column(
-        "price_avg", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="昨日收盘点"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    SgeDaily.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": SgeDaily.__primary_key__,
+        }
     )
-    change = Column("change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌点位")
-    pct_change = Column(
-        "pct_change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌幅"
-    )
-    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交量")
-    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交金额")
-    oi = Column("oi", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="持仓量")
-    settle_vol = Column(
-        "settle_vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="交收量"
-    )
-    settle_dire = Column(
-        "settle_dire", String(), nullable=False, default="", server_default=text("''"), comment="持仓方向"
-    )
+except Exception:
+    pass

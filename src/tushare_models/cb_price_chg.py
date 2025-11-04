@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -18,71 +17,82 @@ class CbPriceChg(Base):
     __api_name__: ClassVar[str] = "cb_price_chg"
     __api_title__: ClassVar[str] = "可转债转股价变动"
     __api_info_title__: ClassVar[str] = "可转债转股价变动"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "债券专题", "可转债转股价变动"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 184, 246]
-    __api_points_required__: ClassVar[int] = 2000
-    __api_special_permission__: ClassVar[bool] = True
+    __api_path__: ClassVar[List[str]] = ["数据接口", "债券专题"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 17]
+    __api_points_required__: ClassVar[int] = 0
+    __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
-    __dependencies__: ClassVar[List[str]] = []
+    __dependencies__: ClassVar[List[str]] = ["cb_basic"]
     __primary_key__: ClassVar[List[str]] = ["ts_code", "change_date"]
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {"type": "str", "required": True, "description": "转债代码，支持多值输入"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "ts_code": {"type": "String", "required": True, "description": "转债代码，支持多值输入"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "可转债转股价变动",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="转债代码")
-    bond_short_name = Column(
-        "bond_short_name", String(), nullable=False, default="", server_default=text("''"), comment="转债简称"
+    ts_code = Column("ts_code", String(16), nullable=False, comment="转债代码")
+    bond_short_name = Column("bond_short_name", String(), nullable=True, comment="转债简称")
+    publish_date = Column("publish_date", Date, nullable=True, comment="公告日期")
+    change_date = Column("change_date", Date, nullable=False, comment="变动日期")
+    convert_price_initial = Column("convert_price_initial", Float, nullable=True, comment="初始转股价格")
+    convertprice_bef = Column("convertprice_bef", Float, nullable=True, comment="修正前转股价格")
+    convertprice_aft = Column("convertprice_aft", Float, nullable=True, comment="修正后转股价格")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(CbPriceChg.__table__, "engine", engines.ReplacingMergeTree(order_by=CbPriceChg.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    CbPriceChg.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(CbPriceChg.__primary_key__),
+            "order_by": ",".join(CbPriceChg.__primary_key__),
+        }
     )
-    publish_date = Column(
-        "publish_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="公告日期",
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    CbPriceChg.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": CbPriceChg.__primary_key__,
+        }
     )
-    change_date = Column(
-        "change_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="变动日期",
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    CbPriceChg.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": CbPriceChg.__primary_key__,
+        }
     )
-    convert_price_initial = Column(
-        "convert_price_initial",
-        Float,
-        nullable=False,
-        default=0.0,
-        server_default=text("'0.0'"),
-        comment="初始转股价格",
-    )
-    convertprice_bef = Column(
-        "convertprice_bef", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="修正前转股价格"
-    )
-    convertprice_aft = Column(
-        "convertprice_aft", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="修正后转股价格"
-    )
+except Exception:
+    pass

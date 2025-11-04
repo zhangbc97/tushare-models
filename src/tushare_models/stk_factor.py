@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -17,10 +16,10 @@ class StkFactor(Base):
     __api_id__: ClassVar[int] = 296
     __api_name__: ClassVar[str] = "stk_factor"
     __api_title__: ClassVar[str] = "股票技术面因子"
-    __api_info_title__: ClassVar[str] = "股票技术因子"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "特色数据", "股票技术面因子"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 14, 291, 296]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_info_title__: ClassVar[str] = "股票技术面因子"
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "特色数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 2, 7]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = ["trade_cal"]
@@ -28,100 +27,103 @@ class StkFactor(Base):
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {"type": "str", "required": False, "description": "股票代码"},
-        "start_date": {"type": "str", "required": False, "description": "开始日期"},
-        "end_date": {"type": "str", "required": False, "description": "结束日期"},
-        "trade_date": {"type": "str", "required": False, "description": "交易日期"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "ts_code": {"type": "String", "required": False, "description": "股票代码"},
+        "start_date": {"type": "String", "required": False, "description": "开始日期"},
+        "end_date": {"type": "String", "required": False, "description": "结束日期"},
+        "trade_date": {"type": "String", "required": False, "description": "交易日期"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "股票技术面因子",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
-    trade_date = Column(
-        "trade_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="交易日期",
+    ts_code = Column("ts_code", String(16), nullable=False, comment="股票代码")
+    trade_date = Column("trade_date", Date, nullable=False, comment="交易日期")
+    close = Column("close", Float, nullable=True, comment="收盘价")
+    open = Column("open", Float, nullable=True, comment="开盘价")
+    high = Column("high", Float, nullable=True, comment="最高价")
+    low = Column("low", Float, nullable=True, comment="最低价")
+    pre_close = Column("pre_close", Float, nullable=True, comment="昨收价")
+    change = Column("change", Float, nullable=True, comment="涨跌额")
+    pct_change = Column("pct_change", Float, nullable=True, comment="涨跌幅")
+    vol = Column("vol", Float, nullable=True, comment="成交量 (手)")
+    amount = Column("amount", Float, nullable=True, comment="成交额 (千元)")
+    adj_factor = Column("adj_factor", Float, nullable=True, comment="复权因子")
+    open_hfq = Column("open_hfq", Float, nullable=True, comment="开盘价后复权")
+    open_qfq = Column("open_qfq", Float, nullable=True, comment="开盘价前复权")
+    close_hfq = Column("close_hfq", Float, nullable=True, comment="收盘价后复权")
+    close_qfq = Column("close_qfq", Float, nullable=True, comment="收盘价前复权")
+    high_hfq = Column("high_hfq", Float, nullable=True, comment="最高价后复权")
+    high_qfq = Column("high_qfq", Float, nullable=True, comment="最高价前复权")
+    low_hfq = Column("low_hfq", Float, nullable=True, comment="最低价后复权")
+    low_qfq = Column("low_qfq", Float, nullable=True, comment="最低价前复权")
+    pre_close_hfq = Column("pre_close_hfq", Float, nullable=True, comment="昨收价后复权")
+    pre_close_qfq = Column("pre_close_qfq", Float, nullable=True, comment="昨收价前复权")
+    macd_dif = Column("macd_dif", Float, nullable=True, comment="macd_diff")
+    macd_dea = Column("macd_dea", Float, nullable=True, comment="macd_dea")
+    macd = Column("macd", Float, nullable=True, comment="macd")
+    kdj_k = Column("kdj_k", Float, nullable=True, comment="KDJ_K")
+    kdj_d = Column("kdj_d", Float, nullable=True, comment="KDJ_D")
+    kdj_j = Column("kdj_j", Float, nullable=True, comment="KDJ_J")
+    rsi_6 = Column("rsi_6", Float, nullable=True, comment="RSI_6")
+    rsi_12 = Column("rsi_12", Float, nullable=True, comment="RSI_12")
+    rsi_24 = Column("rsi_24", Float, nullable=True, comment="RSI_24")
+    boll_upper = Column("boll_upper", Float, nullable=True, comment="BOLL_UPPER")
+    boll_mid = Column("boll_mid", Float, nullable=True, comment="BOLL_MID")
+    boll_lower = Column("boll_lower", Float, nullable=True, comment="BOLL_LOWER")
+    cci = Column("cci", Float, nullable=True, comment="CCI")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(StkFactor.__table__, "engine", engines.ReplacingMergeTree(order_by=StkFactor.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    StkFactor.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(StkFactor.__primary_key__),
+            "order_by": ",".join(StkFactor.__primary_key__),
+        }
     )
-    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘价")
-    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="开盘价")
-    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最高价")
-    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最低价")
-    pre_close = Column("pre_close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="昨收价")
-    change = Column("change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌额")
-    pct_change = Column(
-        "pct_change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌幅"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    StkFactor.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": StkFactor.__primary_key__,
+        }
     )
-    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交量 (手)")
-    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="成交额 (千元)")
-    adj_factor = Column(
-        "adj_factor", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="复权因子"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    StkFactor.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": StkFactor.__primary_key__,
+        }
     )
-    open_hfq = Column(
-        "open_hfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="开盘价后复权"
-    )
-    open_qfq = Column(
-        "open_qfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="开盘价前复权"
-    )
-    close_hfq = Column(
-        "close_hfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘价后复权"
-    )
-    close_qfq = Column(
-        "close_qfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="收盘价前复权"
-    )
-    high_hfq = Column(
-        "high_hfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最高价后复权"
-    )
-    high_qfq = Column(
-        "high_qfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最高价前复权"
-    )
-    low_hfq = Column(
-        "low_hfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最低价后复权"
-    )
-    low_qfq = Column(
-        "low_qfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="最低价前复权"
-    )
-    pre_close_hfq = Column(
-        "pre_close_hfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="昨收价后复权"
-    )
-    pre_close_qfq = Column(
-        "pre_close_qfq", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="昨收价前复权"
-    )
-    macd_dif = Column("macd_dif", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="macd_diff")
-    macd_dea = Column("macd_dea", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="macd_dea")
-    macd = Column("macd", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="macd")
-    kdj_k = Column("kdj_k", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="KDJ_K")
-    kdj_d = Column("kdj_d", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="KDJ_D")
-    kdj_j = Column("kdj_j", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="KDJ_J")
-    rsi_6 = Column("rsi_6", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="RSI_6")
-    rsi_12 = Column("rsi_12", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="RSI_12")
-    rsi_24 = Column("rsi_24", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="RSI_24")
-    boll_upper = Column(
-        "boll_upper", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="BOLL_UPPER"
-    )
-    boll_mid = Column("boll_mid", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="BOLL_MID")
-    boll_lower = Column(
-        "boll_lower", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="BOLL_LOWER"
-    )
-    cci = Column("cci", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="CCI")
+except Exception:
+    pass

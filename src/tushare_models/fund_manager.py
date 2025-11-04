@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -18,62 +17,87 @@ class FundManager(Base):
     __api_name__: ClassVar[str] = "fund_manager"
     __api_title__: ClassVar[str] = "基金经理"
     __api_info_title__: ClassVar[str] = "基金经理"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "公募基金", "基金经理"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 18, 208]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_path__: ClassVar[List[str]] = ["数据接口", "公募基金"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 13]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
-    __dependencies__: ClassVar[List[str]] = []
-    __primary_key__: ClassVar[List[str]] = ["ts_code", "name", "begin_date"]
+    __dependencies__: ClassVar[List[str]] = ["fund_basic"]
+    __primary_key__: ClassVar[List[str]] = ["ts_code", "ann_date", "name", "begin_date"]
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {"type": "str", "required": False, "description": "基金代码"},
-        "ann_date": {"type": "str", "required": False, "description": "公告日期"},
-        "name": {"type": "str", "required": False, "description": "基金经理姓名"},
-        "offset": {"type": "int", "required": False, "description": "开始行数"},
-        "limit": {"type": "int", "required": False, "description": "每页行数"},
+        "ts_code": {"type": "String", "required": False, "description": "基金代码"},
+        "ann_date": {"type": "String", "required": False, "description": "公告日期"},
+        "name": {"type": "String", "required": False, "description": "基金经理姓名"},
+        "offset": {"type": "Int64", "required": False, "description": "开始行数"},
+        "limit": {"type": "Int64", "required": False, "description": "每页行数"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "基金经理",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="基金代码")
-    ann_date = Column(
-        "ann_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="公告日期"
+    ts_code = Column("ts_code", String(16), nullable=False, comment="基金代码")
+    ann_date = Column("ann_date", Date, nullable=False, comment="公告日期")
+    name = Column("name", String(), nullable=False, comment="基金经理姓名")
+    gender = Column("gender", String(), nullable=True, comment="性别")
+    birth_year = Column("birth_year", String(), nullable=True, comment="出生年份")
+    edu = Column("edu", String(), nullable=True, comment="学历")
+    nationality = Column("nationality", String(), nullable=True, comment="国籍")
+    begin_date = Column("begin_date", Date, nullable=False, comment="任职日期")
+    end_date = Column("end_date", Date, nullable=True, comment="历任日期")
+    resume = Column("resume", String(), nullable=True, comment="简历")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(FundManager.__table__, "engine", engines.ReplacingMergeTree(order_by=FundManager.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    FundManager.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(FundManager.__primary_key__),
+            "order_by": ",".join(FundManager.__primary_key__),
+        }
     )
-    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="基金经理姓名")
-    gender = Column("gender", String(), nullable=False, default="", server_default=text("''"), comment="性别")
-    birth_year = Column(
-        "birth_year", String(), nullable=False, default="", server_default=text("''"), comment="出生年份"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    FundManager.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": FundManager.__primary_key__,
+        }
     )
-    edu = Column("edu", String(), nullable=False, default="", server_default=text("''"), comment="学历")
-    nationality = Column("nationality", String(), nullable=False, default="", server_default=text("''"), comment="国籍")
-    begin_date = Column(
-        "begin_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="任职日期",
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    FundManager.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": FundManager.__primary_key__,
+        }
     )
-    end_date = Column(
-        "end_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment="历任日期"
-    )
-    resume = Column("resume", String(), nullable=False, default="", server_default=text("''"), comment="简历")
+except Exception:
+    pass

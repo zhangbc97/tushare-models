@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -18,53 +17,89 @@ class Monthly(Base):
     __api_name__: ClassVar[str] = "monthly"
     __api_title__: ClassVar[str] = "月线行情"
     __api_info_title__: ClassVar[str] = "月线行情"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "行情数据", "月线行情"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 14, 15, 145]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "行情数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 2, 4]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
-    __dependencies__: ClassVar[List[str]] = ["stock_basic", "trade_cal"]
+    __dependencies__: ClassVar[List[str]] = ["trade_cal"]
     __primary_key__: ClassVar[List[str]] = ["ts_code", "trade_date"]
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {"type": "str", "required": False, "description": "TS代码"},
-        "trade_date": {"type": "str", "required": False, "description": "交易日期"},
-        "start_date": {"type": "str", "required": False, "description": "开始日期"},
-        "end_date": {"type": "str", "required": False, "description": "结束日期"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "ts_code": {"type": "String", "required": False, "description": "TS代码"},
+        "trade_date": {"type": "String", "required": False, "description": "交易日期"},
+        "start_date": {"type": "String", "required": False, "description": "开始日期"},
+        "end_date": {"type": "String", "required": False, "description": "结束日期"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "月线行情",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="")
-    trade_date = Column(
-        "trade_date", Date, nullable=False, default="1970-01-01", server_default=text("'1970-01-01'"), comment=""
+    ts_code = Column("ts_code", String(16), nullable=False, comment="")
+    trade_date = Column("trade_date", Date, nullable=False, comment="")
+    close = Column("close", Float, nullable=True, comment="")
+    open = Column("open", Float, nullable=True, comment="")
+    high = Column("high", Float, nullable=True, comment="")
+    low = Column("low", Float, nullable=True, comment="")
+    pre_close = Column("pre_close", Float, nullable=True, comment="")
+    change = Column("change", Float, nullable=True, comment="")
+    pct_chg = Column("pct_chg", Float, nullable=True, comment="")
+    vol = Column("vol", Float, nullable=True, comment="")
+    amount = Column("amount", Float, nullable=True, comment="")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(Monthly.__table__, "engine", engines.ReplacingMergeTree(order_by=Monthly.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    Monthly.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(Monthly.__primary_key__),
+            "order_by": ",".join(Monthly.__primary_key__),
+        }
     )
-    close = Column("close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
-    open = Column("open", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
-    high = Column("high", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
-    low = Column("low", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
-    pre_close = Column("pre_close", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
-    change = Column("change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
-    pct_chg = Column("pct_chg", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
-    vol = Column("vol", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
-    amount = Column("amount", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="")
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    Monthly.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": Monthly.__primary_key__,
+        }
+    )
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    Monthly.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": Monthly.__primary_key__,
+        }
+    )
+except Exception:
+    pass

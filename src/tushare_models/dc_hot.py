@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -17,65 +16,94 @@ class DcHot(Base):
     __api_id__: ClassVar[int] = 321
     __api_name__: ClassVar[str] = "dc_hot"
     __api_title__: ClassVar[str] = "东方财富App热榜"
-    __api_info_title__: ClassVar[str] = "东方财富热板"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据", "东方财富App热榜"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 14, 346, 321]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_info_title__: ClassVar[str] = "东方财富App热榜"
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 2, 10]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
     __dependencies__: ClassVar[List[str]] = ["trade_cal"]
-    __primary_key__: ClassVar[List[str]] = ["trade_date", "data_type", "ts_code", "rank_time"]
-    __start_date__: ClassVar[str | None] = "2024-03-20"
+    __primary_key__: ClassVar[List[str]] = ["ts_code", "trade_date"]
+    __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "trade_date": {"type": "str", "required": False, "description": "交易日期(格式：YYYYMMDD，下同)"},
-        "ts_code": {"type": "str", "required": False, "description": "TS代码"},
-        "market": {"type": "str", "required": False, "description": "热板类型(A股市场、ETF基金、港股市场、美股市场)"},
-        "hot_type": {"type": "str", "required": False, "description": "热点类型(人气榜、飙升榜)"},
-        "is_new": {"type": "str", "required": False, "description": "是否最新"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "trade_date": {"type": "String", "required": False, "description": "交易日期(格式：YYYYMMDD，下同)"},
+        "ts_code": {"type": "String", "required": False, "description": "TS代码"},
+        "market": {
+            "type": "String",
+            "required": False,
+            "description": "热板类型(A股市场、ETF基金、港股市场、美股市场)",
+        },
+        "hot_type": {"type": "String", "required": False, "description": "热点类型(人气榜、飙升榜)"},
+        "is_new": {"type": "String", "required": False, "description": "是否最新"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "东方财富App热榜",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    trade_date = Column(
-        "trade_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="交易日期",
+    trade_date = Column("trade_date", Date, nullable=False, comment="交易日期")
+    data_type = Column("data_type", String(), nullable=True, comment="数据类型")
+    ts_code = Column("ts_code", String(16), nullable=False, comment="股票代码")
+    ts_name = Column("ts_name", String(), nullable=True, comment="股票名称")
+    rank = Column("rank", Integer, nullable=True, comment="排行或者热度")
+    pct_change = Column("pct_change", Float, nullable=True, comment="涨跌幅%")
+    current_price = Column("current_price", Float, nullable=True, comment="当前价格")
+    hot = Column("hot", Float, nullable=True, comment="热度")
+    concept = Column("concept", String(), nullable=True, comment="标签")
+    rank_time = Column("rank_time", String(), nullable=True, comment="排行榜获取时间")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(DcHot.__table__, "engine", engines.ReplacingMergeTree(order_by=DcHot.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    DcHot.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(DcHot.__primary_key__),
+            "order_by": ",".join(DcHot.__primary_key__),
+        }
     )
-    data_type = Column("data_type", String(), nullable=False, default="", server_default=text("''"), comment="数据类型")
-    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="股票代码")
-    ts_name = Column("ts_name", String(), nullable=False, default="", server_default=text("''"), comment="股票名称")
-    rank = Column("rank", Integer, nullable=False, default=0, server_default=text("'0'"), comment="排行或者热度")
-    pct_change = Column(
-        "pct_change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌幅%"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    DcHot.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": DcHot.__primary_key__,
+        }
     )
-    current_price = Column(
-        "current_price", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="当前价格"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    DcHot.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": DcHot.__primary_key__,
+        }
     )
-    hot = Column("hot", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="热度")
-    concept = Column("concept", String(), nullable=False, default="", server_default=text("''"), comment="标签")
-    rank_time = Column(
-        "rank_time", String(), nullable=False, default="", server_default=text("''"), comment="排行榜获取时间"
-    )
+except Exception:
+    pass

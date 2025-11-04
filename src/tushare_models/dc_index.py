@@ -4,7 +4,6 @@
 
 from typing import Any, ClassVar, Dict, List
 
-from clickhouse_sqlalchemy import engines
 from sqlalchemy import Column, PrimaryKeyConstraint, text
 
 from tushare_models.core import Base, Date, DateTime, Float, Integer, String
@@ -18,69 +17,90 @@ class DcIndex(Base):
     __api_name__: ClassVar[str] = "dc_index"
     __api_title__: ClassVar[str] = "东方财富概念板块"
     __api_info_title__: ClassVar[str] = "东方财富概念板块"
-    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据", "东方财富概念板块"]
-    __api_path_ids__: ClassVar[List[int]] = [2, 14, 346, 362]
-    __api_points_required__: ClassVar[int] = 2000
+    __api_path__: ClassVar[List[str]] = ["数据接口", "股票数据", "打板专题数据"]
+    __api_path_ids__: ClassVar[List[int]] = [1, 2, 10]
+    __api_points_required__: ClassVar[int] = 0
     __api_special_permission__: ClassVar[bool] = False
     __has_vip__: ClassVar[bool] = False
-    __dependencies__: ClassVar[List[str]] = []
+    __dependencies__: ClassVar[List[str]] = ["trade_cal"]
     __primary_key__: ClassVar[List[str]] = ["ts_code", "trade_date"]
     __start_date__: ClassVar[str | None] = None
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
-        "ts_code": {"type": "str", "required": False, "description": "指数代码（支持多个代码同时输入，用逗号分隔）"},
-        "name": {"type": "str", "required": False, "description": "板块名称（例如：人形机器人）"},
-        "trade_date": {"type": "str", "required": False, "description": "交易日期（YYYYMMDD格式，下同）"},
-        "start_date": {"type": "str", "required": False, "description": "开始日期"},
-        "end_date": {"type": "str", "required": False, "description": "结束日期"},
-        "limit": {"type": "int", "required": False, "description": "单次返回数据长度"},
-        "offset": {"type": "int", "required": False, "description": "请求数据的开始位移量"},
+        "ts_code": {"type": "String", "required": False, "description": "指数代码（支持多个代码同时输入，用逗号分隔）"},
+        "name": {"type": "String", "required": False, "description": "板块名称（例如：人形机器人）"},
+        "trade_date": {"type": "String", "required": False, "description": "交易日期（YYYYMMDD格式，下同）"},
+        "start_date": {"type": "String", "required": False, "description": "开始日期"},
+        "end_date": {"type": "String", "required": False, "description": "结束日期"},
+        "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
+        "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},
     }
 
     __mapper_args__ = {"primary_key": __primary_key__}
     __table_args__ = (
         PrimaryKeyConstraint(*__primary_key__),
-        # ClickHouse引擎
-        engines.ReplacingMergeTree(order_by=__primary_key__),
         {
             "comment": "东方财富概念板块",
             # MySQL引擎
             "mysql_engine": "InnoDB",
-            # StarRocks引擎
-            "starrocks_primary_key": ",".join(__primary_key__),
-            "starrocks_order_by": ",".join(__primary_key__),
-            # Apache Doris引擎
-            "doris_unique_key": __primary_key__,
-            # Databend引擎
-            "databend_cluster_by": __primary_key__,
         },
     )
 
-    ts_code = Column("ts_code", String(16), nullable=False, default="", server_default=text("''"), comment="概念代码")
-    trade_date = Column(
-        "trade_date",
-        Date,
-        nullable=False,
-        default="1970-01-01",
-        server_default=text("'1970-01-01'"),
-        comment="交易日期",
+    ts_code = Column("ts_code", String(16), nullable=False, comment="概念代码")
+    trade_date = Column("trade_date", Date, nullable=False, comment="交易日期")
+    name = Column("name", String(), nullable=True, comment="概念名称")
+    leading = Column("leading", String(), nullable=True, comment="领涨股票名称")
+    leading_code = Column("leading_code", String(), nullable=True, comment="领涨股票代码")
+    pct_change = Column("pct_change", Float, nullable=True, comment="涨跌幅")
+    leading_pct = Column("leading_pct", Float, nullable=True, comment="领涨股票涨跌幅")
+    total_mv = Column("total_mv", Float, nullable=True, comment="总市值(万元)")
+    turnover_rate = Column("turnover_rate", Float, nullable=True, comment="换手率")
+    up_num = Column("up_num", Integer, nullable=True, comment="上涨家数")
+    down_num = Column("down_num", Integer, nullable=True, comment="下降家数")
+
+
+# ClickHouse引擎配置
+try:
+    from clickhouse_sqlalchemy import engines
+
+    setattr(DcIndex.__table__, "engine", engines.ReplacingMergeTree(order_by=DcIndex.__primary_key__))
+except Exception:
+    pass
+
+
+# StarRocks引擎配置
+try:
+    from tushare_models.core.dialect import TSStarRocksDDLCompiler
+
+    DcIndex.__table__.dialect_options["starrocks"].update(  # type: ignore
+        {
+            "primary_key": ",".join(DcIndex.__primary_key__),
+            "order_by": ",".join(DcIndex.__primary_key__),
+        }
     )
-    name = Column("name", String(), nullable=False, default="", server_default=text("''"), comment="概念名称")
-    leading = Column("leading", String(), nullable=False, default="", server_default=text("''"), comment="领涨股票名称")
-    leading_code = Column(
-        "leading_code", String(), nullable=False, default="", server_default=text("''"), comment="领涨股票代码"
+except Exception:
+    pass
+
+
+# Databend引擎配置
+try:
+    from tushare_models.core.dialect import TSDatabendDDLCompiler
+
+    DcIndex.__table__.dialect_options["databend"].update(  # type: ignore
+        {
+            "cluster_by": DcIndex.__primary_key__,
+        }
     )
-    pct_change = Column(
-        "pct_change", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="涨跌幅"
+except Exception:
+    pass
+
+
+# Doris引擎配置
+try:
+    DcIndex.__table__.dialect_options["doris"].update(  # type: ignore
+        {
+            "unique_key": DcIndex.__primary_key__,
+        }
     )
-    leading_pct = Column(
-        "leading_pct", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="领涨股票涨跌幅"
-    )
-    total_mv = Column(
-        "total_mv", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="总市值(万元)"
-    )
-    turnover_rate = Column(
-        "turnover_rate", Float, nullable=False, default=0.0, server_default=text("'0.0'"), comment="换手率"
-    )
-    up_num = Column("up_num", Integer, nullable=False, default=0, server_default=text("'0'"), comment="上涨家数")
-    down_num = Column("down_num", Integer, nullable=False, default=0, server_default=text("'0'"), comment="下降家数")
+except Exception:
+    pass

@@ -5,16 +5,16 @@ from .func import to_date
 from .types import Date, DateTime, Float, Integer, String
 
 __all__ = [
-    'Base',
+    "Base",
     # func
-    'to_date',
+    "to_date",
     # types
-    'Date',
-    'DateTime',
-    'Float',
-    'Integer',
-    'String',
+    "Date",
+    "DateTime",
+    "Float",
+    "Integer",
+    "String",
     # upsert
-    'upsert',
-    'Replace',
+    "upsert",
+    "Replace",
 ]

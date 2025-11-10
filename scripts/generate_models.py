@@ -106,7 +106,7 @@ def get_db_connection():
     Returns:
         sqlite3.Connection: 数据库连接对象
     """
-    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'meta.db')
+    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "meta.db")
     return sqlite3.connect(db_path)
 
 
@@ -124,13 +124,13 @@ def get_api_info_from_db(api_id: int) -> Dict[str, Any] | None:
     cursor = conn.cursor()
 
     cursor.execute(
-        '''
+        """
         SELECT api_id, api_group_id, name, title, description, has_vip, 
                primary_key, start_date, end_date, max_rows_per_request, 
                permission_type, min_costs, dependencies, enabled
         FROM tushare_apis
         WHERE api_id = ?
-    ''',
+    """,
         (api_id,),
     )
 
@@ -141,20 +141,20 @@ def get_api_info_from_db(api_id: int) -> Dict[str, Any] | None:
         return None
 
     return {
-        'api_id': row[0],
-        'api_group_id': row[1],
-        'name': row[2],
-        'title': row[3],
-        'description': row[4],
-        'has_vip': bool(row[5]),
-        'primary_key': row[6],
-        'start_date': row[7] if row[7] else None,
-        'end_date': row[8] if row[8] else None,
-        'max_rows_per_request': row[9],
-        'permission_type': row[10],
-        'min_costs': row[11],
-        'dependencies': row[12],
-        'enabled': bool(row[13]),
+        "api_id": row[0],
+        "api_group_id": row[1],
+        "name": row[2],
+        "title": row[3],
+        "description": row[4],
+        "has_vip": bool(row[5]),
+        "primary_key": row[6],
+        "start_date": row[7] if row[7] else None,
+        "end_date": row[8] if row[8] else None,
+        "max_rows_per_request": row[9],
+        "permission_type": row[10],
+        "min_costs": row[11],
+        "dependencies": row[12],
+        "enabled": bool(row[13]),
     }
 
 
@@ -177,11 +177,11 @@ def get_api_path_from_db(api_group_id: int) -> tuple[List[str], List[int]]:
 
     while current_id > 0:
         cursor.execute(
-            '''
+            """
             SELECT id, parent_id, group_name
             FROM tushare_api_groups
             WHERE id = ?
-        ''',
+        """,
             (current_id,),
         )
 
@@ -205,18 +205,18 @@ def get_fields_from_db(api_name: str) -> List[Dict[str, Any]]:
         api_name: API名称
 
     Returns:
-        字段信息列表
+        字段信息列表（去重后的）
     """
     conn = get_db_connection()
     cursor = conn.cursor()
 
     cursor.execute(
-        '''
+        """
         SELECT field_name, field_type, comment, description, length, is_default_return
         FROM tushare_api_fields
         WHERE api_name = ?
         ORDER BY id
-    ''',
+    """,
         (api_name,),
     )
 
@@ -224,11 +224,19 @@ def get_fields_from_db(api_name: str) -> List[Dict[str, Any]]:
     conn.close()
 
     fields = []
+    seen_field_names = set()  # 用于去重
+
     for row in rows:
         field_name = row[0].lower()
-        field_type = row[1].lower() if row[1] else 'str'
-        comment = row[2] if row[2] else ''
-        description = row[3] if row[3] else ''
+
+        # 跳过重复的字段名
+        if field_name in seen_field_names:
+            continue
+        seen_field_names.add(field_name)
+
+        field_type = row[1].lower() if row[1] else "str"
+        comment = row[2] if row[2] else ""
+        description = row[3] if row[3] else ""
         length = row[4]
 
         # 优先使用description，如果为空则使用comment
@@ -247,24 +255,24 @@ def get_fields_from_db(api_name: str) -> List[Dict[str, Any]]:
             name = field_name
 
         # 特殊处理ts_code字段
-        if original_name == 'ts_code':
+        if original_name == "ts_code":
             length = 16
 
         # 处理日期相关字段
-        if original_name.endswith('_date'):
-            field_type = 'date'
+        if original_name.endswith("_date"):
+            field_type = "date"
 
         # 处理data_type为空的情况
         if not field_type:
-            field_type = 'str'
+            field_type = "str"
 
         fields.append(
             {
-                'name': name,
-                'original_name': original_name,
-                'data_type': field_type,
-                'comment': escape_quote(field_comment),
-                'length': length,
+                "name": name,
+                "original_name": original_name,
+                "data_type": field_type,
+                "comment": escape_quote(field_comment),
+                "length": length,
             }
         )
 
@@ -279,18 +287,18 @@ def get_params_from_db(api_name: str) -> Dict[str, Any]:
         api_name: API名称
 
     Returns:
-        参数信息字典
+        参数信息字典（去重后的）
     """
     conn = get_db_connection()
     cursor = conn.cursor()
 
     cursor.execute(
-        '''
+        """
         SELECT param_name, param_type, is_required, description
         FROM tushare_api_params
         WHERE api_name = ?
         ORDER BY id
-    ''',
+    """,
         (api_name,),
     )
 
@@ -298,11 +306,20 @@ def get_params_from_db(api_name: str) -> Dict[str, Any]:
     conn.close()
 
     params = {}
+    seen_param_names = set()  # 用于去重
+
     for row in rows:
-        params[row[0]] = {
-            'type': row[1] if row[1] else 'str',
-            'required': bool(row[2]),
-            'description': row[3] if row[3] else '',
+        param_name = row[0]
+
+        # 跳过重复的参数名
+        if param_name in seen_param_names:
+            continue
+        seen_param_names.add(param_name)
+
+        params[param_name] = {
+            "type": row[1] if row[1] else "str",
+            "required": bool(row[2]),
+            "description": row[3] if row[3] else "",
         }
 
     return params
@@ -319,7 +336,7 @@ def escape_quote(text: str | None) -> str:
         处理后的字符串
     """
     if text is None:
-        return ''
+        return ""
     # 先替换括号，再处理引号
     text = text.replace("（", "(").replace("）", ")")  # 替换中文括号为英文括号
     return text.replace("'", "\\'").replace('"', '\\"')
@@ -350,8 +367,8 @@ def to_camel_case(snake_str: str) -> str:
     Returns:
         驼峰命名形式的字符串
     """
-    components = snake_str.split('_')
-    return ''.join(x.title() for x in components)
+    components = snake_str.split("_")
+    return "".join(x.title() for x in components)
 
 
 def get_column_type(field: Dict[str, Any]) -> str:
@@ -367,20 +384,20 @@ def get_column_type(field: Dict[str, Any]) -> str:
     Raises:
         ValueError: 当字段类型未知时
     """
-    data_type = field['data_type'].lower() if field['data_type'] else 'str'
+    data_type = field["data_type"].lower() if field["data_type"] else "str"
 
     match data_type:
         case "str" | "varchar" | "string":
             # 只有ts_code字段才指定具体长度，其他用空括号
-            return f"String({field['length']})" if field.get('length') else "String()"
+            return f"String({field['length']})" if field.get("length") else "String()"
         case "float" | "number" | "double" | "float64":
-            return 'Float'
+            return "Float"
         case "int" | "bigint" | "integer" | "int64":
-            return 'Integer'
+            return "Integer"
         case "datetime" | "timestamp":
-            return 'DateTime'
+            return "DateTime"
         case "date":
-            return 'Date'
+            return "Date"
         case "json":
             return "String()"  # JSON类型使用空括号
         case _:
@@ -403,15 +420,15 @@ def generate_model(api_id: int, output_dir: str):
         logging.warning(f"API {api_id} 不存在，跳过")
         return
 
-    if not api_info['enabled']:
+    if not api_info["enabled"]:
         logging.warning(f"API {api_id} ({api_info['name']}) 未启用，跳过")
         return
 
-    api_name = api_info['name']
+    api_name = api_info["name"]
     output_path = os.path.join(output_dir, f"{api_name}.py")
 
     # 获取API路径信息
-    api_path, api_path_ids = get_api_path_from_db(api_info['api_group_id'])
+    api_path, api_path_ids = get_api_path_from_db(api_info["api_group_id"])
 
     # 获取字段列表
     fields = get_fields_from_db(api_name)
@@ -424,42 +441,42 @@ def generate_model(api_id: int, output_dir: str):
 
     # 处理主键
     primary_key = (
-        [k.strip() for k in api_info['primary_key'].split(',') if k.strip()] if api_info['primary_key'] else []
+        [k.strip() for k in api_info["primary_key"].split(",") if k.strip()] if api_info["primary_key"] else []
     )
 
     # 处理依赖
     dependencies = (
-        [d.strip() for d in api_info['dependencies'].split(',') if d.strip()] if api_info['dependencies'] else []
+        [d.strip() for d in api_info["dependencies"].split(",") if d.strip()] if api_info["dependencies"] else []
     )
 
     # 判断是否需要特殊权限（基于permission_type）
-    special_permission = api_info['permission_type'] not in ('', 'normal', 'free')
+    special_permission = api_info["permission_type"] not in ("", "normal", "free")
 
     # 准备模板变量
     template_vars = {
-        'table_name': api_name,
-        'fields': fields,
-        'table_comment': escape_quote(api_info['title']),
-        'api_id': api_info['api_id'],
-        'api_name': api_name,
-        'api_title': escape_quote(api_info['title']),
-        'api_info_title': escape_quote(api_info['title']),
-        'api_path': api_path if api_path else [api_info['title']],
-        'api_path_ids': api_path_ids if api_path_ids else [],
-        'api_points_required': api_info['min_costs'],
-        'api_special_permission': special_permission,
-        'has_vip': api_info['has_vip'],
-        'primary_key': primary_key,
-        'dependencies': dependencies,
-        'start_date': repr(api_info['start_date']) if api_info['start_date'] else None,
-        'end_date': repr(api_info['end_date']) if api_info['end_date'] else None,
-        'api_params': api_params,
+        "table_name": api_name,
+        "fields": fields,
+        "table_comment": escape_quote(api_info["title"]),
+        "api_id": api_info["api_id"],
+        "api_name": api_name,
+        "api_title": escape_quote(api_info["title"]),
+        "api_info_title": escape_quote(api_info["title"]),
+        "api_path": api_path if api_path else [api_info["title"]],
+        "api_path_ids": api_path_ids if api_path_ids else [],
+        "api_points_required": api_info["min_costs"],
+        "api_special_permission": special_permission,
+        "has_vip": api_info["has_vip"],
+        "primary_key": primary_key,
+        "dependencies": dependencies,
+        "start_date": repr(api_info["start_date"]) if api_info["start_date"] else None,
+        "end_date": repr(api_info["end_date"]) if api_info["end_date"] else None,
+        "api_params": api_params,
     }
 
     # 创建Jinja2环境并添加过滤器
     env = Template.environment_class(undefined=StrictUndefined)
-    env.filters['to_camel_case'] = to_camel_case
-    env.filters['get_column_type'] = get_column_type
+    env.filters["to_camel_case"] = to_camel_case
+    env.filters["get_column_type"] = get_column_type
 
     # 使用环境创建模板
     template = env.from_string(MODEL_TEMPLATE)
@@ -469,7 +486,7 @@ def generate_model(api_id: int, output_dir: str):
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     # 写入文件
-    with open(output_path, 'w', encoding='utf-8') as f:
+    with open(output_path, "w", encoding="utf-8") as f:
         f.write(output)
 
     logging.info(f"成功生成模型文件: {output_path}")
@@ -479,7 +496,7 @@ def get_classes_from_module(module_name: str, module_path: Path, package_name: s
     """获取模块中所有的类"""
     try:
         # 临时添加项目根目录到 sys.path
-        project_root = str(Path(__file__).parent.parent / 'src')
+        project_root = str(Path(__file__).parent.parent / "src")
         if project_root not in sys.path:
             sys.path.insert(0, project_root)
 
@@ -498,7 +515,7 @@ def get_classes_from_module(module_name: str, module_path: Path, package_name: s
         classes = []
         for name, obj in inspect.getmembers(module):
             # 只获取定义在当前模块中的类（排除导入的类）
-            if inspect.isclass(obj) and obj.__module__ == full_module_name and not name.startswith('_'):
+            if inspect.isclass(obj) and obj.__module__ == full_module_name and not name.startswith("_"):
                 classes.append(name)
 
         # 清理 sys.path
@@ -527,7 +544,7 @@ def regenerate_init_file(models_dir: str):
     # 获取所有.py文件
     py_files = []
     for file in sorted(os.listdir(models_path)):
-        if file.endswith('.py') and file != '__init__.py':
+        if file.endswith(".py") and file != "__init__.py":
             module_name = file[:-3]  # 移除.py后缀
             module_path = models_path / file
             classes = get_classes_from_module(module_name, module_path, package_name)
@@ -535,7 +552,7 @@ def regenerate_init_file(models_dir: str):
                 py_files.append((module_name, classes))
 
     # 创建模板
-    template_str = '''# This file is auto-generated. Do not edit it manually.
+    template_str = """# This file is auto-generated. Do not edit it manually.
 
 {% for module, classes in modules %}
 from .{{ module }} import {{ classes|join(', ') }}
@@ -548,7 +565,7 @@ __all__ = [
 {% endfor %}
 {% endfor %}
 ]
-'''
+"""
 
     env = Environment(trim_blocks=True, lstrip_blocks=True)
     template = env.from_string(template_str)
@@ -557,25 +574,25 @@ __all__ = [
     output = template.render(modules=py_files)
 
     # 写入文件
-    init_path = models_path / '__init__.py'
-    with open(init_path, 'w', encoding='utf-8') as f:
+    init_path = models_path / "__init__.py"
+    with open(init_path, "w", encoding="utf-8") as f:
         f.write(output)
 
     logging.info(f"成功生成 __init__.py，包含 {len(py_files)} 个模块")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # 配置日志格式
     logging.basicConfig(
-        level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S'
+        level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
     )
 
-    output_dir = 'src/tushare_models'
+    output_dir = "src/tushare_models"
 
     # 从数据库获取所有启用的API
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('SELECT api_id, name FROM tushare_apis WHERE enabled = 1 ORDER BY api_id')
+    cursor.execute("SELECT api_id, name FROM tushare_apis WHERE enabled = 1 ORDER BY api_id")
     api_data = cursor.fetchall()
     conn.close()
 
@@ -596,7 +613,7 @@ if __name__ == '__main__':
 
     # 删除不再需要的模型文件
     if os.path.exists(output_dir):
-        existing_files = [f for f in os.listdir(output_dir) if f.endswith('.py') and f != '__init__.py']
+        existing_files = [f for f in os.listdir(output_dir) if f.endswith(".py") and f != "__init__.py"]
         files_to_delete = set(existing_files) - generated_files
 
         if files_to_delete:

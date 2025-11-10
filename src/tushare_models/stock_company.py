@@ -28,7 +28,7 @@ class StockCompany(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "String", "required": False, "description": "TS股票代码"},
-        "exchange": {"type": "String", "required": False, "description": "交易所"},
+        "exchange": {"type": "String", "required": False, "description": "交易所代码"},
         "status": {"type": "String", "required": False, "description": "状态"},
         "limit": {"type": "Int64", "required": False, "description": "单次返回数据长度"},
         "offset": {"type": "Int64", "required": False, "description": "请求数据的开始位移量"},

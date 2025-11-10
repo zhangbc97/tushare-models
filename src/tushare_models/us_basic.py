@@ -28,7 +28,7 @@ class UsBasic(Base):
     __end_date__: ClassVar[str | None] = None
     __api_params__: ClassVar[Dict[str, Any]] = {
         "ts_code": {"type": "String", "required": False, "description": "股票代码（e.g. AAPL）"},
-        "classify": {"type": "String", "required": False, "description": "股票分类（ADR/GDR/EQ）"},
+        "classify": {"type": "String", "required": False, "description": "股票分类"},
         "list_stauts": {"type": "String", "required": False, "description": "上市状态"},
         "offset": {"type": "String", "required": False, "description": "开始行数"},
         "limit": {"type": "String", "required": False, "description": "每页最大行数"},

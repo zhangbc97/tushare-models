@@ -52,11 +52,7 @@ class CoinPair(Base):
     price_coin = Column("price_coin", String(), nullable=True, comment="")
     listing = Column("listing", DateTime, nullable=True, comment="")
     delivery = Column("delivery", DateTime, nullable=True, comment="")
-    listing = Column("listing", DateTime, nullable=True, comment="")
-    delivery = Column("delivery", DateTime, nullable=True, comment="")
     create_time = Column("create_time", DateTime, nullable=True, comment="")
-    listing = Column("listing", DateTime, nullable=True, comment="")
-    delivery = Column("delivery", DateTime, nullable=True, comment="")
 
 
 # ClickHouse引擎配置

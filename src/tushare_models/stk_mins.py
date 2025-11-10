@@ -56,17 +56,6 @@ class StkMins(Base):
     freq = Column("freq", String(), nullable=False, comment="频率")
     exchange = Column("exchange", String(), nullable=True, comment="交易所")
     vwap = Column("vwap", Float, nullable=True, comment="平均价")
-    ts_code = Column("ts_code", String(16), nullable=False, comment="股票代码")
-    trade_time = Column("trade_time", DateTime, nullable=False, comment="交易日期")
-    close = Column("close", Float, nullable=True, comment="收盘价")
-    open = Column("open", Float, nullable=True, comment="开盘价")
-    high = Column("high", Float, nullable=True, comment="最高价")
-    low = Column("low", Float, nullable=True, comment="最低价")
-    vol = Column("vol", Float, nullable=True, comment="成交量")
-    amount = Column("amount", Float, nullable=True, comment="成交额")
-    freq = Column("freq", String(), nullable=False, comment="频率")
-    exchange = Column("exchange", String(), nullable=True, comment="交易所")
-    vwap = Column("vwap", Float, nullable=True, comment="平均价")
 
 
 # ClickHouse引擎配置

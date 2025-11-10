@@ -50,10 +50,6 @@ class TradeCal(Base):
     cal_date = Column("cal_date", Date, nullable=False, comment="日历日期")
     is_open = Column("is_open", String(), nullable=True, comment="是否交易 0休市 1交易")
     pretrade_date = Column("pretrade_date", Date, nullable=True, comment="上一个交易日")
-    exchange = Column("exchange", String(), nullable=False, comment="交易所 SSE上交所 SZSE深交所")
-    cal_date = Column("cal_date", Date, nullable=False, comment="日历日期")
-    is_open = Column("is_open", String(), nullable=True, comment="是否交易 0休市 1交易")
-    pretrade_date = Column("pretrade_date", Date, nullable=True, comment="上一个交易日")
 
 
 # ClickHouse引擎配置

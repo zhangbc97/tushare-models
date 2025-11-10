@@ -56,17 +56,6 @@ class IndexDaily(Base):
     pct_chg = Column("pct_chg", Float, nullable=True, comment="")
     vol = Column("vol", Float, nullable=True, comment="")
     amount = Column("amount", Float, nullable=True, comment="")
-    ts_code = Column("ts_code", String(16), nullable=False, comment="")
-    trade_date = Column("trade_date", Date, nullable=False, comment="")
-    close = Column("close", Float, nullable=True, comment="")
-    open = Column("open", Float, nullable=True, comment="")
-    high = Column("high", Float, nullable=True, comment="")
-    low = Column("low", Float, nullable=True, comment="")
-    pre_close = Column("pre_close", Float, nullable=True, comment="")
-    change = Column("change", Float, nullable=True, comment="")
-    pct_chg = Column("pct_chg", Float, nullable=True, comment="")
-    vol = Column("vol", Float, nullable=True, comment="")
-    amount = Column("amount", Float, nullable=True, comment="")
 
 
 # ClickHouse引擎配置
